@@ -1,0 +1,26 @@
+CREATE TABLE `upd_fundamental` (
+  `theDate` varchar(50) DEFAULT NULL,
+  `stock_code` varchar(50) DEFAULT NULL,
+  `comp_code` varchar(100) DEFAULT NULL,
+  `net_Turnover_Net_Sales` double(20,4) DEFAULT NULL,
+  `EBITDA` double(20,4) DEFAULT NULL,
+  `EBIT` double(20,4) DEFAULT NULL,
+  `Net_Profit` double(20,4) DEFAULT NULL,
+  `Intangibles` double(20,4) DEFAULT NULL,
+  `Fixed_Assets` double(20,4) DEFAULT NULL,
+  `Long_Term_Investment` double(20,4) DEFAULT NULL,
+  `Stocks_Inventories` double(20,4) DEFAULT NULL,
+  `Cash` double(20,4) DEFAULT NULL,
+  `Current_Liabilities` double(20,4) DEFAULT NULL,
+  `Long_Term_Debt` double(20,4) DEFAULT NULL,
+  `Provisions` double(20,4) DEFAULT NULL,
+  `Minorities` double(20,4) DEFAULT NULL,
+  `Total_Shareholders_Equity` double(20,4) DEFAULT NULL,
+  `Operating_Margin` double(20,4) DEFAULT NULL,
+  `Return_on_Equity_Capital` double(20,4) DEFAULT NULL,
+  `Net_Profit_Margin` double(20,4) DEFAULT NULL,
+  `Current_Ratio` double(20,4) DEFAULT NULL,
+  `Debt_to_Capital_at_Book` double(20,4) DEFAULT NULL,
+  `crawl_Timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

@@ -1,0 +1,4 @@
+c:\> hadoop fs -put KLSE2.txt /user/datafile
+c:\> hadoop fs -put fundamental.txt /user/datafile
+c:\> hadoop fs -put tweetsdata.txt /user/datafile
+c:\> hadoop fs -put currEx2.txt /user/datafile

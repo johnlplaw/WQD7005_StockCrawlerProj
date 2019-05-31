@@ -1,0 +1,79 @@
+create table IF NOT EXISTS 
+KLSE2
+(
+thedate date,
+comp_name string,
+comp_code string,
+open string,
+low string,
+high string,
+lastDone string,
+chg string,
+chgPercent string,
+vol string,
+buy string,
+sell string,
+crawl_Timestamp string
+)
+row format delimited fields terminated by '|' stored as textfile;
+
+
+create table IF NOT EXISTS
+fundamental
+(
+theDate string,
+stock_code string,
+comp_code string,
+net_Turnover_Net_Sales string,
+EBITDA string,
+EBIT string,
+Net_Profit string,
+Intangibles string,
+Fixed_Assets string,
+Long_Term_Investment string,
+Stocks_Inventories string,
+Cash string,
+Current_Liabilities string,
+Long_Term_Debt string,
+Provisions string,
+Minorities string,
+Total_Shareholders_Equity string,
+Operating_Margin string,
+Return_on_Equity_Capital string,
+Net_Profit_Margin string,
+Current_Ratio string,
+Debt_to_Capital_at_Book string,
+crawl_Timestamp string
+)
+row format delimited fields terminated by '|' stored as textfile;
+
+
+create table IF NOT EXISTS
+tweetsData (
+  user_name string,
+  post_date string,
+  post_text string,
+  favorite_count string,
+  crawl_timestamp string
+)
+row format delimited fields terminated by '|' stored as textfile;
+
+
+
+create table IF NOT EXISTS
+currEx2 (
+  thedate string,
+  thetime string,
+  curName string,
+  currCode string, 
+  unit string,
+  buyingVal string,
+  invBuyingVal string,
+  sellingVal string,
+  invSellingVal string,
+  middleRate string,
+  invMiddleRate string,
+  crawl_time string
+)
+row format delimited fields terminated by '|' stored as textfile;
+

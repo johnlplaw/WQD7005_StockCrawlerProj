@@ -1,0 +1,10 @@
+
+LOAD DATA INPATH '/user/datafile/KLSE2.csv' INTO TABLE KLSE2;
+
+LOAD DATA INPATH '/user/datafile/fundamental.txt' INTO TABLE fundamental;
+
+
+LOAD DATA INPATH '/user/datafile/tweetsdata.txt' INTO TABLE tweetsData;
+
+
+LOAD DATA INPATH '/user/datafile/currEx2.txt' INTO TABLE currEx2;
