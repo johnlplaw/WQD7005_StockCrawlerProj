@@ -1,7 +1,7 @@
 # WQD7005_StockCrawlerProj
 This is a project for WQD7005 Data mining course. The coding is extracting stock market data from thestar.com.my website and save the data into MYSQL database.  
 
-File description:
+Files description in pythonCode directory:
 
 Util program
 1. config.properties
@@ -44,3 +44,6 @@ Mysql data
 
 Chrome Driver for window
 1. chromedriver_win32.zip
+
+Video links for each milestones:
+https://drive.google.com/open?id=1c_zJ2fYMNefcLP2turBSoG2RpPRS4yPn
