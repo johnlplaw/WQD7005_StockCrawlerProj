@@ -40,3 +40,7 @@ Mysql data
 3. upd_klse.csv
 4. upd_newsdata.csv
 5. upd_tweetsdata.csv
+
+
+Chrome Driver for window
+1. chromedriver_win32.zip
