@@ -25,3 +25,18 @@ Other Sources
 (company background & financial)
 1. StockFundamental_crawl.py
 2. compcode2.txt
+
+
+Mysql create table script (in folder mysql_script)
+1. Create_Comcat.sql
+2. Create_funcdamental.sql
+3. Create_klse.sql
+4. Create_newsdata.sql
+5. Create_tweetdata.sql
+
+Mysql data
+1. compcat.csv 
+2. upd_fundamental.csv
+3. upd_klse.csv
+4. upd_newsdata.csv
+5. upd_tweetsdata.csv
