@@ -1,0 +1,199 @@
+ 
+                                                                                               
+ 
+ 
+Fit Statistics
+
+Target=REP_updownInd Target Label=Replacement: updownInd
+
+   Fit
+Statistics    Statistics Label                    Train    Validation
+
+ _AIC_        Akaike's Information Criterion     694.00          .   
+ _ASE_        Average Squared Error                0.05         0.05 
+ _AVERR_      Average Error Function               0.18         0.19 
+ _DFE_        Degrees of Freedom for Error      2488.00          .   
+ _DFM_        Model Degrees of Freedom            12.00          .   
+ _DFT_        Total Degrees of Freedom          2500.00          .   
+ _DIV_        Divisor for ASE                   3750.00      3753.00 
+ _ERR_        Error Function                     670.00       697.18 
+ _FPE_        Final Prediction Error               0.05          .   
+ _MAX_        Maximum Absolute Error               1.00         1.00 
+ _MSE_        Mean Square Error                    0.05         0.05 
+ _NOBS_       Sum of Frequencies                1250.00      1251.00 
+ _NW_         Number of Estimate Weights          12.00          .   
+ _RASE_       Root Average Sum of Squares          0.23         0.23 
+ _RFPE_       Root Final Prediction Error          0.23          .   
+ _RMSE_       Root Mean Squared Error              0.23         0.23 
+ _SBC_        Schwarz's Bayesian Criterion       763.89          .   
+ _SSE_        Sum of Squared Errors              193.15       199.21 
+ _SUMW_       Sum of Case Weights Times Freq    3750.00      3753.00 
+ _MISC_       Misclassification Rate               0.11         0.12 
+ 
+                                                                                               
+ 
+ 
+Classification Table
+
+Data Role=TRAIN Target Variable=REP_updownInd Target Label=Replacement: updownInd
+
+                          Target        Outcome     Frequency       Total
+Target      Outcome     Percentage    Percentage      Count      Percentage
+
+DOWN        DOWN          100.000       100.000        469          37.52  
+UNCHANGE    UNCHANGE       77.799        95.498        403          32.24  
+UP          UNCHANGE       22.201        32.033        115           9.20  
+UNCHANGE    UP              7.224         4.502         19           1.52  
+UP          UP             92.776        67.967        244          19.52  
+
+
+Data Role=VALIDATE Target Variable=REP_updownInd Target Label=Replacement: updownInd
+
+                          Target        Outcome     Frequency       Total
+Target      Outcome     Percentage    Percentage      Count      Percentage
+
+DOWN        DOWN          100.000       100.000        469         37.4900 
+UNCHANGE    UNCHANGE       76.621        92.417        390         31.1751 
+UP          UNCHANGE       23.379        33.056        119          9.5124 
+UNCHANGE    UP             11.722         7.583         32          2.5580 
+UP          UP             88.278        66.944        241         19.2646 
+ 
+                                                                                               
+ 
+ 
+Event Classification Table
+
+Data Role=TRAIN Target=REP_updownInd Target Label=Replacement: updownInd
+
+  False       True        False       True
+Negative    Negative    Positive    Positive
+
+   115         872         19          244  
+
+
+Data Role=VALIDATE Target=REP_updownInd Target Label=Replacement: updownInd
+
+  False       True        False       True
+Negative    Negative    Positive    Positive
+
+   119         859         32          241  
+ 
+                                                                                               
+ 
+ 
+Assessment Score Rankings
+
+Data Role=TRAIN Target Variable=REP_updownInd Target Label=Replacement: updownInd
+
+                                                                                    Mean
+                            Cumulative       %      Cumulative     Number of     Posterior
+Depth      Gain     Lift       Lift      Response   % Response   Observations   Probability
+
+   5    242.663   3.42663     3.42663     98.4127     98.4127         63          0.99997  
+  10    228.691   3.14494     3.28691     90.3226     94.4000         62          0.98591  
+  15    222.260   3.09502     3.22260     88.8889     92.5532         63          0.87168  
+  20    224.513   3.31342     3.24513     95.1613     93.2000         62          0.64016  
+  25    204.805   2.26599     3.04805     65.0794     87.5399         63          0.47045  
+  30    199.907   2.75182     2.99907     79.0323     86.1333         62          0.38801  
+  35    172.669   1.10536     2.72669     31.7460     78.3105         63          0.35294  
+  40    140.947   0.16848     2.40947      4.8387     69.2000         62          0.29751  
+  45    117.077   0.27634     2.17077      7.9365     62.3446         63          0.25783  
+  50     97.214   0.16848     1.97214      4.8387     56.6400         62          0.20636  
+  55     80.674   0.16580     1.80674      4.7619     51.8895         63          0.16612  
+  60     66.202   0.05616     1.66202      1.6129     47.7333         62          0.10022  
+  65     53.752   0.05527     1.53752      1.5873     44.1574         63          0.00279  
+  70     42.857   0.00000     1.42857      0.0000     41.0286         62          0.00002  
+  75     33.262   0.00000     1.33262      0.0000     38.2729         63          0.00001  
+  80     25.000   0.00000     1.25000      0.0000     35.9000         62          0.00000  
+  85     17.592   0.00000     1.17592      0.0000     33.7723         63          0.00000  
+  90     11.111   0.00000     1.11111      0.0000     31.9111         62          0.00000  
+  95      5.219   0.00000     1.05219      0.0000     30.2189         63          0.00000  
+ 100      0.000   0.00000     1.00000      0.0000     28.7200         62          0.00000  
+
+
+Data Role=VALIDATE Target Variable=REP_updownInd Target Label=Replacement: updownInd
+
+                                                                                    Mean
+                            Cumulative       %      Cumulative     Number of     Posterior
+Depth      Gain     Lift       Lift      Response   % Response   Observations   Probability
+
+   5    230.952   3.30952     3.30952     95.2381     95.2381         63          0.99999  
+  10    222.679   3.14405     3.22679     90.4762     92.8571         63          0.98883  
+  15    216.077   3.02661     3.16077     87.0968     90.9574         62          0.88271  
+  20    211.504   2.97857     3.11504     85.7143     89.6414         63          0.66786  
+  25    195.319   2.29798     2.95319     66.1290     84.9840         62          0.49019  
+  30    191.124   2.70278     2.91124     77.7778     83.7766         63          0.39086  
+  35    174.509   1.73750     2.74509     50.0000     78.9954         62          0.34973  
+  40    144.845   0.38611     2.44845     11.1111     70.4591         63          0.29297  
+  45    120.351   0.22419     2.20351      6.4516     63.4103         62          0.25544  
+  50     98.175   0.00000     1.98175      0.0000     57.0288         63          0.20631  
+  55     81.063   0.11032     1.81063      3.1746     52.1045         63          0.16199  
+  60     66.578   0.05605     1.66578      1.6129     47.9361         62          0.10186  
+  65     53.686   0.00000     1.53686      0.0000     44.2260         63          0.00256  
+  70     42.808   0.00000     1.42808      0.0000     41.0959         62          0.00002  
+  75     33.227   0.00000     1.33227      0.0000     38.3387         63          0.00001  
+  80     24.975   0.00000     1.24975      0.0000     35.9640         62          0.00000  
+  85     17.575   0.00000     1.17575      0.0000     33.8346         63          0.00000  
+  90     11.101   0.00000     1.11101      0.0000     31.9716         62          0.00000  
+  95      5.214   0.00000     1.05214      0.0000     30.2775         63          0.00000  
+ 100      0.000   0.00000     1.00000      0.0000     28.7770         62          0.00000  
+ 
+                                                                                               
+ 
+ 
+Assessment Score Distribution
+
+Data Role=TRAIN Target Variable=REP_updownInd Target Label=Replacement: updownInd
+
+ Posterior     Number                     Mean
+Probability      of      Number of     Posterior
+   Range       Events    Nonevents    Probability    Percentage
+
+ 0.95-1.00       122          7         0.99172         10.32  
+ 0.90-0.95        16          5         0.92374          1.68  
+ 0.85-0.90        13          0         0.88709          1.04  
+ 0.80-0.85        12          0         0.82663          0.96  
+ 0.75-0.80        17          2         0.77988          1.52  
+ 0.70-0.75         4          0         0.71985          0.32  
+ 0.65-0.70         9          2         0.68119          0.88  
+ 0.60-0.65        27          0         0.61376          2.16  
+ 0.55-0.60        18          2         0.57786          1.60  
+ 0.50-0.55         6          1         0.53727          0.56  
+ 0.45-0.50        18          7         0.47733          2.00  
+ 0.40-0.45        15         14         0.41994          2.32  
+ 0.35-0.40        54         40         0.38058          7.52  
+ 0.30-0.35        12         46         0.32112          4.64  
+ 0.25-0.30         6         68         0.27361          5.92  
+ 0.20-0.25         5         69         0.21533          5.92  
+ 0.15-0.20         3         40         0.19028          3.44  
+ 0.10-0.15         0         63         0.13194          5.04  
+ 0.05-0.10         1         17         0.08214          1.44  
+ 0.00-0.05         1        508         0.00093         40.72  
+
+
+Data Role=VALIDATE Target Variable=REP_updownInd Target Label=Replacement: updownInd
+
+ Posterior     Number                     Mean
+Probability      of      Number of     Posterior
+   Range       Events    Nonevents    Probability    Percentage
+
+ 0.95-1.00       123          9         0.99265        10.5516 
+ 0.90-0.95        17          4         0.92034         1.6787 
+ 0.85-0.90        16          0         0.88484         1.2790 
+ 0.80-0.85        10          2         0.82803         0.9592 
+ 0.75-0.80        20          3         0.78219         1.8385 
+ 0.70-0.75         4          0         0.71979         0.3197 
+ 0.65-0.70         5          3         0.67471         0.6395 
+ 0.60-0.65        25          5         0.61392         2.3981 
+ 0.55-0.60        14          5         0.57887         1.5188 
+ 0.50-0.55         7          1         0.52260         0.6395 
+ 0.45-0.50        15          6         0.47741         1.6787 
+ 0.40-0.45        18          9         0.42104         2.1583 
+ 0.35-0.40        57         26         0.38329         6.6347 
+ 0.30-0.35        18         39         0.32451         4.5564 
+ 0.25-0.30         5         77         0.27342         6.5548 
+ 0.20-0.25         3         79         0.21281         6.5548 
+ 0.15-0.20         1         33         0.18447         2.7178 
+ 0.10-0.15         1         66         0.13323         5.3557 
+ 0.05-0.10         1         12         0.08256         1.0392 
+ 0.00-0.05         0        512         0.00120        40.9273 

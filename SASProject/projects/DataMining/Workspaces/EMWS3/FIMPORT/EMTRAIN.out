@@ -1,0 +1,70 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+         Measurement    Frequency
+Role        Level         Count
+
+INPUT     INTERVAL          15   
+INPUT     NOMINAL            5   
+TEXT      NOMINAL            1   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The CONTENTS Procedure
+
+Data Set Name        EMWS3.FIMPORT_DATA            Observations          2501
+Member Type          DATA                          Variables             21  
+Engine               V9                            Indexes               0   
+Created              05/11/2019 22:54:48           Observation Length    240 
+Last Modified        05/11/2019 22:54:48           Deleted Observations  0   
+Protection                                         Compressed            NO  
+Data Set Type                                      Sorted                NO  
+Label                                                                        
+Data Representation  WINDOWS_32                                              
+Encoding             wlatin1  Western (Windows)                              
+
+
+                                                      Engine/Host Dependent Information
+
+Data Set Page Size          65536                                                                                                             
+Number of Data Set Pages    10                                                                                                                
+First Data Page             1                                                                                                                 
+Max Obs per Page            272                                                                                                               
+Obs in First Data Page      259                                                                                                               
+Number of Data Set Repairs  0                                                                                                                 
+ExtendObsCounter            YES                                                                                                               
+Filename                    C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\fimport_data.sas7bdat
+Release Created             9.0401M3                                                                                                          
+Host Created                W32_7PRO                                                                                                          
+
+
+           Alphabetic List of Variables and Attributes
+ 
+ #    Variable           Type    Len    Format       Informat
+
+ 6    Category           Char      4    $4.          $4.        
+ 7    Sub_category       Char      6    $6.          $6.        
+15    buy                Num       8    BEST12.      BEST32.    
+16    buyval             Num       8    BEST12.      BEST32.    
+12    chg                Num       8    BEST12.      BEST32.    
+13    chgPercent         Num       8    BEST12.      BEST32.    
+ 4    comp_code          Char     10    $10.         $10.       
+ 3    comp_name          Char     84    $84.         $84.       
+19    crawl_Timestamp    Num       8    DATETIME.    ANYDTDTM40.
+10    high               Num       8    BEST12.      BEST32.    
+11    lastDone           Num       8    BEST12.      BEST32.    
+ 9    low                Num       8    BEST12.      BEST32.    
+ 8    open               Num       8    BEST12.      BEST32.    
+17    sell               Num       8    BEST12.      BEST32.    
+18    sellval            Num       8    BEST12.      BEST32.    
+ 5    stock_code         Char      6    $6.          $6.        
+ 1    thedate            Num       8    DATETIME.    ANYDTDTM40.
+ 2    thetime            Num       8    TIME20.3     TIME20.3   
+21    updownInd          Char      8    $8.          $8.        
+20    v_updownpercent    Num       8    BEST12.      BEST32.    
+14    vol                Num       8    BEST12.      BEST32.    

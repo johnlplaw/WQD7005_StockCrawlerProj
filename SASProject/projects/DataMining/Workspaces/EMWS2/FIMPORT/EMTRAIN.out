@@ -1,0 +1,54 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+          Measurement    Frequency
+ Role        Level         Count
+
+INPUT      INTERVAL          5    
+TIMEID     INTERVAL          1    
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The CONTENTS Procedure
+
+Data Set Name        EMWS2.FIMPORT_DATA            Observations          45
+Member Type          DATA                          Variables             6 
+Engine               V9                            Indexes               0 
+Created              05/11/2019 21:35:50           Observation Length    48
+Last Modified        05/11/2019 21:35:50           Deleted Observations  0 
+Protection                                         Compressed            NO
+Data Set Type                                      Sorted                NO
+Label                                                                      
+Data Representation  WINDOWS_32                                            
+Encoding             wlatin1  Western (Windows)                            
+
+
+                                                      Engine/Host Dependent Information
+
+Data Set Page Size          65536                                                                                                             
+Number of Data Set Pages    1                                                                                                                 
+First Data Page             1                                                                                                                 
+Max Obs per Page            1361                                                                                                              
+Obs in First Data Page      45                                                                                                                
+Number of Data Set Repairs  0                                                                                                                 
+ExtendObsCounter            YES                                                                                                               
+Filename                    C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS2\fimport_data.sas7bdat
+Release Created             9.0401M3                                                                                                          
+Host Created                W32_7PRO                                                                                                          
+
+
+       Alphabetic List of Variables and Attributes
+ 
+#    Variable     Type    Len    Format       Informat
+
+2    GASMSIA      Num       8    BEST12.      BEST32.    
+3    PETGAS       Num       8    BEST12.      BEST32.    
+4    PETGAS_CR    Num       8    BEST12.      BEST32.    
+5    PETGAS_CS    Num       8    BEST12.      BEST32.    
+6    SIGGAS       Num       8    BEST12.      BEST32.    
+1    thedate      Num       8    DATETIME.    ANYDTDTM40.

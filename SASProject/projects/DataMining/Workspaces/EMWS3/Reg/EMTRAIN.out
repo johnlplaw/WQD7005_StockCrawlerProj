@@ -1,0 +1,188 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+            Measurement    Frequency
+Role           Level         Count
+
+INPUT        INTERVAL          12   
+INPUT        NOMINAL            4   
+REJECTED     NOMINAL            1   
+TARGET       NOMINAL            1   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Model Events
+
+                                         Number
+                          Measurement      of
+   Target        Event       Level       Levels      Order               Label
+
+REP_updownInd     UP        NOMINAL         3      Descending    Replacement: updownInd
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Predicted and decision variables
+
+Type         Variable                   Label
+
+TARGET       REP_updownInd              Replacement: updownInd           
+PREDICTED    P_REP_updownIndup          Predicted: REP_updownInd=up      
+RESIDUAL     R_REP_updownIndup          Residual: REP_updownInd=up       
+PREDICTED    P_REP_updownIndunchange    Predicted: REP_updownInd=unchange
+RESIDUAL     R_REP_updownIndunchange    Residual: REP_updownInd=unchange 
+PREDICTED    P_REP_updownInddown        Predicted: REP_updownInd=down    
+RESIDUAL     R_REP_updownInddown        Residual: REP_updownInd=down     
+FROM         F_REP_updownInd            From: REP_updownInd              
+INTO         I_REP_updownInd            Into: REP_updownInd              
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The DMREG Procedure
+
+                          Model Information
+
+Training Data Set              WORK.EM_DMREG.VIEW                    
+DMDB Catalog                   WORK.REG_DMDB                         
+Target Variable                REP_updownInd (Replacement: updownInd)
+Target Measurement Level       Nominal                               
+Number of Target Categories    3                                     
+Error                          MBernoulli                            
+Link Function                  Logit                                 
+Number of Model Parameters     16                                    
+Number of Observations         1250                                  
+
+
+           Target Profile
+ 
+             REP_
+ Ordered     updown           Total
+   Value     Ind          Frequency
+
+       1     up                 359
+       2     unchange           422
+       3     down               469
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The DMREG Procedure
+
+Newton-Raphson Ridge Optimization
+
+Without Parameter Scaling
+
+Parameter Estimates              16
+
+                                             Optimization Start
+
+Active Constraints                                  0  Objective Function                       1365.8858595
+Max Abs Gradient Element                 80.789123699                                                       
+
+
+                                                                                                        Ratio
+                                                                                                      Between
+                                                                                                       Actual
+                                                                 Objective     Max Abs                    and
+                     Function         Active        Objective     Function    Gradient              Predicted
+Iter     Restarts       Calls    Constraints         Function       Change     Element     Ridge       Change
+
+   1            0           2              0             1047        319.2     15.1082         0        1.158
+   2            0           3              0        850.64528        196.1      6.3555         0        1.392
+   3            0           4              0        671.44690        179.2      3.5964         0        1.338
+   4            0           5              0        532.96242        138.5      3.6603         0        1.364
+   5            0           6              0        427.67041        105.3      3.3440         0        1.392
+   6            0           7              0        368.87494      58.7955      1.7534         0        1.332
+   7            0           8              0        346.55050      22.3244      0.7445         0        1.301
+   8            0           9              0        338.83963       7.7109      0.2780         0        1.266
+   9            0          10              0        336.07639       2.7632      0.0946         0        1.254
+  10            0          11              0        335.06389       1.0125      0.0316         0        1.253
+  11            0          12              0        334.69052       0.3734      0.0105         0        1.254
+  12            0          13              0        334.55254       0.1380     0.00350         0        1.257
+  13            0          14              0        334.50156       0.0510     0.00122         0        1.261
+  14            0          15              0        334.50148     0.000078    0.000253    0.0313        1.602
+
+                                            Optimization Results
+
+Iterations                                         14  Function Calls                                     17
+Hessian Calls                                      15  Active Constraints                                  0
+Objective Function                       334.50147867  Max Abs Gradient Element                 0.0002534625
+Ridge                                               0  Actual Over Pred Change                  1.6018988575
+
+Convergence criterion (GCONV=1E-6) satisfied.                                                     
+
+
+     Likelihood Ratio Test for Global Null Hypothesis: BETA=0
+ 
+     -2 Log Likelihood          Likelihood
+  Intercept     Intercept &          Ratio
+       Only      Covariates     Chi-Square       DF     Pr > ChiSq
+
+   2731.772         669.003      2062.7688       14         <.0001
+
+
+         Type 3 Analysis of Effects
+ 
+                          Wald
+Effect        DF    Chi-Square    Pr > ChiSq
+
+buy            1       21.9080        <.0001
+high           1       21.5206        <.0001
+lastDone       1    26259.8034        <.0001
+low            1       13.4611        0.0002
+open           2    14680.1470        <.0001
+sell           1        2.1502        0.1426
+vol            2        2.1736        0.3373
+
+
+                                      Analysis of Maximum Likelihood Estimates
+ 
+                      REP_
+                      updown                        Standard          Wald                  Standardized
+Parameter             Ind         DF    Estimate       Error    Chi-Square    Pr > ChiSq        Estimate    Exp(Est)
+
+Intercept             up           1      8.0750      7.9257          1.04        0.3083                     999.000
+Intercept             unchange     1      9.5308      7.9258          1.45        0.2292                     999.000
+buy                   up           1      -140.4           .           .           .                   .       0.000
+buy                   unchange     1      -116.9     24.9759         21.91        <.0001          -104.7       0.000
+high                  up           1     85.7834     18.4917         21.52        <.0001         77.8815     999.000
+high                  unchange     1    -90.5344           .           .           .                   .       0.000
+lastDone              up           1      4032.9     24.8870      26259.80        <.0001          3615.2     999.000
+lastDone              unchange     1      3915.8           .           .           .                   .     999.000
+low                   up           1     50.9047           .           .           .                   .     999.000
+low                   unchange     1     43.4339     11.8383         13.46        0.0002         38.6780     999.000
+open                  up           1     -3994.8     36.6659      11870.56        <.0001         -3584.1       0.000
+open                  unchange     1     -3809.5     31.9151      14247.59        <.0001         -3417.8       0.000
+sell                  up           1    -34.1145     23.2650          2.15        0.1426        -30.6670       0.000
+sell                  unchange     1     58.6445           .           .           .                   .     999.000
+vol                   up           1    3.082E-7    0.000020          0.00        0.9880          0.0879       1.000
+vol                   unchange     1    -1.49E-7    0.000020          0.00        0.9942         -0.0426       1.000
+
+
+        Odds Ratio Estimates
+                  
+                 REP_
+                 updown         Point
+Effect           Ind         Estimate
+
+buy              up            <0.001
+buy              unchange      <0.001
+high             up           999.000
+high             unchange      <0.001
+lastDone         up           999.000
+lastDone         unchange     999.000
+low              up           999.000
+low              unchange     999.000
+open             up            <0.001
+open             unchange      <0.001
+sell             up            <0.001
+sell             unchange     999.000
+vol              up             1.000
+vol              unchange       1.000

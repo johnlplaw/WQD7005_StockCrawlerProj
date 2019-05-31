@@ -1,0 +1,159 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+            Measurement    Frequency
+Role           Level         Count
+
+INPUT        INTERVAL          12   
+INPUT        NOMINAL            4   
+REJECTED     NOMINAL            1   
+TARGET       NOMINAL            1   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Model Events
+
+                                         Number
+                          Measurement      of
+   Target        Event       Level       Levels      Order               Label
+
+REP_updownInd     UP        NOMINAL         3      Descending    Replacement: updownInd
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Predicted and decision variables
+
+Type         Variable                   Label
+
+TARGET       REP_updownInd              Replacement: updownInd           
+PREDICTED    P_REP_updownIndup          Predicted: REP_updownInd=up      
+RESIDUAL     R_REP_updownIndup          Residual: REP_updownInd=up       
+PREDICTED    P_REP_updownIndunchange    Predicted: REP_updownInd=unchange
+RESIDUAL     R_REP_updownIndunchange    Residual: REP_updownInd=unchange 
+PREDICTED    P_REP_updownInddown        Predicted: REP_updownInd=down    
+RESIDUAL     R_REP_updownInddown        Residual: REP_updownInd=down     
+FROM         F_REP_updownInd            From: REP_updownInd              
+INTO         I_REP_updownInd            Into: REP_updownInd              
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The DMREG Procedure
+
+                          Model Information
+
+Training Data Set              WORK.EM_DMREG.VIEW                    
+DMDB Catalog                   WORK.REG3_DMDB                        
+Target Variable                REP_updownInd (Replacement: updownInd)
+Target Measurement Level       Nominal                               
+Number of Target Categories    3                                     
+Error                          MBernoulli                            
+Link Function                  Logit                                 
+Number of Model Parameters     16                                    
+Number of Observations         1250                                  
+
+
+           Target Profile
+ 
+             REP_
+ Ordered     updown           Total
+   Value     Ind          Frequency
+
+       1     up                 359
+       2     unchange           422
+       3     down               469
+
+
+
+
+Stepwise Selection Procedure
+
+
+Step 0: Intercepts entered.
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The DMREG Procedure
+
+Newton-Raphson Ridge Optimization
+
+Without Parameter Scaling
+
+Parameter Estimates               2
+
+                                             Optimization Start
+
+Active Constraints                                  0  Objective Function                       1365.8858595
+Max Abs Gradient Element                 9.048318E-14                                                       
+
+                                            Optimization Results
+
+Iterations                                          0  Function Calls                                      3
+Hessian Calls                                       1  Active Constraints                                  0
+Objective Function                       1365.8858595  Max Abs Gradient Element                 9.048318E-14
+Ridge                                               0  Actual Over Pred Change                             0
+
+Convergence criterion (ABSGCONV=0.00001) satisfied.                                               
+
+
+     Likelihood Ratio Test for Global Null Hypothesis: BETA=0
+ 
+     -2 Log Likelihood          Likelihood
+  Intercept     Intercept &          Ratio
+       Only      Covariates     Chi-Square       DF     Pr > ChiSq
+
+   2731.772        2731.772         0.0000        0          .    
+
+
+
+
+                                      Analysis of Maximum Likelihood Estimates
+ 
+                      REP_
+                      updown                        Standard          Wald                  Standardized
+Parameter             Ind         DF    Estimate       Error    Chi-Square    Pr > ChiSq        Estimate    Exp(Est)
+
+Intercept             up           1     -0.2673      0.0701         14.53        0.0001                       0.765
+Intercept             unchange     1     -0.1056      0.0671          2.48        0.1155                       0.900
+
+
+
+NOTE: The stepwise model building process has reached the MAXSTEP= 0 limit.
+
+
+
+
+The selected model is the model trained in the last step (Step 0). It consists of the following effects:
+
+Intercept  
+
+
+     Likelihood Ratio Test for Global Null Hypothesis: BETA=0
+ 
+     -2 Log Likelihood          Likelihood
+  Intercept     Intercept &          Ratio
+       Only      Covariates     Chi-Square       DF     Pr > ChiSq
+
+   2731.772        2731.772         0.0000        0          .    
+
+
+
+
+                                      Analysis of Maximum Likelihood Estimates
+ 
+                      REP_
+                      updown                        Standard          Wald                  Standardized
+Parameter             Ind         DF    Estimate       Error    Chi-Square    Pr > ChiSq        Estimate    Exp(Est)
+
+Intercept             up           1     -0.2673      0.0701         14.53        0.0001                       0.765
+Intercept             unchange     1     -0.1056      0.0671          2.48        0.1155                       0.900
+
+

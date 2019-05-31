@@ -1,0 +1,14 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Replacement Values for Class Variables
+
+                                      Character
+                Formatted            Unformatted    Numeric    Replacement
+Variable          Value      Type       Value        Value        Value       Label
+
+Category         Unknown      C                        .         _blank_           
+Sub_category     Unknown      C                        .         _blank_           
+comp_code        Unknown      C                        .         _blank_           
+stock_code       Unknown      C                        .         _blank_           

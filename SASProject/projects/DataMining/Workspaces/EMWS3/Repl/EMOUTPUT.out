@@ -1,0 +1,50 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 11, 2019
+Time:                23:10:45
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+          Measurement    Frequency
+ Role        Level         Count
+ 
+INPUT      INTERVAL          12
+INPUT      NOMINAL            4
+TARGET     NOMINAL            1
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Replacement Values for Class Variables
+ 
+                                   Character
+             Formatted            Unformatted    Numeric    Replacement
+Variable       Value      Type       Value        Value        Value       Label
+ 
+updownInd                  C                        .        unchange
+updownInd     Unknown      C                        .        unchange
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Replacement Counts
+ 
+Obs    Variable      Role     Label    Train
+ 
+ 1     updownInd    TARGET              172

@@ -1,0 +1,130 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 11, 2019
+Time:                22:54:49
+*------------------------------------------------------------*
+16191  %let EMEXCEPTIONSTRING=;
+16192  *------------------------------------------------------------*;
+16193  * SCORE: FIMPORT;
+16194  *------------------------------------------------------------*;
+16195  %let EM_ACTION = SCORE;
+16196  %let syscc = 0;
+16197  /* Fimport.source */
+16198  %macro main;
+16199        %if %upcase(&EM_ACTION) = CREATE %then %do;
+16200           filename temp catalog 'sashelp.emsamp.Fimport_create.source';
+16201           %include temp;
+16202           filename temp;
+16203           %create;
+16204        %end;
+16205        %else
+16206        %if %upcase(&EM_ACTION) = TRAIN %then %do;
+16207           filename temp catalog 'sashelp.emsamp.Fimport_train.source';
+16208           %include temp;
+16209           filename temp;
+16210           %train;
+16211        %end;
+16212        %else
+16213        %if %upcase(&EM_ACTION) = UPDATE %then %do;
+16214           filename temp catalog 'sashelp.emsamp.Fimport_update.source';
+16215           %include temp;
+16216           filename temp;
+16217           %update;
+16218        %end;
+16219        %else
+16220        %if %upcase(&EM_ACTION) = PROPERTY %then %do;
+16221           filename temp catalog 'sashelp.emsamp.Fimport_actions.source';
+16222           %include temp;
+16223           filename temp;
+16224           %property;
+16225        %end;
+16226         %else
+16227        %if %upcase(&EM_ACTION) = SCORE %then %do;
+16228           filename temp catalog 'sashelp.emsamp.Fimport_score.source';
+16229           %include temp;
+16230           filename temp;
+16231           %score;
+16232        %end;
+16233        %else
+16234        %if %upcase(&EM_ACTION) = REPORT %then %do;
+16235           filename temp catalog 'sashelp.emsamp.Fimport_report.source';
+16236           %include temp;
+16237           filename temp;
+16238           %report;
+16239        %end;
+16240        %else
+16241        %if %upcase(&EM_ACTION) = OPENVARIABLESET %then %do;
+16242           filename temp catalog 'sashelp.emsamp.Fimport_actions.source';
+16243           %include temp;
+16244           filename temp;
+16245           %openvariableset;
+16246        %end;
+16247        %else
+16248        %if %upcase(&EM_ACTION) = CLOSEVARIABLESET %then %do;
+16249           filename temp catalog 'sashelp.emsamp.Fimport_actions.source';
+16250           %include temp;
+16251           filename temp;
+16252           %closevariableset;
+16253        %end;
+16254  %mend main;
+16255  %main;
+NOTE: %INCLUDE (level 1) file TEMP is file SASHELP.EMSAMP.FIMPORT_SCORE.SOURCE.
+16256 +%macro score;
+16257 +
+16258 +   filename x "&EM_NODEDIR.&EM_DSEP._updatePath.st";
+16259 +   data _null_;
+16260 +      file x;
+16261 +      put ' ';
+16262 +   run;
+16263 +   filename x;
+16264 +
+16265 +   %em_getname(key=DATA, type=DATA);
+16266 +   %if %sysfunc(exist(&em_user_data)) %then %do;
+16267 +       data &em_export_train / view=&em_export_train;
+16268 +          set &em_user_data;
+16269 +       run;
+16270 +   %end;
+16271 +
+16272 +%mend score;
+NOTE: %INCLUDE (level 1) ending.
+NOTE: Fileref TEMP has been deassigned.
+
+NOTE: The file X is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\FIMPORT\_updatePath.st,
+      RECFM=V,LRECL=32767,File Size (bytes)=0,
+      Last Modified=11May2019:22:54:49,
+      Create Time=11May2019:22:54:34
+
+NOTE: 1 record was written to the file X.
+      The minimum record length was 1.
+      The maximum record length was 1.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Fileref X has been deassigned.
+
+NOTE: DATA STEP view saved on file EMWS3.FIMPORT_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+16273  *------------------------------------------------------------*;
+16274  * End SCORE: FIMPORT;
+16275  *------------------------------------------------------------*;
+
+16277  *------------------------------------------------------------*;
+16278  * FIMPORT: Computing metadata for TRAIN data;
+16279  *------------------------------------------------------------*;
+
+NOTE: View EMWS3.FIMPORT_TRAIN.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+NOTE: View EMWS3.FIMPORT_TRAIN.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.04 seconds
+      

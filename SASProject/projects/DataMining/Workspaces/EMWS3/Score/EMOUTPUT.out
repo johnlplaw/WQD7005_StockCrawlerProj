@@ -1,0 +1,146 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 17, 2019
+Time:                00:55:43
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+          Measurement    Frequency
+ Role        Level         Count
+ 
+TARGET      NOMINAL          1
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Score Input Variables
+ 
+                                                                Used in
+Variable                                            Variable     Score
+  Name      Role     Creator    Comment    Label     Hidden      Code
+ 
+buy         INPUT                                      Y           Y
+high        INPUT                                      Y           Y
+lastDone    INPUT                                      Y           Y
+low         INPUT                                      Y           Y
+open        INPUT                                      Y           Y
+sell        INPUT                                      Y           Y
+vol         INPUT                                      Y           Y
+ 
+ 
+ 
+ 
+Score Output Variables
+ 
+Variable Name              Function          Creator    Label
+ 
+EM_CLASSIFICATION          CLASSIFICATION     Score     Prediction for REP_updownInd
+EM_EVENTPROBABILITY        PREDICT            Score     Probability for level UP of REP_updownInd
+EM_PROBABILITY             PREDICT            Score     Probability of Classification
+I_REP_updownInd            CLASSIFICATION     Reg4      Into: REP_updownInd
+LOG_buy                    TRANSFORM          Trans     Transformed buy
+LOG_high                   TRANSFORM          Trans     Transformed high
+LOG_lastDone               TRANSFORM          Trans     Transformed lastDone
+LOG_low                    TRANSFORM          Trans     Transformed low
+LOG_open                   TRANSFORM          Trans     Transformed open
+LOG_sell                   TRANSFORM          Trans     Transformed sell
+LOG_vol                    TRANSFORM          Trans     Transformed vol
+P_REP_updownInddown        PREDICT            Reg4      Predicted: REP_updownInd=down
+P_REP_updownIndunchange    PREDICT            Reg4      Predicted: REP_updownInd=unchange
+P_REP_updownIndup          PREDICT            Reg4      Predicted: REP_updownInd=up
+U_REP_updownInd            CLASSIFICATION     Reg4      Unnormalized Into: REP_updownInd
+_WARN_                     ASSESS             Reg4      Warnings
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Class Variable Summary Statistics
+ 
+Data Role=SCORE Output Type=CLASSIFICATION
+ 
+                   Numeric    Formatted    Frequency
+   Variable         Value       Value        Count      Percent
+ 
+I_REP_updownInd       .         DOWN           2          100
+ 
+ 
+Data Role=TRAIN Output Type=CLASSIFICATION
+ 
+                   Numeric    Formatted    Frequency
+   Variable         Value       Value        Count      Percent
+ 
+I_REP_updownInd       .       DOWN            469        37.52
+I_REP_updownInd       .       UNCHANGE        445        35.60
+I_REP_updownInd       .       UP              336        26.88
+ 
+ 
+Data Role=VALIDATE Output Type=CLASSIFICATION
+ 
+                   Numeric    Formatted    Frequency
+   Variable         Value       Value        Count      Percent
+ 
+I_REP_updownInd       .       DOWN            469       37.4900
+I_REP_updownInd       .       UNCHANGE        443       35.4117
+I_REP_updownInd       .       UP              339       27.0983
+ 
+ 
+ 
+ 
+Interval Variable Summary Statistics
+ 
+Variable Name=P_REP_updownInddown
+ 
+Statistics    Label                   TRAIN    VALIDATE     SCORE
+ 
+  MEAN        Mean                     0.38        0.38    0.3752
+  STD         Standard Deviation       0.48        0.48     .
+  N           Non Missing           1250.00     1251.00    2.0000
+  MIN         Minimum                  0.00        0.00    0.3752
+  P25         25th Percentile          0.00        0.00    0.3752
+  MEDIAN      Median                   0.00        0.00    0.3752
+  P75         75th Percentile          1.00        1.00    0.3752
+  MAX         Maximum                  1.00        1.00    0.3752
+ 
+ 
+Variable Name=P_REP_updownIndunchange
+ 
+Statistics    Label                   TRAIN    VALIDATE     SCORE
+ 
+  MEAN        Mean                     0.34        0.34    0.3376
+  STD         Standard Deviation       0.40        0.40     .
+  N           Non Missing           1250.00     1251.00    2.0000
+  MIN         Minimum                  0.00        0.00    0.3376
+  P25         25th Percentile          0.00        0.00    0.3376
+  MEDIAN      Median                   0.04        0.03    0.3376
+  P75         75th Percentile          0.83        0.83    0.3376
+  MAX         Maximum                  1.00        1.00    0.3376
+ 
+ 
+Variable Name=P_REP_updownIndup
+ 
+Statistics    Label                   TRAIN    VALIDATE     SCORE
+ 
+  MEAN        Mean                     0.29        0.29    0.2872
+  STD         Standard Deviation       0.37        0.38     .
+  N           Non Missing           1250.00     1251.00    2.0000
+  MIN         Minimum                  0.00        0.00    0.2872
+  P25         25th Percentile          0.00        0.00    0.2872
+  MEDIAN      Median                   0.08        0.07    0.2872
+  P75         75th Percentile          0.53        0.56    0.2872
+  MAX         Maximum                  1.00        1.00    0.2872

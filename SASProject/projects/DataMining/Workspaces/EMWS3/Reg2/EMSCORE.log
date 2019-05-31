@@ -1,0 +1,228 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 11, 2019
+Time:                23:52:35
+*------------------------------------------------------------*
+11344  proc transpose data=EMWS3.Reg2_EMESTIMATE out=WORK.TEMPREG;
+11345  where _CHOSEN_ ne '' and _TYPE_='PARMS';
+11346  run;
+
+NOTE: There were 1 observations read from the data set EMWS3.REG2_EMESTIMATE.
+      WHERE (_CHOSEN_ not = ' ') and (_TYPE_='PARMS');
+NOTE: The data set WORK.TEMPREG has 49 observations and 3 variables.
+NOTE: PROCEDURE TRANSPOSE used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+11347  proc transpose data=EMWS3.Reg2_MAPDS out=WORK.TEMPREG2(rename=(TARGET=_TARGET_));
+11348  var "buy_UP"n--"vol_UNCHANGE"n;
+11349  run;
+
+NOTE: There were 3 observations read from the data set EMWS3.REG2_MAPDS.
+NOTE: The data set WORK.TEMPREG2 has 14 observations and 5 variables.
+NOTE: PROCEDURE TRANSPOSE used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+11350  proc sort data=WORK.TEMPREG NOTHREADS;
+11351  by _NAME_;
+11352  run;
+
+NOTE: There were 49 observations read from the data set WORK.TEMPREG.
+NOTE: The data set WORK.TEMPREG has 49 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+11353  proc sort data=WORK.TEMPREG2 NOTHREADS;
+11354  by _NAME_;
+11355  run;
+
+NOTE: There were 14 observations read from the data set WORK.TEMPREG2.
+NOTE: The data set WORK.TEMPREG2 has 14 observations and 5 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+11356  data WORK.TEMPREG3;
+11357  merge WORK.TEMPREG(in=ina) WORK.TEMPREG2(in=inb);
+11358  by _NAME_;
+11359  if (ina and inb) and REP_updownInd ne . then output;
+11360  run;
+
+NOTE: There were 49 observations read from the data set WORK.TEMPREG.
+NOTE: There were 14 observations read from the data set WORK.TEMPREG2.
+NOTE: The data set WORK.TEMPREG3 has 10 observations and 6 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11361  data WORK.TEMPREG3(KEEP=TERM);
+11362  length term $32;
+11363  set WORK.TEMPREG3;
+11364  i=1;
+11365  do while( scan(input , i, '*') ne '' );
+11366  term= scan(input , i, '*');
+11367  i=i+1;
+11368  output;
+11369  end;
+11370  run;
+
+NOTE: There were 10 observations read from the data set WORK.TEMPREG3.
+NOTE: The data set WORK.TEMPREG3 has 10 observations and 1 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+11371  proc sort data=WORK.TEMPREG3 nodupkey NOTHREADS;
+11372  by TERM;
+11373  run;
+
+NOTE: There were 10 observations read from the data set WORK.TEMPREG3.
+NOTE: 5 observations with duplicate key values were deleted.
+NOTE: The data set WORK.TEMPREG3 has 5 observations and 1 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+11374  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Reg2\EMFLOWSCORE.sas";
+11375  *------------------------------------------------------------*;
+11376  * Reg2: Scoring DATA data;
+11377  *------------------------------------------------------------*;
+11378  data EMWS3.Reg2_TRAIN
+11379  / view=EMWS3.Reg2_TRAIN
+11380  ;
+11381  set EMWS3.Part_TRAIN
+11382  ;
+11383  %inc emflow;
+11557  run;
+
+NOTE: DATA STEP view saved on file EMWS3.REG2_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+11558  quit;
+11559  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+
+11560  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Reg2\EMFLOWSCORE.sas";
+11561  *------------------------------------------------------------*;
+11562  * Reg2: Scoring VALIDATE data;
+11563  *------------------------------------------------------------*;
+11564  data EMWS3.Reg2_VALIDATE
+11565  / view=EMWS3.Reg2_VALIDATE
+11566  ;
+11567  set EMWS3.Part_VALIDATE
+11568  ;
+11569  %inc emflow;
+11743  run;
+
+NOTE: DATA STEP view saved on file EMWS3.REG2_VALIDATE.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+11744  quit;
+11745  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+
+11746  *------------------------------------------------------------*;
+11747  * Reg2: Computing metadata for TRAIN data;
+11748  *------------------------------------------------------------*;
+
+NOTE: View EMWS3.REG2_TRAIN.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+12106  data EMWS3.Reg2_EMINFO;
+12107  length TARGET KEY $32 DATA $43;
+12108  input TARGET KEY DATA $;
+12109  cards;
+
+NOTE: The data set EMWS3.REG2_EMINFO has 3 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+12113  run;
+12114  proc sort data = EMWS3.Reg2_EMINFO NOTHREADS;
+12115  by TARGET KEY;
+12116  run;
+
+NOTE: There were 3 observations read from the data set EMWS3.REG2_EMINFO.
+NOTE: The data set EMWS3.REG2_EMINFO has 3 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+12117  proc sort data = EMWS3.Ids_EMINFO OUT=WORK.SORTEDEMINFO NOTHREADS;
+12118  by TARGET KEY;
+12119  run;
+
+NOTE: There were 3 observations read from the data set EMWS3.IDS_EMINFO.
+NOTE: The data set WORK.SORTEDEMINFO has 3 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+12120  proc sort data = EMWS3.Reg2_EMINFO OUT=WORK.TEMP_INFO NOTHREADS;
+12121  by TARGET KEY;
+12122  run;
+
+NOTE: Input data set is already sorted; it has been copied to the output data set.
+NOTE: There were 3 observations read from the data set EMWS3.REG2_EMINFO.
+NOTE: The data set WORK.TEMP_INFO has 3 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+12123  data EMWS3.Reg2_EMINFO;
+12124  merge WORK.SORTEDEMINFO WORK.TEMP_INFO;
+12125  by TARGET KEY;
+12126  run;
+
+NOTE: There were 3 observations read from the data set WORK.SORTEDEMINFO.
+NOTE: There were 3 observations read from the data set WORK.TEMP_INFO.
+NOTE: The data set EMWS3.REG2_EMINFO has 6 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+
+12127  proc datasets lib=work nolist;
+12128  delete TEMP_INFO SORTEDEMINFO;
+12129  run;
+
+NOTE: Deleting WORK.TEMP_INFO (memtype=DATA).
+NOTE: Deleting WORK.SORTEDEMINFO (memtype=DATA).
+12130  quit;
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: View EMWS3.REG2_TRAIN.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+NOTE: View EMWS3.REG2_VALIDATE.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      

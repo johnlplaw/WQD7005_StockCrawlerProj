@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  DataSource="clusteredstocktrain" Scope="LOCAL" Role="RAW" Library="WQD7005" Table="CLUSTERED_STOCK_TRAIN"
+ NCols="24" NObs="999" NBytes="328704" Segment="" DataSourceRole="RAW" OutputType="VIEW"
+ ForceRun="N" ComputeStatistics="N" DataSelection="DATASOURCE" NewTable="" MetaAdvisor="BASIC"
+ ApplyIntervalLevelLowerLimit="Y" IntervalLowerLimit="20" ApplyMaxPercentMissing="Y"
+ MaxPercentMissing="50" ApplyMaxClassLevels="Y" MaxClassLevels="20" IdentifyEmptyColumns="Y"
+ VariableValidation="STRICT" NewVariableRole="REJECT" DropMapVariables="Y" DsId="clusteredstocktrain"
+ DsSampleName="" DsSampleSizeType="" DsSampleSize="" DsCreatedBy="QR" DsCreateDate="1874708667.6"
+ DsModifiedBy="QR" DsModifyDate="1874708667.6" DsScope="LOCAL" Sample="D" SampleSizeType="PERCENT"
+ SampleSizePercent="20" SampleSizeObs="10000" DBPassThrough="Y" RunAction="Train"
+ Component="DataSource" RawCreateTime="1874708672.8" CreateTime="29MAY2019:00:24:33"
+ Description="" Data="WQD7005.CLUSTERED_STOCK_TRAIN" CMeta="WORK.M2_0O03O" RunId="fa580fb2-9cde-40ca-9b8f-d81fd0b69951"
+ RawLastTimeRun="1874708801.1" RawRunTime="6.9639999866" LastTimeRun="29MAY2019:00:26:41"
+ RunTime="0 Hr. 0 Min. 6.96 Sec.">
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES/>
+</_ROOT_>

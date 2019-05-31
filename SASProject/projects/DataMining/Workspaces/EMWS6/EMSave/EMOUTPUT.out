@@ -1,0 +1,41 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 29, 2019
+Time:                00:23:23
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+            Measurement    Frequency
+Role           Level         Count
+ 
+INPUT        INTERVAL          21
+INPUT        NOMINAL            1
+REJECTED     INTERVAL           1
+REJECTED     NOMINAL            1
+SEGMENT      NOMINAL            1
+TEXT         NOMINAL            1
+ 
+ 
+ 
+Saved Data Properties
+ 
+ Data                                                                                                        Total           Saved        Number of
+Library                                          Output Location                                          Observations    Observations    Variables
+ 
+WQD7005    C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\data\Clustered_stock_TRAIN.sas7bdat        999             MAX            24
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*

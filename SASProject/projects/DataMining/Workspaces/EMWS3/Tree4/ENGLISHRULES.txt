@@ -1,0 +1,210 @@
+*------------------------------------------------------------*
+ Node = 6
+*------------------------------------------------------------*
+if vol < 90.5
+AND high >= 0.0925 or MISSING
+then 
+ Tree Node Identifier   = 6
+ Number of Observations = 13
+ Predicted: REP_updownInd=up = 0.00
+ Predicted: REP_updownInd=unchange = 1.00
+ Predicted: REP_updownInd=down = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 8
+*------------------------------------------------------------*
+if open < 0.0125 or MISSING
+AND high < 0.0075 or MISSING
+then 
+ Tree Node Identifier   = 8
+ Number of Observations = 99
+ Predicted: REP_updownInd=up = 0.00
+ Predicted: REP_updownInd=unchange = 1.00
+ Predicted: REP_updownInd=down = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 10
+*------------------------------------------------------------*
+if open >= 0.0125
+AND lastDone < 0.0125
+AND high < 0.0925
+then 
+ Tree Node Identifier   = 10
+ Number of Observations = 5
+ Predicted: REP_updownInd=up = 0.00
+ Predicted: REP_updownInd=unchange = 0.00
+ Predicted: REP_updownInd=down = 1.00
+ 
+*------------------------------------------------------------*
+ Node = 11
+*------------------------------------------------------------*
+if open >= 0.0125
+AND lastDone >= 0.0125 or MISSING
+AND high < 0.0925
+then 
+ Tree Node Identifier   = 11
+ Number of Observations = 154
+ Predicted: REP_updownInd=up = 0.25
+ Predicted: REP_updownInd=unchange = 0.59
+ Predicted: REP_updownInd=down = 0.16
+ 
+*------------------------------------------------------------*
+ Node = 16
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open < 0.0925
+AND high < 0.1125 AND high >= 0.0925
+then 
+ Tree Node Identifier   = 16
+ Number of Observations = 14
+ Predicted: REP_updownInd=up = 0.79
+ Predicted: REP_updownInd=unchange = 0.14
+ Predicted: REP_updownInd=down = 0.07
+ 
+*------------------------------------------------------------*
+ Node = 18
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open < 0.1125
+AND high >= 0.1125 or MISSING
+then 
+ Tree Node Identifier   = 18
+ Number of Observations = 18
+ Predicted: REP_updownInd=up = 0.89
+ Predicted: REP_updownInd=unchange = 0.06
+ Predicted: REP_updownInd=down = 0.06
+ 
+*------------------------------------------------------------*
+ Node = 20
+*------------------------------------------------------------*
+if open < 0.0075 or MISSING
+AND lastDone < 0.0075
+AND high < 0.0925 AND high >= 0.0075
+then 
+ Tree Node Identifier   = 20
+ Number of Observations = 8
+ Predicted: REP_updownInd=up = 0.00
+ Predicted: REP_updownInd=unchange = 1.00
+ Predicted: REP_updownInd=down = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 21
+*------------------------------------------------------------*
+if open < 0.0125 AND open >= 0.0075
+AND lastDone < 0.0075
+AND high < 0.0925 AND high >= 0.0075
+then 
+ Tree Node Identifier   = 21
+ Number of Observations = 5
+ Predicted: REP_updownInd=up = 0.00
+ Predicted: REP_updownInd=unchange = 0.00
+ Predicted: REP_updownInd=down = 1.00
+ 
+*------------------------------------------------------------*
+ Node = 22
+*------------------------------------------------------------*
+if open < 0.0075
+AND lastDone >= 0.0075 or MISSING
+AND high < 0.0925 AND high >= 0.0075
+then 
+ Tree Node Identifier   = 22
+ Number of Observations = 7
+ Predicted: REP_updownInd=up = 1.00
+ Predicted: REP_updownInd=unchange = 0.00
+ Predicted: REP_updownInd=down = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 23
+*------------------------------------------------------------*
+if open < 0.0125 AND open >= 0.0075 or MISSING
+AND lastDone >= 0.0075 or MISSING
+AND high < 0.0925 AND high >= 0.0075
+then 
+ Tree Node Identifier   = 23
+ Number of Observations = 41
+ Predicted: REP_updownInd=up = 0.02
+ Predicted: REP_updownInd=unchange = 0.98
+ Predicted: REP_updownInd=down = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 26
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open >= 0.1125 or MISSING
+AND high < 0.4125 AND high >= 0.1125
+then 
+ Tree Node Identifier   = 26
+ Number of Observations = 297
+ Predicted: REP_updownInd=up = 0.31
+ Predicted: REP_updownInd=unchange = 0.24
+ Predicted: REP_updownInd=down = 0.45
+ 
+*------------------------------------------------------------*
+ Node = 27
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open >= 0.1125 or MISSING
+AND high >= 0.4125 or MISSING
+then 
+ Tree Node Identifier   = 27
+ Number of Observations = 509
+ Predicted: REP_updownInd=up = 0.35
+ Predicted: REP_updownInd=unchange = 0.12
+ Predicted: REP_updownInd=down = 0.53
+ 
+*------------------------------------------------------------*
+ Node = 28
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open < 0.1025 AND open >= 0.0925 or MISSING
+AND lastDone < 0.1025 or MISSING
+AND high < 0.1125 AND high >= 0.0925
+then 
+ Tree Node Identifier   = 28
+ Number of Observations = 33
+ Predicted: REP_updownInd=up = 0.15
+ Predicted: REP_updownInd=unchange = 0.58
+ Predicted: REP_updownInd=down = 0.27
+ 
+*------------------------------------------------------------*
+ Node = 29
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open >= 0.1025
+AND lastDone < 0.1025 or MISSING
+AND high < 0.1125 AND high >= 0.0925
+then 
+ Tree Node Identifier   = 29
+ Number of Observations = 14
+ Predicted: REP_updownInd=up = 0.00
+ Predicted: REP_updownInd=unchange = 0.00
+ Predicted: REP_updownInd=down = 1.00
+ 
+*------------------------------------------------------------*
+ Node = 30
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open < 0.1025 AND open >= 0.0925
+AND lastDone >= 0.1025
+AND high < 0.1125 AND high >= 0.0925
+then 
+ Tree Node Identifier   = 30
+ Number of Observations = 9
+ Predicted: REP_updownInd=up = 1.00
+ Predicted: REP_updownInd=unchange = 0.00
+ Predicted: REP_updownInd=down = 0.00
+ 
+*------------------------------------------------------------*
+ Node = 31
+*------------------------------------------------------------*
+if vol >= 90.5 or MISSING
+AND open >= 0.1025 or MISSING
+AND lastDone >= 0.1025
+AND high < 0.1125 AND high >= 0.0925
+then 
+ Tree Node Identifier   = 31
+ Number of Observations = 24
+ Predicted: REP_updownInd=up = 0.08
+ Predicted: REP_updownInd=unchange = 0.79
+ Predicted: REP_updownInd=down = 0.13
+ 

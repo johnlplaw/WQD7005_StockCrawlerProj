@@ -1,0 +1,12 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Replacement Values for Class Variables
+
+                                   Character
+             Formatted            Unformatted    Numeric    Replacement
+Variable       Value      Type       Value        Value        Value       Label
+
+updownInd                  C                        .        unchange           
+updownInd     Unknown      C                        .        unchange           

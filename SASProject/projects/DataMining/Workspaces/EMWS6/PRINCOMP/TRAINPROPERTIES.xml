@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  MaxPrincomp="20" CumEigenCutoff="0.99" EigenIncreCutoff="0.001" EigenSource="CORR"
+ ApplyMaxPrincomp="Y" RejectOriginalInputVariables="Y" PrintEigenSourceMatrix="N"
+ PrincompPrefix="PC" HideOriginalInputVariables="Y" NUserSelectedPrincomp="8" ForceRun="N"
+ RunAction="Train" Component="PrinComp" PrincompLabel="PRINCOMPLABEL" RawCreateTime="1874314894.2"
+ CreateTime="24MAY2019:11:01:34" RunId="d18874d6-0987-4bff-8664-ade0c14d8cfe" RawLastTimeRun="1874314939.1"
+ RawRunTime="9.0680000782" LastTimeRun="24MAY2019:11:02:19" RunTime="0 Hr. 0 Min. 9.07 Sec."
+>
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES/>
+</_ROOT_>

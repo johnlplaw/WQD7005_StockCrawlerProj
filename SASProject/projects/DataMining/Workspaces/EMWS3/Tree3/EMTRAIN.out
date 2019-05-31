@@ -1,0 +1,44 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+            Measurement    Frequency
+Role           Level         Count
+
+ID           INTERVAL           1   
+INPUT        INTERVAL          12   
+INPUT        NOMINAL            4   
+REJECTED     NOMINAL            1   
+TARGET       NOMINAL            1   
+TEXT         NOMINAL            1   
+TIMEID       INTERVAL           3   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Model Events
+
+                                         Number
+                          Measurement      of
+   Target        Event       Level       Levels      Order               Label
+
+REP_updownInd     UP        NOMINAL         3      Descending    Replacement: updownInd
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Predicted and decision variables
+
+Type         Variable                   Label
+
+TARGET       REP_updownInd              Replacement: updownInd           
+PREDICTED    P_REP_updownIndup          Predicted: REP_updownInd=up      
+RESIDUAL     R_REP_updownIndup          Residual: REP_updownInd=up       
+PREDICTED    P_REP_updownIndunchange    Predicted: REP_updownInd=unchange
+RESIDUAL     R_REP_updownIndunchange    Residual: REP_updownInd=unchange 
+PREDICTED    P_REP_updownInddown        Predicted: REP_updownInd=down    
+RESIDUAL     R_REP_updownInddown        Residual: REP_updownInd=down     
+FROM         F_REP_updownInd            From: REP_updownInd              
+INTO         I_REP_updownInd            Into: REP_updownInd              

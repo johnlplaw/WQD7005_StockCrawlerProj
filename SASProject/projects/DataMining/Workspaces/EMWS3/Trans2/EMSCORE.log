@@ -1,0 +1,131 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 17, 2019
+Time:                00:53:22
+*------------------------------------------------------------*
+11535  proc sort data=EMWS3.Trans2_RESULT out=WORK.Trans2RESULT NOTHREADS;
+11536  by INPUTNAME;
+11537  run;
+
+NOTE: There were 7 observations read from the data set EMWS3.TRANS2_RESULT.
+NOTE: The data set WORK.TRANS2RESULT has 7 observations and 11 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+11538  proc sort data=EMWS3.Trans2_VariableSet(KEEP= NAME FAMILY REPORT rename=(NAME=INPUTNAME)) out=WORK.Trans2VARSET NOTHREADS;
+11539  by INPUTNAME;
+11540  run;
+
+NOTE: There were 7 observations read from the data set EMWS3.TRANS2_VARIABLESET.
+NOTE: The data set WORK.TRANS2VARSET has 7 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+11541  data WORK.Trans2RESULT;
+11542  merge WORK.Trans2RESULT WORK.Trans2VARSET;
+11543  by INPUTNAME;
+11544  if NAME ne '' then output;
+11545  run;
+
+WARNING: Multiple lengths were specified for the BY variable INPUTNAME by input data sets. This might cause unexpected results.
+NOTE: There were 7 observations read from the data set WORK.TRANS2RESULT.
+NOTE: There were 7 observations read from the data set WORK.TRANS2VARSET.
+NOTE: The data set WORK.TRANS2RESULT has 7 observations and 13 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+11546  filename _code "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Trans2\TRAINDELTACODE.sas";
+11547  data _null_;
+11548  set WORK.Trans2RESULT;
+11549  length String $200;
+11550  file _code;
+11551  String = 'if NAME="'!!strip(name)!!'" then do;';
+11552  put / String;
+11553  if family ne '' then do;
+11554  String = '   FAMILY ="'!!strip(family)!!'";';
+11555  put String;
+11556  end;
+11557  select(formula);
+11558  when('Interaction') put '   FAMILY  ="INTERACTION";';
+11559  when('') put '   COMMENT = "' method 'transformation of ' INPUTVAR '";';
+11560  otherwise put '   COMMENT = "' formula '";';
+11561  end;
+11562  String = '   ROLE ="'!!strip(role)!!'";';
+11563  put String;
+11564  if REPORT="" then REPORT = "N";
+11565  String = '   REPORT ="'!!strip(report)!!'";';
+11566  put String;
+11567  String = '   LEVEL  ="'!!strip(level)!!'";';
+11568  put String;
+11569  put 'end;';
+11570  if formula ne 'Interaction' and INPUTNAME ne '' then do;
+11571  String = 'if NAME="'!!strip(INPUTNAME)!!'" then delete;';
+11572  put String;
+11573  end;
+11574  run;
+
+NOTE: Variable method is uninitialized.
+NOTE: Variable INPUTVAR is uninitialized.
+NOTE: The file _CODE is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Trans2\TRAINDELTACODE.sas,
+      RECFM=V,LRECL=32767,File Size (bytes)=0,
+      Last Modified=17May2019:00:53:21,
+      Create Time=17May2019:00:53:21
+
+NOTE: 56 records were written to the file _CODE.
+      The minimum record length was 0.
+      The maximum record length was 35.
+NOTE: There were 7 observations read from the data set WORK.TRANS2RESULT.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11575  filename _code;
+NOTE: Fileref _CODE has been deassigned.
+
+11576  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Trans2\EMFLOWSCORE.sas";
+11577  *------------------------------------------------------------*;
+11578  * Trans2: Scoring DATA data;
+11579  *------------------------------------------------------------*;
+11580  data EMWS3.Trans2_TRAIN
+11581  / view=EMWS3.Trans2_TRAIN
+11582  ;
+11583  set EMWS3.FIMPORT2_train
+11584  ;
+11585  %inc emflow;
+11652  run;
+
+NOTE: DATA STEP view saved on file EMWS3.TRANS2_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS3.FIMPORT2_TRAIN.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+      
+
+11653  quit;
+11654  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+
+11655  *------------------------------------------------------------*;
+11656  * Trans2: Computing metadata for TRAIN data;
+11657  *------------------------------------------------------------*;
+
+NOTE: View EMWS3.TRANS2_TRAIN.VIEW used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.04 seconds
+      
+NOTE: View EMWS3.TRANS2_TRAIN.VIEW used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.04 seconds
+      

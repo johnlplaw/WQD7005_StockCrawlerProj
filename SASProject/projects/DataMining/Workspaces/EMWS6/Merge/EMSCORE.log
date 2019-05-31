@@ -1,0 +1,115 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 25, 2019
+Time:                01:43:58
+*------------------------------------------------------------*
+11043  data work.FIMPORT_TRAIN;
+11044  length UNAME $65;
+11045  set EMWS6.FIMPORT_CMeta_TRAIN;
+11046  UNAME = upcase(NAME);
+11047  run;
+
+NOTE: There were 15 observations read from the data set EMWS6.FIMPORT_CMETA_TRAIN.
+NOTE: The data set WORK.FIMPORT_TRAIN has 15 observations and 22 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11048  proc sort data=work.FIMPORT_TRAIN;
+11049  by NAME;
+11050  run;
+
+NOTE: There were 15 observations read from the data set WORK.FIMPORT_TRAIN.
+NOTE: The data set WORK.FIMPORT_TRAIN has 15 observations and 22 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11051  proc append base=EMWS6.Merge_CMeta_TRAIN data=work.FIMPORT_TRAIN force;
+11052  run;
+
+NOTE: Appending WORK.FIMPORT_TRAIN to EMWS6.MERGE_CMETA_TRAIN.
+NOTE: BASE data set does not exist. DATA file is being copied to BASE file.
+NOTE: There were 15 observations read from the data set WORK.FIMPORT_TRAIN.
+NOTE: The data set EMWS6.MERGE_CMETA_TRAIN has 15 observations and 22 variables.
+NOTE: PROCEDURE APPEND used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+11053  proc datasets lib=work nolist;
+11054  delete FIMPORT_TRAIN;
+11055  run;
+
+NOTE: Deleting WORK.FIMPORT_TRAIN (memtype=DATA).
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11056  data work.CLUS3_TRAIN;
+11057  length UNAME $65;
+11058  set EMWS6.Clus3_CMeta_TRAIN;
+11059  UNAME = upcase(NAME);
+11060  run;
+
+NOTE: There were 13 observations read from the data set EMWS6.CLUS3_CMETA_TRAIN.
+NOTE: The data set WORK.CLUS3_TRAIN has 13 observations and 22 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.03 seconds
+      
+
+11061  proc sort data=work.CLUS3_TRAIN;
+11062  by NAME;
+11063  run;
+
+NOTE: There were 13 observations read from the data set WORK.CLUS3_TRAIN.
+NOTE: The data set WORK.CLUS3_TRAIN has 13 observations and 22 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11064  proc append base=EMWS6.Merge_CMeta_TRAIN data=work.CLUS3_TRAIN force;
+11065  run;
+
+NOTE: Appending WORK.CLUS3_TRAIN to EMWS6.MERGE_CMETA_TRAIN.
+NOTE: There were 13 observations read from the data set WORK.CLUS3_TRAIN.
+NOTE: 13 observations added.
+NOTE: The data set EMWS6.MERGE_CMETA_TRAIN has 28 observations and 22 variables.
+NOTE: PROCEDURE APPEND used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+11066  proc datasets lib=work nolist;
+11067  delete CLUS3_TRAIN;
+11068  run;
+
+NOTE: Deleting WORK.CLUS3_TRAIN (memtype=DATA).
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+11069  proc sort data = EMWS6.Merge_CMeta_TRAIN out = EMWS6.Merge_CMeta_TRAIN(drop=UNAME) nodupkey;
+11070  by UNAME;
+11071  run;
+
+NOTE: There were 28 observations read from the data set EMWS6.MERGE_CMETA_TRAIN.
+NOTE: 2 observations with duplicate key values were deleted.
+NOTE: The data set EMWS6.MERGE_CMETA_TRAIN has 26 observations and 21 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: View EMWS6.MERGE_TRAIN.VIEW used (Total process time):
+      real time           0.18 seconds
+      cpu time            0.17 seconds
+      

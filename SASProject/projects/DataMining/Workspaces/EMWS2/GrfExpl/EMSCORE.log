@@ -1,0 +1,99 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 11, 2019
+Time:                21:41:58
+*------------------------------------------------------------*
+15796  %let EMEXCEPTIONSTRING=;
+15797  *------------------------------------------------------------*;
+15798  * SCORE: GrfExpl;
+15799  *------------------------------------------------------------*;
+15800  %let EM_ACTION = SCORE;
+15801  %let syscc = 0;
+15802  %macro main;
+15803     filename temp catalog 'sashelp.emexpl.graphexplore_macros.source';
+15804     %include temp;
+15805     filename temp;
+15806  
+15807     %SetProperties;
+15808  
+15809     %if %upcase(&EM_ACTION) = CREATE %then %do;
+15810  
+15811         filename temp catalog 'sashelp.emexpl.graphexplore_create.source';
+15812         %include temp;
+15813         filename temp;
+15814         %create;
+15815     %end;
+15816     %else
+15817     %if %upcase(&EM_ACTION) = TRAIN %then %do;
+15818  
+15819         filename temp catalog 'sashelp.emexpl.graphexplore_train.source';
+15820         %include temp;
+15821         filename temp;
+15822         %train;
+15823  
+15824     %end;
+15825     %else
+15826     %if %upcase(&EM_ACTION) = REPORT %then %do;
+15827  
+15828         filename temp catalog 'sashelp.emexpl.graphexplore_report.source';
+15829         %include temp;
+15830         filename temp;
+15831  
+15832         %report;
+15833     %end;
+15834  
+15835  %mend main;
+15836  
+15837  %main;
+NOTE: %INCLUDE (level 1) file TEMP is file SASHELP.EMEXPL.GRAPHEXPLORE_MACROS.SOURCE.
+15838 +%macro SetProperties;
+15839 +   %em_checkmacro(name=EM_PROPERTY_INTERVALBYTARGET,      global=Y, value=Y);
+15840 +   %em_checkmacro(name=EM_PROPERTY_CLASSBYTARGET,         global=Y, value=Y);
+15841 +   %em_checkmacro(name=EM_PROPERTY_DATASOURCE,            global=Y, value=SAMPLE);
+15842 +   %em_checkmacro(name=EM_PROPERTY_EMSAMPLEMETHOD,        global=Y, value=FIRSTN);
+15843 +   %em_checkmacro(name=EM_PROPERTY_EMSAMPLESIZE,          global=Y, value=DEFAULT);
+15844 +   %em_checkmacro(name=EM_PROPERTY_EMRANDOMSEED,          global=Y, value=12345);
+15845 +
+15846 +%mend SetProperties;
+NOTE: %INCLUDE (level 1) ending.
+NOTE: Fileref TEMP has been deassigned.
+15847  *------------------------------------------------------------*;
+15848  * End SCORE: GrfExpl;
+15849  *------------------------------------------------------------*;
+15850  
+
+15851  *------------------------------------------------------------*;
+15852  * GrfExpl: Scoring DATA data;
+15853  *------------------------------------------------------------*;
+15854  data EMWS2.GrfExpl_TRAIN
+15855  / view=EMWS2.GrfExpl_TRAIN
+15856  ;
+15857  set EMWS2.Ids_DATA
+15858  ;
+15859  run;
+
+NOTE: DATA STEP view saved on file EMWS2.GRFEXPL_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS2.IDS_DATA.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+NOTE: DATA statement used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.06 seconds
+      
+
+15860  quit;
+
+15862  *------------------------------------------------------------*;
+15863  * GrfExpl: Computing metadata for TRAIN data;
+15864  *------------------------------------------------------------*;
+
+NOTE: View EMWS2.GRFEXPL_TRAIN.VIEW used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.06 seconds
+      
+NOTE: View EMWS2.GRFEXPL_TRAIN.VIEW used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.06 seconds
+      

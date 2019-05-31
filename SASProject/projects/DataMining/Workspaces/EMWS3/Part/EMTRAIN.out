@@ -1,0 +1,27 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+            Measurement    Frequency
+Role           Level         Count
+
+INPUT        INTERVAL          12   
+INPUT        NOMINAL            4   
+REJECTED     NOMINAL            1   
+TARGET       NOMINAL            1   
+TEXT         NOMINAL            1   
+TIMEID       INTERVAL           3   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Partition Summary
+
+                                     Number of
+Type             Data Set          Observations
+
+DATA        EMWS3.Impt_TRAIN           2501    
+TRAIN       EMWS3.Part_TRAIN           1250    
+VALIDATE    EMWS3.Part_VALIDATE        1251    

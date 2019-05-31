@@ -1,0 +1,81 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 17, 2019
+Time:                00:33:11
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+         Measurement    Frequency
+Role        Level         Count
+ 
+INPUT     INTERVAL          7
+ 
+ 
+ 
+ 
+ 
+The CONTENTS Procedure
+ 
+Data Set Name        EMWS3.FIMPORT2_DATA           Observations          2
+Member Type          DATA                          Variables             7
+Engine               V9                            Indexes               0
+Created              05/17/2019 00:33:07           Observation Length    56
+Last Modified        05/17/2019 00:33:07           Deleted Observations  0
+Protection                                         Compressed            NO
+Data Set Type                                      Sorted                NO
+Label
+Data Representation  WINDOWS_32
+Encoding             wlatin1  Western (Windows)
+ 
+ 
+                                                       Engine/Host Dependent Information
+ 
+Data Set Page Size          65536
+Number of Data Set Pages    1
+First Data Page             1
+Max Obs per Page            1167
+Obs in First Data Page      2
+Number of Data Set Repairs  0
+ExtendObsCounter            YES
+Filename                    C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\fimport2_data.sas7bdat
+Release Created             9.0401M3
+Host Created                W32_7PRO
+ 
+ 
+    Alphabetic List of Variables and Attributes
+ 
+#    Variable    Type    Len    Format     Informat
+ 
+6    buy         Num       8    BEST12.    BEST32.
+3    high        Num       8    BEST12.    BEST32.
+4    lastDone    Num       8    BEST12.    BEST32.
+2    low         Num       8    BEST12.    BEST32.
+1    open        Num       8    BEST12.    BEST32.
+7    sell        Num       8    BEST12.    BEST32.
+5    vol         Num       8    BEST12.    BEST32.
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Exported Attributes for TRAIN Port
+ 
+         Measurement    Frequency
+Role        Level         Count
+ 
+INPUT     INTERVAL          7

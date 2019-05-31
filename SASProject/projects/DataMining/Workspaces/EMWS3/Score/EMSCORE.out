@@ -1,0 +1,41 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Score Input Variables
+
+                                                                Used in
+Variable                                            Variable     Score
+  Name      Role     Creator    Comment    Label     Hidden      Code
+
+buy         INPUT                                      Y           Y   
+high        INPUT                                      Y           Y   
+lastDone    INPUT                                      Y           Y   
+low         INPUT                                      Y           Y   
+open        INPUT                                      Y           Y   
+sell        INPUT                                      Y           Y   
+vol         INPUT                                      Y           Y   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Score Output Variables
+
+Variable Name              Function          Creator    Label
+
+EM_CLASSIFICATION          CLASSIFICATION     Score     Prediction for REP_updownInd             
+EM_EVENTPROBABILITY        PREDICT            Score     Probability for level UP of REP_updownInd
+EM_PROBABILITY             PREDICT            Score     Probability of Classification            
+I_REP_updownInd            CLASSIFICATION     Reg4      Into: REP_updownInd                      
+LOG_buy                    TRANSFORM          Trans     Transformed buy                          
+LOG_high                   TRANSFORM          Trans     Transformed high                         
+LOG_lastDone               TRANSFORM          Trans     Transformed lastDone                     
+LOG_low                    TRANSFORM          Trans     Transformed low                          
+LOG_open                   TRANSFORM          Trans     Transformed open                         
+LOG_sell                   TRANSFORM          Trans     Transformed sell                         
+LOG_vol                    TRANSFORM          Trans     Transformed vol                          
+P_REP_updownInddown        PREDICT            Reg4      Predicted: REP_updownInd=down            
+P_REP_updownIndunchange    PREDICT            Reg4      Predicted: REP_updownInd=unchange        
+P_REP_updownIndup          PREDICT            Reg4      Predicted: REP_updownInd=up              
+U_REP_updownInd            CLASSIFICATION     Reg4      Unnormalized Into: REP_updownInd         
+_WARN_                     ASSESS             Reg4      Warnings                                 

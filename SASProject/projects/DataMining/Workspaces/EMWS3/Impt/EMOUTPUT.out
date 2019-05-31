@@ -1,0 +1,52 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 11, 2019
+Time:                23:13:24
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+            Measurement    Frequency
+Role           Level         Count
+ 
+INPUT        INTERVAL          12
+INPUT        NOMINAL            4
+REJECTED     NOMINAL            1
+TARGET       NOMINAL            1
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+Imputation Summary
+Number Of Observations
+ 
+                                                                                                 Number of
+                   Impute                            Impute             Measurement                Missing
+ Variable Name     Method     Imputed Variable       Value     Role        Level       Label     for TRAIN
+ 
+v_updownpercent     MEAN     IMP_v_updownpercent    0.63076    INPUT     INTERVAL                      172
+ 
+ 
+ 
+ 
+Variable Distribution Training Data
+ 
+        Number of
+          Missing    Number of    Percent of
+Obs     for TRAIN    Variables     Variables
+ 
+ 1            172        1            100

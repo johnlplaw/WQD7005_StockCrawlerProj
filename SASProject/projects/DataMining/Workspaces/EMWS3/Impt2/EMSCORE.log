@@ -1,0 +1,122 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 12, 2019
+Time:                00:01:54
+*------------------------------------------------------------*
+11120  data _null_;
+11121  set EMWS3.Impt2_META end=eof;
+11122  length string $34;
+11123  retain missTotal;
+11124  file #LN00148;
+11125  if _n_=1 then misstotal = percentmiss;
+11126  missTotal = percentmiss+misstotal;
+11127  if IMP ne '' and METHOD ne 'NONE' then do;
+11128  string = '"'!!strip(NAME)!!'"';
+11129  put 'if NAME = ' string 'then delete;';
+11130  put 'else ';
+11131  string = '"'!!strip(IMP)!!'"';
+11132  put 'if NAME    = ' string ' then do;';
+11133  string = '"'!!strip(ROLE)!!'"';
+11134  put '   ROLE    = ' string ';';
+11135  string = '"'!!strip(FAMILY)!!'"';
+11136  put '   FAMILY  = ' string ';';
+11137  string = '"'!!strip(REPORT)!!'"';
+11138  put '   REPORT  = ' string ';';
+11139  string = '"'!!strip(LEVEL)!!'"';
+11140  put '   LEVEL   = ' string ';';
+11141  string = '"'!!strip(ORDER)!!'"';
+11142  put '   ORDER   = ' string ';';
+11143  put 'end;';
+11144  end;
+11145  if percentmiss>50 and ROLE ne 'TARGET' then do;
+11146  string = '"'!!strip(NAME)!!'"';
+11147  put 'if NAME = ' string ' then do;';
+11148  put '   ROLE ="REJECTED";';
+11149  put '   COMMENT = "Percent of missing exceeds 50%";';
+11150  put 'end;';
+11151  end;
+11152  run;
+
+NOTE: The file #LN00148 is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Impt2\CDELTA_TRAIN.sas,
+      RECFM=V,LRECL=32767,File Size (bytes)=0,
+      Last Modified=12May2019:00:01:53,
+      Create Time=11May2019:23:58:53
+
+NOTE: 0 records were written to the file #LN00148.
+NOTE: There were 17 observations read from the data set EMWS3.IMPT2_META.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+11153  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Impt2\EMFLOWSCORE.sas";
+11154  *------------------------------------------------------------*;
+11155  * Impt2: Scoring DATA data;
+11156  *------------------------------------------------------------*;
+11157  data EMWS3.Impt2_TRAIN
+11158  / view=EMWS3.Impt2_TRAIN
+11159  ;
+11160  set EMWS3.Trans_TRAIN
+11161  ;
+11162  %inc emflow;
+11166  run;
+
+NOTE: DATA STEP view saved on file EMWS3.IMPT2_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS3.TRANS_TRAIN.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+NOTE: DATA statement used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.06 seconds
+      
+
+11167  quit;
+11168  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+
+11169  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Impt2\EMFLOWSCORE.sas";
+11170  *------------------------------------------------------------*;
+11171  * Impt2: Scoring VALIDATE data;
+11172  *------------------------------------------------------------*;
+11173  data EMWS3.Impt2_VALIDATE
+11174  / view=EMWS3.Impt2_VALIDATE
+11175  ;
+11176  set EMWS3.Trans_VALIDATE
+11177  ;
+11178  %inc emflow;
+11182  run;
+
+NOTE: DATA STEP view saved on file EMWS3.IMPT2_VALIDATE.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS3.TRANS_VALIDATE.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+NOTE: DATA statement used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.04 seconds
+      
+
+11183  quit;
+11184  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+
+11185  *------------------------------------------------------------*;
+11186  * Impt2: Computing metadata for TRAIN data;
+11187  *------------------------------------------------------------*;
+
+NOTE: View EMWS3.IMPT2_TRAIN.VIEW used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.07 seconds
+      
+NOTE: View EMWS3.IMPT2_TRAIN.VIEW used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.07 seconds
+      
+NOTE: View EMWS3.IMPT2_VALIDATE.VIEW used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.07 seconds
+      

@@ -1,0 +1,18 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Importance
+
+                                     Number of    Number of
+Variable                             Splitting    Surrogate
+  Name              Label              Rules        Rules      Importance
+
+  PC_7      Principal Component 7        2            1          1.00000 
+  PC_1      Principal Component 1        1            2          0.72686 
+  PC_6      Principal Component 6        1            2          0.57306 
+  PC_4      Principal Component 4        0            3          0.54640 
+  PC_2      Principal Component 2        1            1          0.42293 
+  PC_5      Principal Component 5        1            0          0.32698 
+  PC_3      Principal Component 3        0            1          0.26850 
+  PC_8      Principal Component 8        0            1          0.26823 

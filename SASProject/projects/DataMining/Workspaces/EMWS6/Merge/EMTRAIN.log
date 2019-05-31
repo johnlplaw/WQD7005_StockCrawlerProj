@@ -1,0 +1,166 @@
+*------------------------------------------------------------*
+* Training Log
+Date:                May 25, 2019
+Time:                01:43:56
+*------------------------------------------------------------*
+10866  proc freq data=EMWS6.Merge_VariableSet noprint;
+10867  table ROLE*LEVEL/out=WORK.MergeMETA;
+10868  run;
+
+NOTE: There were 15 observations read from the data set EMWS6.MERGE_VARIABLESET.
+NOTE: The data set WORK.MERGEMETA has 3 observations and 4 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+10869  proc print data=WORK.MergeMETA label noobs;
+10870  var ROLE LEVEL COUNT;
+10871  label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+10872  title9 ' ';
+10873  title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+10874  run;
+
+NOTE: There were 3 observations read from the data set WORK.MERGEMETA.
+NOTE: The PROCEDURE PRINT printed page 1.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+
+10875  title10;
+
+NOTE: View EMWS6.FIMPORT_TRAIN.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+NOTE: View EMWS6.CLUS3_TRAIN.VIEW used (Total process time):
+      real time           0.10 seconds
+      cpu time            0.10 seconds
+      
+10876  data EMWS6.Merge_TRAIN / view=EMWS6.Merge_TRAIN;
+10877  merge
+10878  EMWS6.FIMPORT_train
+10879  (rename=(
+10880  ))
+10881  EMWS6.Clus3_TRAIN
+10882  (rename=(
+10883  ))
+10884  ;
+10885  run;
+
+NOTE: DATA STEP view saved on file EMWS6.MERGE_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS6.CLUS3_TRAIN.VIEW used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.09 seconds
+      
+NOTE: View EMWS6.FIMPORT_TRAIN.VIEW used (Total process time):
+      real time           0.12 seconds
+      cpu time            0.12 seconds
+      
+NOTE: DATA statement used (Total process time):
+      real time           0.14 seconds
+      cpu time            0.15 seconds
+      
+
+NOTE: This SAS session is using a registry in WORK.  All changes will be lost at the end of this session.
+NOTE: View EMWS6.MERGE_TRAIN.VIEW used (Total process time):
+      real time           0.16 seconds
+      cpu time            0.15 seconds
+      
+NOTE: Variable _FORMAT is uninitialized.
+NOTE: Variable _NORMFMT is uninitialized.
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_DATA.
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_TRAIN.
+NOTE: There were 999 observations read from the data set EMWS6.PRINCOMP_TRAIN.
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_DATA.
+NOTE: View EMWS6.MERGE_TRAIN.VIEW used (Total process time):
+      real time           0.17 seconds
+      cpu time            0.17 seconds
+      
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_TRAIN.
+NOTE: There were 999 observations read from the data set EMWS6.CLUS3_TRAIN.
+10886  proc contents noprint data=EMWS6.Merge_TRAIN out=WORK.MERGECONTENT(drop=NAME TYPE LENGTH VARNUM LABEL FORMAT FORMATL FORMATD INFORMAT INFORML INFORMD JUST NPOS);
+10887  run;
+
+NOTE: The data set WORK.MERGECONTENT has 26 observations and 28 variables.
+NOTE: PROCEDURE CONTENTS used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+
+10888  data WORK.MERGECONTENT;
+10889  set WORK.MERGECONTENT(obs=1);
+10890  run;
+
+NOTE: There were 1 observations read from the data set WORK.MERGECONTENT.
+NOTE: The data set WORK.MERGECONTENT has 1 observations and 28 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+10891  data WORK.MERGEOUTPUT(keep=ATTRIBUTE LABEL VALUE);
+10892  length ATTRIBUTE $20 LABEL $50 VALUE $50;
+10893  label LABEL = "%sysfunc(sasmsg(sashelp.dmine, rpt_attribute_vlabel, NOQUOTE))" VALUE = "%sysfunc(sasmsg(sashelp.dmine, rpt_value_vlabel, NOQUOTE))";
+10894  dsid = open("WORK.MERGECONTENT");
+10895  rc = fetch(dsid);
+10896  nvars = attrn(dsid, 'NVARS');
+10897  nobs = attrn(dsid, 'NOBS');
+10898  ATTRIBUTE = "DATASOURCE";
+10899  LABEL = "Data Source: Path 1";
+10900  VALUE="";
+10901  output;
+10902  ATTRIBUTE = "DATASOURCE";
+10903  LABEL = "Data Source: Path 2";
+10904  VALUE="";
+10905  output;
+10906  ATTRIBUTE = '';
+10907  LABEL = '';
+10908  VALUE='';
+10909  output;
+10910  do i=1 to nvars;
+10911  ATTRIBUTE = varname(dsid, i);
+10912  LABEL = varlabel(dsid, i);
+10913  if vartype(dsid,i)='C' then do;
+10914  VALUE = getvarc(dsid, i);
+10915  end;
+10916  else do;
+10917  NVALUE = getvarn(dsid, i);
+10918  if ATTRIBUTE in('CRDATE', 'MODATE') then VALUE = left(put(NVALUE, NLDATM20.));
+10919  else VALUE = left(put(NVALUE, BEST12.));
+10920  end;
+10921  if ATTRIBUTE = 'NOBS' then VALUE = left(put(999, BEST12.));
+10922  output;
+10923  if ATTRIBUTE = 'NOBS' then do;
+10924  ATTRIBUTE = 'NVARS';
+10925  VALUE = left(put(26, BEST12.));
+10926  LABEL = "%sysfunc(sasmsg(sashelp.dmine,  rpt_labelvariables_value, NOQUOTE))";
+10927  output;
+10928  end;
+10929  end;
+10930  dsid=close(dsid);
+10931  run;
+
+NOTE: The data set WORK.MERGEOUTPUT has 32 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+      
+
+10932  proc print data=WORK.MERGEOUTPUT noobs label;
+10933  var label value;
+10934  title9 ' ';
+10935  title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_mergeattributes_title, NOQUOTE))";
+10936  run;
+
+NOTE: There were 32 observations read from the data set WORK.MERGEOUTPUT.
+NOTE: The PROCEDURE PRINT printed page 2.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+10937  title10;
+

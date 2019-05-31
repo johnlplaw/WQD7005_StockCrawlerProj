@@ -1,0 +1,34 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Summary Statistics for Class Targets
+
+Data=DATA
+
+                 Numeric    Formatted    Frequency
+  Variable        Value       Value        Count      Percent            Label
+
+REP_updownInd       .       down            938       37.5050    Replacement: updownInd
+REP_updownInd       .       unchange        844       33.7465    Replacement: updownInd
+REP_updownInd       .       up              719       28.7485    Replacement: updownInd
+
+
+Data=TRAIN
+
+                 Numeric    Formatted    Frequency
+  Variable        Value       Value        Count      Percent            Label
+
+REP_updownInd       .       down            469        37.52     Replacement: updownInd
+REP_updownInd       .       unchange        422        33.76     Replacement: updownInd
+REP_updownInd       .       up              359        28.72     Replacement: updownInd
+
+
+Data=VALIDATE
+
+                 Numeric    Formatted    Frequency
+  Variable        Value       Value        Count      Percent            Label
+
+REP_updownInd       .       down            469       37.4900    Replacement: updownInd
+REP_updownInd       .       unchange        422       33.7330    Replacement: updownInd
+REP_updownInd       .       up              360       28.7770    Replacement: updownInd

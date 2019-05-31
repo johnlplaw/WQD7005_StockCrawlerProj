@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  DataSource="milestonetrain" Scope="LOCAL" Role="RAW" Library="WQD7005" Table="MILESTONE4_TRAIN"
+ NCols="6" NObs="45" NBytes="66560" Segment="" DataSourceRole="RAW" OutputType="VIEW"
+ ForceRun="N" ComputeStatistics="N" DataSelection="DATASOURCE" NewTable="" MetaAdvisor="BASIC"
+ ApplyIntervalLevelLowerLimit="Y" IntervalLowerLimit="20" ApplyMaxPercentMissing="Y"
+ MaxPercentMissing="50" ApplyMaxClassLevels="Y" MaxClassLevels="20" IdentifyEmptyColumns="Y"
+ VariableValidation="STRICT" NewVariableRole="REJECT" DropMapVariables="Y" DsId="milestonetrain"
+ DsSampleName="" DsSampleSizeType="" DsSampleSize="" DsCreatedBy="QR" DsCreateDate="1873230047"
+ DsModifiedBy="QR" DsModifyDate="1873230047" DsScope="LOCAL" Sample="D" SampleSizeType="PERCENT"
+ SampleSizePercent="20" SampleSizeObs="10000" DBPassThrough="Y" RunAction="Train"
+ Component="DataSource" RawCreateTime="1873230052" CreateTime="11MAY2019:21:40:52"
+ Description="" Data="WQD7005.MILESTONE4_TRAIN" CMeta="WORK.M35RTWD1" RunId="ea004511-f27c-434a-9283-8ff8cd4516ae"
+>
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES/>
+</_ROOT_>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  DataSource="labscoretrain" Scope="LOCAL" Role="SCORE" Library="WQD7005" Table="LAB2SCORE_TRAIN"
+ NCols="7" NObs="2" NBytes="66560" Segment="" DataSourceRole="SCORE" OutputType="VIEW"
+ ForceRun="N" ComputeStatistics="N" DataSelection="DATASOURCE" NewTable="" MetaAdvisor="BASIC"
+ ApplyIntervalLevelLowerLimit="Y" IntervalLowerLimit="20" ApplyMaxPercentMissing="Y"
+ MaxPercentMissing="50" ApplyMaxClassLevels="Y" MaxClassLevels="20" IdentifyEmptyColumns="Y"
+ VariableValidation="STRICT" NewVariableRole="REJECT" DropMapVariables="Y" DsId="labscoretrain"
+ DsSampleName="" DsSampleSizeType="" DsSampleSize="" DsCreatedBy="QR" DsCreateDate="1873673221.9"
+ DsModifiedBy="QR" DsModifyDate="1873673632.3" DsScope="LOCAL" Sample="D" SampleSizeType="PERCENT"
+ SampleSizePercent="20" SampleSizeObs="10000" DBPassThrough="Y" RunAction="Train"
+ Component="DataSource" RawCreateTime="1873673681.8" CreateTime="17MAY2019:00:54:42"
+ Description="" Data="WQD7005.LAB2SCORE_TRAIN" CMeta="WORK.M25QX983" RunId="dec5b766-f749-47a5-ab97-009b80a33fc8"
+>
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES/>
+</_ROOT_>

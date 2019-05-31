@@ -1,0 +1,429 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+1 
+Traverser: Traverser invoked.  MPCONNECT command is sas. 
+Traverser: Beginning flow traversal 
+*------------------------------------------------------------* 
+* 
+* Ids2 : Beginning Update 
+* datetime : 17MAY2019:01:06:28 
+* 
+*------------------------------------------------------------* 
+58744      %let _HPDMGRIDHOST=;
+58745      %let _HPDMGRIDINSTALLLOC=;
+58746      %let _HPDMGRIDDATASERVER=;
+58747      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Ids2 : End Update 
+* datetime : 17MAY2019:01:06:28 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "REPL" 
+Traverser: WaitingNode "IMPT" 
+Traverser: WaitingNode "PART" 
+Traverser: WaitingNode "TRANS" 
+Traverser: WaitingNode "IMPT2" 
+Traverser: WaitingNode "REG4" 
+Traverser: WaitingNode "SCORE" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Ids : Beginning Update 
+* datetime : 17MAY2019:01:06:29 
+* 
+*------------------------------------------------------------* 
+58749      %let _HPDMGRIDHOST=;
+58750      %let _HPDMGRIDINSTALLLOC=;
+58751      %let _HPDMGRIDDATASERVER=;
+58752      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Ids : End Update 
+* datetime : 17MAY2019:01:06:29 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "IMPT" 
+Traverser: WaitingNode "PART" 
+Traverser: WaitingNode "TRANS" 
+Traverser: WaitingNode "IMPT2" 
+Traverser: WaitingNode "REG4" 
+Traverser: WaitingNode "SCORE" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Repl : Beginning Update 
+* datetime : 17MAY2019:01:06:30 
+* 
+*------------------------------------------------------------* 
+PERFORMANCE  DETAILS
+58988      %let emexceptionString =;
+58989      %let EMEXCEPTIONSTRING=;
+58990      *------------------------------------------------------------*;
+58991      * UPDATE: Repl;
+58992      *------------------------------------------------------------*;
+58993      %let EM_ACTION = UPDATE;
+58994      %let syscc = 0;
+58995      filename x CATALOG 'SASHELP.EMUTIL.EM_VARMACRO.SOURCE';
+58996      %inc x;
+NOTE: %INCLUDE (level 1) file X is file SASHELP.EMUTIL.EM_VARMACRO.SOURCE.
+58998     +%macro em_varMacro(name=emMacro, metadata=, where=, key=NAME, nummacro=, maxvar=-1);
+59000     +   filename macFile catalog 'work.emutil.macro.source';
+59001     +   %let _METAOBS = 0;
+59002     +   %let _maxvar = &maxvar;
+59003     +   %if "&_maxvar" eq "" %then %let maxvar = -1;
+59005     +   %if (%sysfunc(exist(&metadata))<1 and %sysfunc(exist(&metadata, VIEW))<1)
+59006     +                   or (&metadata eq ) %then %do;
+59007     +       %put * No metadata data set defined;
+59008     +       %goto doend;
+59009     +   %end;
+59011     +   data _null_;
+59012     +      length _STRING_ $80;
+59013     +      retain _STRING_ '' maxvar 0;
+59014     +      set &metadata end=eof;
+59015     +      file macFile;
+59016     +      %if %nrbquote(&where) ne %then %do;
+59017     +          %let whereClause = where (%nrbquote(&where));
+59018     +          %unquote(&whereClause);
+59019     +      %end;
+59020     +      if _N_=1 then do;
+59021     +         string = "%"!!"macro &name;";
+59022     +         put string;
+59023     +      end;
+59024     +      maxvar +1;
+59025     +      if (length(_STRING_) + length(trim(&key))+ 4 < 80) then do;
+59026     +         _STRING_ = trim(_STRING_)!!' '!!trim(&key);
+59027     +         if eof
+59028     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+59029     +                or maxvar >= &maxvar
+59030     +            %end;
+59031     +            then do;
+59032     +            put _STRING_;
+59033     +            string = "%"!!"mend &name;";
+59034     +            put string;
+59035     +            string = strip(put(_N_, best.));
+59036     +            call symput('_METAOBS', string);
+59037     +            %if (&nummacro ne ) %then %do;
+59038     +                put "%" "global &nummacro;";
+59039     +                put "%" "let &nummacro = " string ";";
+59040     +            %end;
+59041     +            stop;
+59042     +         end;
+59043     +      end;
+59044     +      else do;
+59045     +         put _STRING_;
+59046     +         _string_ = TRIM(&key);
+59047     +         if eof
+59048     +            %if  %sysevalf(&_maxvar > 0) %then %do;
+59049     +              or maxvar >= &maxvar
+59050     +           %end;
+59051     +            then do;
+59052     +            put _STRING_;
+59053     +            string = "%"!!"mend &name;";
+59054     +            put string;
+59055     +        end;
+59056     +      end;
+59057     +      if eof
+59058     +         %if  %sysevalf(&_maxvar > 0) %then %do;
+59059     +             or maxvar >= &maxvar
+59060     +         %end;
+59061     +         then do;
+59062     +         string = strip(put(_N_, best.));
+59063     +         call symput('_METAOBS', string);
+59064     +         %if (&nummacro ne ) %then %do;
+59065     +             put "%" "global &nummacro;";
+59066     +             put "%" "let &nummacro = " string ";";
+59067     +         %end;
+59068     +         stop;
+59069     +      end;
+59070     +   run;
+59072     +   %doend:
+59073     +   %if ^&_METAOBS %then %do;
+59074     +       data _null_;
+59075     +          file macFile;
+59076     +          put "%" "macro &name;";
+59077     +          put "%" "mend &name;";
+59078     +          %if (&nummacro ne ) %then %do;
+59079     +              put "%" "global &nummacro;";
+59080     +              put "%" "let &nummacro = 0;";
+59081     +          %end;
+59082     +      run;
+59083     +   %end;
+59084     +   %inc macFile;
+59085     +   filename macFile;
+59086     +%mend em_varMacro;
+NOTE: %INCLUDE (level 1) ending.
+59087      filename X;
+NOTE: Fileref X has been deassigned.
+59088       %macro main;
+59089      
+59090         filename temp catalog 'sashelp.emmdfy.Replace_macros.source';
+59091         %include temp;
+59092         filename temp;
+59093      
+59094         %if %upcase(&EM_ACTION) = CREATE %then %do;
+59095      
+59096             filename temp catalog 'sashelp.emmdfy.Replace_create.source';
+59097             %include temp;
+59098             filename temp;
+59099             %create;
+59100         %end;
+59101         %else
+59102         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+59103      
+59104             filename temp catalog 'sashelp.emmdfy.Replace_train.source';
+59105             %include temp;
+59106             filename temp;
+59107             %train;
+59108         %end;
+59109         %else
+59110         %if %upcase(&EM_ACTION) = SCORE %then %do;
+59111      
+59112             filename temp catalog 'sashelp.emmdfy.Replace_score.source';
+59113             %include temp;
+59114             filename temp;
+59115             %score;
+59116         %end;
+59117         %if %upcase(&EM_ACTION) = REPORT %then %do;
+59118      
+59119             filename temp catalog 'sashelp.emmdfy.Replace_report.source';
+59120             %include temp;
+59121             filename temp;
+59122             %report;
+59123         %end;
+59124         %if %upcase(&EM_ACTION) = OPENOUTCLASSTABLE %then %do;
+59125             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+59126             %include temp;
+59127             filename temp;
+59128             %em_replace_openoutclass;
+59129         %end;
+59130         %if %upcase(&EM_ACTION) = CLOSEOUTCLASSTABLE %then %do;
+59131             filename temp catalog 'sashelp.emmdfy.replace_makeoutclass.source';
+59132             %include temp;
+59133             filename temp;
+59134             %em_replace_closeoutclass;
+59135         %end;
+59136      %mend main;
+59137      
+59138      %main;
+NOTE: %INCLUDE (level 1) file TEMP is file SASHELP.EMMDFY.REPLACE_MACROS.SOURCE.
+59139     +%macro SetProperties;
+59140     +   %em_checkmacro(name=EM_PROPERTY_UNKNOWNLEVEL,    global=Y, value=MODE);
+59141     +   %em_checkmacro(name=EM_PROPERTY_CALCMETHOD,      global=Y, value=NONE);
+59142     +   %em_checkmacro(name=EM_PROPERTY_PERCENTSCUTOFF,  global=Y, value=0.5);
+59143     +   %em_checkmacro(name=EM_PROPERTY_SPACINGSCUTOFF,  global=Y, value=9);
+59144     +   %em_checkMacro(name=EM_PROPERTY_MADSCUTOFF,      global=Y, value=9);
+59145     +   %em_checkMacro(name=EM_PROPERTY_STDDEVCUTOFF,    global=Y, value=3);
+59146     +   %em_checkmacro(name=EM_PROPERTY_REPLACEMETHOD,   global=Y, value=COMPUTED);
+59147     +   %em_checkmacro(name=EM_PROPERTY_HIDEVARIABLE,    global=Y, value=N);
+59148     +   %em_checkmacro(name=EM_PROPERTY_INTERVALMETHOD,  global=Y, value=NONE);
+59149     +   %em_checkmacro(name=EM_PROPERTY_REPORTCOUNT,     global=Y, value=Y);
+59150     +
+59151     +%mend SetProperties;
+59152     +
+NOTE: %INCLUDE (level 1) ending.
+NOTE: Fileref TEMP has been deassigned.
+59153      *------------------------------------------------------------*;
+59154      * End UPDATE: Repl;
+59155      *------------------------------------------------------------*;
+59156      
+
+59157      %em_delMacro;
+
+59159      %let _HPDMGRIDHOST=;
+59160      %let _HPDMGRIDINSTALLLOC=;
+59161      %let _HPDMGRIDDATASERVER=;
+59162      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Repl : End Update 
+* datetime : 17MAY2019:01:06:30 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "PART" 
+Traverser: WaitingNode "TRANS" 
+Traverser: WaitingNode "IMPT2" 
+Traverser: WaitingNode "REG4" 
+Traverser: WaitingNode "SCORE" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Impt : Beginning Update 
+* datetime : 17MAY2019:01:06:30 
+* 
+*------------------------------------------------------------* 
+59182      %let _HPDMGRIDHOST=;
+59183      %let _HPDMGRIDINSTALLLOC=;
+59184      %let _HPDMGRIDDATASERVER=;
+59185      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Impt : End Update 
+* datetime : 17MAY2019:01:06:30 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "TRANS" 
+Traverser: WaitingNode "IMPT2" 
+Traverser: WaitingNode "REG4" 
+Traverser: WaitingNode "SCORE" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Part : Beginning Update 
+* datetime : 17MAY2019:01:06:31 
+* 
+*------------------------------------------------------------* 
+59204      %let _HPDMGRIDHOST=;
+59205      %let _HPDMGRIDINSTALLLOC=;
+59206      %let _HPDMGRIDDATASERVER=;
+59207      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Part : End Update 
+* datetime : 17MAY2019:01:06:31 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "IMPT2" 
+Traverser: WaitingNode "REG4" 
+Traverser: WaitingNode "SCORE" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Trans : Beginning Update 
+* datetime : 17MAY2019:01:06:31 
+* 
+*------------------------------------------------------------* 
+59227      %let _HPDMGRIDHOST=;
+59228      %let _HPDMGRIDINSTALLLOC=;
+59229      %let _HPDMGRIDDATASERVER=;
+59230      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Trans : End Update 
+* datetime : 17MAY2019:01:06:31 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "REG4" 
+Traverser: WaitingNode "SCORE" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Impt2 : Beginning Update 
+* datetime : 17MAY2019:01:06:32 
+* 
+*------------------------------------------------------------* 
+59250      %let _HPDMGRIDHOST=;
+59251      %let _HPDMGRIDINSTALLLOC=;
+59252      %let _HPDMGRIDDATASERVER=;
+59253      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Impt2 : End Update 
+* datetime : 17MAY2019:01:06:32 
+* 
+*------------------------------------------------------------* 
+Traverser: WaitingNode "SCORE" 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Reg4 : Beginning Update 
+* datetime : 17MAY2019:01:06:33 
+* 
+*------------------------------------------------------------* 
+59273      %let _HPDMGRIDHOST=;
+59274      %let _HPDMGRIDINSTALLLOC=;
+59275      %let _HPDMGRIDDATASERVER=;
+59276      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Reg4 : End Update 
+* datetime : 17MAY2019:01:06:33 
+* 
+*------------------------------------------------------------* 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Score : Beginning Update 
+* datetime : 17MAY2019:01:06:33 
+* 
+*------------------------------------------------------------* 
+59298      %let _HPDMGRIDHOST=;
+59299      %let _HPDMGRIDINSTALLLOC=;
+59300      %let _HPDMGRIDDATASERVER=;
+59301      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Score : End Update 
+* datetime : 17MAY2019:01:06:33 
+* 
+*------------------------------------------------------------* 
+Traverser: Run Completed 
+59302      proc printto;
+59303      run;
+

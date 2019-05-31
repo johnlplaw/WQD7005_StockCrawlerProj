@@ -1,0 +1,21 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+         Measurement    Frequency
+Role        Level         Count
+
+INPUT     INTERVAL          15   
+INPUT     NOMINAL            5   
+TEXT      NOMINAL            1   
+ 
+                                                                                                                                                                                                                                                                
+ 
+Saved Data Properties
+
+ Data                                                                                             Total           Saved        Number of
+Library                                    Output Location                                     Observations    Observations    Variables
+
+WQD7005    C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\data\Lab2_TRAIN.sas7bdat        2501            MAX            21    

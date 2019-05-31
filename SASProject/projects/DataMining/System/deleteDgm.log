@@ -1,0 +1,18 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+297        libname _hpdmDat "C:\JohnLaw\OneDrive\WQD Data
+297      ! Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS4\HPDM";
+NOTE: Libref _HPDMDAT was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: C:\JohnLaw\OneDrive\WQD Data 
+      Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS4\HPDM
+298        libname _hpdmDat;
+2                                       The SAS System               00:31 Monday, May 27, 2019
+
+NOTE: Libref _HPDMDAT has been deassigned.
+299        proc printto;
+300        run;
+

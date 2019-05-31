@@ -1,0 +1,81 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+         Measurement    Frequency
+Role        Level         Count
+
+INPUT     INTERVAL          13   
+INPUT     NOMINAL            1   
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The DMNEURL Procedure
+
+Variable              Mean       Std Dev
+
+buyval               13551         89723
+chg                0.00594       0.01403
+downcnt           15.44044      10.94659
+downpricesum       0.41547       1.05918
+high               1.48120       5.94342
+lastDone           1.63921       6.00632
+low                1.45505       5.88039
+open               1.46804       5.91312
+sellVal               7802         40321
+unchgcnt          17.08208       9.47030
+upcnt             28.25826      12.12970
+uppricesum        10.71006      45.08318
+vol                  20080         72912
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+
+The DMNEURL Procedure
+
+              Eigenvalues of Correlation Matrix
+ 
+        Eigenvalue    Difference    Proportion    Cumulative
+
+   1    5.85957838    3.59587000        0.4507        0.4507
+   2    2.26370838    0.50347294        0.1741        0.6249
+   3    1.76023544    0.54252532        0.1354        0.7603
+   4    1.21771013    0.37808744        0.0937        0.8539
+   5    0.83962268    0.15071407        0.0646        0.9185
+   6    0.68890861    0.53292687        0.0530        0.9715
+   7    0.15598174    0.03037548        0.0120        0.9835
+   8    0.12560626    0.05857841        0.0097        0.9932
+   9    0.06702785    0.04544805        0.0052        0.9983
+  10    0.02157980    0.02154072        0.0017        1.0000
+  11    0.00003909    0.00003761        0.0000        1.0000
+  12    0.00000148    0.00000133        0.0000        1.0000
+  13    0.00000015                      0.0000        1.0000
+
+
+
+
+
+
+
+
+
+
+
+
+*------------------------------------------------------------*
+Summary of Exported Principal Components
+*------------------------------------------------------------*
+
+Remark:The number of inputs is used as the maximum number of principal components
+
+Total number of input variables: 13
+Maximum number cutoff of principal components: 13
+Cumulative proportional eigenvalue cutoff: 0.99
+Proportional eigenvalue increment cutoff: 0.001
+Number of the selected principal components: 8
+Total variation explained by the selected principal components: 0.9931808949

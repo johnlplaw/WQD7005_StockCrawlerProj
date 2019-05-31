@@ -1,0 +1,219 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+1 
+Traverser: Traverser invoked.  MPCONNECT command is sas. 
+Traverser: Beginning flow traversal 
+*------------------------------------------------------------* 
+* 
+* Ids : Beginning Update 
+* datetime : 11MAY2019:21:41:35 
+* 
+*------------------------------------------------------------* 
+25503      *------------------------------------------------------------*;
+25504      * Ids: Update Variables Set;
+25505      *------------------------------------------------------------*;
+
+25506      data EMWS2.Ids_VariableSet;
+25507      length ROLE $32;
+25508      length LEVEL $10;
+25509      length REPORT $1;
+25510      label REPORT = "Report";
+25511      length ORDER $8;
+25512      length DROP $1;
+25513      length LOWERLIMIT 8;
+25514      length UPPERLIMIT 8;
+25515      set EMWS2.Ids_EMCMETADEFAULT;
+25516      run;
+
+NOTE: There were 6 observations read from the data set EMWS2.IDS_EMCMETADEFAULT.
+NOTE: The data set EMWS2.IDS_VARIABLESET has 6 observations and 21 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+25517      * Ids: End of Update Variables Set;
+25518      *------------------------------------------------------------*;
+
+25519      *------------------------------------------------------------*;
+25520      * Ids: Computing metadata for DATA data;
+25521      *------------------------------------------------------------*;
+
+25531      data EMWS2.Ids_EMINFO;
+25532      length TARGET KEY $32 DATA $43;
+25533      TARGET="";
+25534      KEY="IDSTABLE";
+25535      DATA="WQD7005.MILESTONE4_TRAIN";
+25536      output;
+25537      run;
+
+NOTE: The data set EMWS2.IDS_EMINFO has 1 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+25538      data EMWS2.Ids_CMeta_DATA;
+25539      set EMWS2.Ids_VariableSet;
+25540      drop DROP;
+25541      where DROP='N';
+25542      run;
+
+NOTE: There were 6 observations read from the data set EMWS2.IDS_VARIABLESET.
+      WHERE DROP='N';
+NOTE: The data set EMWS2.IDS_CMETA_DATA has 6 observations and 20 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+25544      %let _HPDMGRIDHOST=;
+25545      %let _HPDMGRIDINSTALLLOC=;
+25546      %let _HPDMGRIDDATASERVER=;
+25547      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Ids : End Update 
+* datetime : 11MAY2019:21:41:35 
+* 
+*------------------------------------------------------------* 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* GrfExpl : Beginning Update 
+* datetime : 11MAY2019:21:41:36 
+* 
+*------------------------------------------------------------* 
+25578      data _null_;
+25579      set EMWS2.Ids_CMeta_DATA (obs=1);
+25580      run;
+
+NOTE: There were 1 observations read from the data set EMWS2.IDS_CMETA_DATA.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+25581      *------------------------------------------------------------*;
+25582      * GrfExpl: Update Variables Set;
+25583      *------------------------------------------------------------*;
+
+25584      data EMWS2.GrfExpl_VariableSet;
+25585      length USE $1;
+25586      label USE = "Use";
+25587      length REPORT $1;
+25588      label REPORT = "Report";
+25589      length SAMPLEROLE $14;
+25590      set EMWS2.Ids_CMeta_DATA;
+25591      run;
+
+NOTE: Variable USE is uninitialized.
+NOTE: Variable SAMPLEROLE is uninitialized.
+NOTE: There were 6 observations read from the data set EMWS2.IDS_CMETA_DATA.
+NOTE: The data set EMWS2.GRFEXPL_VARIABLESET has 6 observations and 22 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+25592      * GrfExpl: End of Update Variables Set;
+25593      *------------------------------------------------------------*;
+
+25594      *------------------------------------------------------------*;
+25595      * GrfExpl: Computing metadata for TRAIN data;
+25596      *------------------------------------------------------------*;
+
+PERFORMANCE  DETAILS
+25791      %let emexceptionString =;
+25792      %let EMEXCEPTIONSTRING=;
+25793      *------------------------------------------------------------*;
+25794      * UPDATE: GrfExpl;
+25795      *------------------------------------------------------------*;
+25796      %let EM_ACTION = UPDATE;
+25797      %let syscc = 0;
+25798      %macro main;
+25799         filename temp catalog 'sashelp.emexpl.graphexplore_macros.source';
+25800         %include temp;
+25801         filename temp;
+25802      
+25803         %SetProperties;
+25804      
+25805         %if %upcase(&EM_ACTION) = CREATE %then %do;
+25806      
+25807             filename temp catalog 'sashelp.emexpl.graphexplore_create.source';
+25808             %include temp;
+25809             filename temp;
+25810             %create;
+25811         %end;
+25812         %else
+25813         %if %upcase(&EM_ACTION) = TRAIN %then %do;
+25814      
+25815             filename temp catalog 'sashelp.emexpl.graphexplore_train.source';
+25816             %include temp;
+25817             filename temp;
+25818             %train;
+25819      
+25820         %end;
+25821         %else
+25822         %if %upcase(&EM_ACTION) = REPORT %then %do;
+25823      
+25824             filename temp catalog 'sashelp.emexpl.graphexplore_report.source';
+25825             %include temp;
+25826             filename temp;
+25827      
+25828             %report;
+25829         %end;
+25830      
+25831      %mend main;
+25832      
+25833      %main;
+NOTE: %INCLUDE (level 1) file TEMP is file SASHELP.EMEXPL.GRAPHEXPLORE_MACROS.SOURCE.
+25834     +%macro SetProperties;
+25835     +   %em_checkmacro(name=EM_PROPERTY_INTERVALBYTARGET,      global=Y, value=Y);
+25836     +   %em_checkmacro(name=EM_PROPERTY_CLASSBYTARGET,         global=Y, value=Y);
+25837     +   %em_checkmacro(name=EM_PROPERTY_DATASOURCE,            global=Y, value=SAMPLE);
+25838     +   %em_checkmacro(name=EM_PROPERTY_EMSAMPLEMETHOD,        global=Y, value=FIRSTN);
+25839     +   %em_checkmacro(name=EM_PROPERTY_EMSAMPLESIZE,          global=Y, value=DEFAULT);
+25840     +   %em_checkmacro(name=EM_PROPERTY_EMRANDOMSEED,          global=Y, value=12345);
+25841     +
+25842     +%mend SetProperties;
+NOTE: %INCLUDE (level 1) ending.
+NOTE: Fileref TEMP has been deassigned.
+25843      *------------------------------------------------------------*;
+25844      * End UPDATE: GrfExpl;
+25845      *------------------------------------------------------------*;
+25846      
+
+25847      %em_delMacro;
+
+25849      %let _HPDMGRIDHOST=;
+25850      %let _HPDMGRIDINSTALLLOC=;
+25851      %let _HPDMGRIDDATASERVER=;
+25852      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* GrfExpl : End Update 
+* datetime : 11MAY2019:21:41:36 
+* 
+*------------------------------------------------------------* 
+Traverser: Run Completed 
+25853      proc printto;
+25854      run;
+

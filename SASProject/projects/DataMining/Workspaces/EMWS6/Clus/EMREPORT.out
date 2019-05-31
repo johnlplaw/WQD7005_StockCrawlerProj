@@ -1,0 +1,20 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Importance
+
+                         Number of    Number of
+Variable                 Splitting    Surrogate
+Name            Label      Rules        Rules      Importance
+
+open                         0            1          1.00000 
+high                         1            0          1.00000 
+low                          0            1          0.99949 
+lastDone                     0            1          0.99949 
+downpricesum                 0            1          0.99645 
+chg                          0            1          0.99290 
+uppricesum                   1            1          0.72133 
+sellVal                      1            0          0.50995 
+buyval                       0            1          0.50969 
+unchgcnt                     0            1          0.50918 

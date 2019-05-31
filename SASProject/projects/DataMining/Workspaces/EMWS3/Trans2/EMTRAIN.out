@@ -1,0 +1,26 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+         Measurement    Frequency
+Role        Level         Count
+
+INPUT     INTERVAL          7    
+ 
+                                                                                                                                                                                                                                                                
+ 
+Computed Transformations
+(maximum 500 observations printed)
+
+Input                 Input
+Name        Role      Level      Name             Level           Formula
+
+buy         INPUT    INTERVAL    LOG_buy         INTERVAL    log(buy  + 1)     
+high        INPUT    INTERVAL    LOG_high        INTERVAL    log(high  + 1)    
+lastDone    INPUT    INTERVAL    LOG_lastDone    INTERVAL    log(lastDone  + 1)
+low         INPUT    INTERVAL    LOG_low         INTERVAL    log(low  + 1)     
+open        INPUT    INTERVAL    LOG_open        INTERVAL    log(open  + 1)    
+sell        INPUT    INTERVAL    LOG_sell        INTERVAL    log(sell  + 1)    
+vol         INPUT    INTERVAL    LOG_vol         INTERVAL    log(vol  + 1)     

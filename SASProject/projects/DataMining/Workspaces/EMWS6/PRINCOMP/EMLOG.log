@@ -1,0 +1,588 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 24, 2019
+Time:                11:02:28
+Site:                12601940
+Platform:            W32_7PRO
+Maintenance Release: 9.04.01M3P062415
+EM Version:          14.1
+* 
+*------------------------------------------------------------*
+* Training Log
+Date:                May 24, 2019
+Time:                11:02:21
+*------------------------------------------------------------*
+10867  proc freq data=EMWS6.PRINCOMP_VariableSet noprint;
+10868  table ROLE*LEVEL/out=WORK.PRINCOMPMETA;
+10869  run;
+ 
+NOTE: There were 14 observations read from the data set EMWS6.PRINCOMP_VARIABLESET.
+NOTE: The data set WORK.PRINCOMPMETA has 2 observations and 4 variables.
+NOTE: PROCEDURE FREQ used (Total process time):
+      real time           0.18 seconds
+      cpu time            0.03 seconds
+ 
+ 
+10870  proc print data=WORK.PRINCOMPMETA label noobs;
+10871  var ROLE LEVEL COUNT;
+10872  label ROLE = "%sysfunc(sasmsg(sashelp.dmine, meta_role_vlabel, NOQUOTE))" LEVEL = "%sysfunc(sasmsg(sashelp.dmine, meta_level_vlabel, NOQUOTE))" COUNT = "%sysfunc(sasmsg(sashelp.dmine, rpt_count_vlabel, NOQUOTE))";
+10873  title9 ' ';
+10874  title10 "%sysfunc(sasmsg(sashelp.dmine, rpt_varSummary_title  , NOQUOTE))";
+10875  run;
+ 
+NOTE: There were 2 observations read from the data set WORK.PRINCOMPMETA.
+NOTE: The PROCEDURE PRINT printed page 1.
+NOTE: PROCEDURE PRINT used (Total process time):
+      real time           0.18 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10876  title10;
+ 
+10877  data WORK.M0KHJY2C;
+10878  set WORK.M0KHJY2C;
+10879  if role = 'INPUT' and use in ('Y','D') then do;
+10880  role = 'INPUT';
+10881  output;
+10882  end;
+10883  if role = 'REJECTED' and use = 'Y' then do;
+10884  role = 'INPUT';
+10885  output;
+10886  end;
+10887  if role = 'FREQ' then do;
+10888  role = 'FREQ';
+10889  output;
+10890  end;
+10891  run;
+ 
+NOTE: There were 14 observations read from the data set WORK.M0KHJY2C.
+NOTE: The data set WORK.M0KHJY2C has 13 observations and 22 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.19 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10892  *------------------------------------------------------------* ;
+10893  * EM: DMDBClass Macro ;
+10894  *------------------------------------------------------------* ;
+10895  %macro DMDBClass;
+10896
+10897  %mend DMDBClass;
+10898  *------------------------------------------------------------* ;
+10899  * EM: DMDBVar Macro ;
+10900  *------------------------------------------------------------* ;
+10901  %macro DMDBVar;
+10902      buyval chg downcnt downpricesum high lastDone low open sellVal unchgcnt upcnt
+10903     uppricesum vol
+10904  %mend DMDBVar;
+10905  *------------------------------------------------------------*;
+10906  * EM: Create DMDB;
+10907  *------------------------------------------------------------*;
+10908  proc dmdb batch data=EMWS6.FIMPORT_train
+10909  dmdbcat=WORK.EM_DMDB
+10910  maxlevel = 513
+10911  ;
+10912  var %DMDBVar;
+10913  run;
+ 
+NOTE: Records processed = 999   Memory used = 511K.
+NOTE: View EMWS6.FIMPORT_TRAIN.VIEW used (Total process time):
+      real time           0.18 seconds
+      cpu time            0.06 seconds
+ 
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_DATA.
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_TRAIN.
+NOTE: PROCEDURE DMDB used (Total process time):
+      real time           0.21 seconds
+      cpu time            0.07 seconds
+ 
+ 
+10914  quit;
+10915  *--- end code ---*;
+ 
+10916  *------------------------------------------------------------* ;
+10917  * PRINCOMP: Input Variables Macro ;
+10918  *------------------------------------------------------------* ;
+10919  %macro INPUTS;
+10920      buyval chg downcnt downpricesum high lastDone low open sellVal unchgcnt upcnt
+10921     uppricesum vol
+10922  %mend INPUTS;
+10923  proc dmneurl data=EMWS6.FIMPORT_train dmdbcat=WORK.EM_DMDB
+10924  outstat=EMWS6.PRINCOMP_OUTSTAT outclass=EMWS6.PRINCOMP_OUTCLASS
+10925  CORR
+10926  NOMONITOR
+10927  ;
+10928  var %INPUTS;
+10929  ;
+10930  run;
+ 
+NOTE: The data set EMWS6.PRINCOMP_OUTCLASS has 0 observations and 3 variables.
+ 
+Building X'X  for target:  rows=14 memory=0.00 meg.
+999 records read
+999 records read
+NOTE: The data set EMWS6.PRINCOMP_OUTSTAT has 19 observations and 15 variables.
+*** Total Number of Runs through Data :        2
+*** Total Number of NL Optimizations  :        0
+NOTE: View EMWS6.FIMPORT_TRAIN.VIEW used (Total process time):
+      real time           0.29 seconds
+      cpu time            0.09 seconds
+ 
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_DATA.
+NOTE: The PROCEDURE DMNEURL printed pages 2-3.
+NOTE: PROCEDURE DMNEURL used (Total process time):
+      real time           0.30 seconds
+      cpu time            0.10 seconds
+ 
+ 
+10931  data EMWS6.PRINCOMP_STDMEAN;
+10932  set EMWS6.PRINCOMP_OUTSTAT;
+10933  if _TYPE_='_STDEV_' or _TYPE_='_MEAN_' then output;
+10934  DROP _EIGVAL_;
+10935  run;
+ 
+NOTE: There were 19 observations read from the data set EMWS6.PRINCOMP_OUTSTAT.
+NOTE: The data set EMWS6.PRINCOMP_STDMEAN has 2 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10936  /*----create a data set of eigenvalue-eigenvector pairs---*/
+10937  data EMWS6.PRINCOMP_EIGENVECTOR;
+10938  set EMWS6.PRINCOMP_OUTSTAT;
+10939  if upcase(_TYPE_)='_V_MAP_' or upcase(_TYPE_)='_C_MAP_' or upcase(_TYPE_)='_MEAN_' or upcase(_TYPE_)='_STDEV_' or upcase(_TYPE_)='_EIGVAL_' or _EIGVAL_=0 then delete;
+10940  drop _TYPE_;
+10941  rename _EIGVAL_=Eigenvalue;
+10942  /*--------- eigenvalue data set------------ */
+ 
+NOTE: There were 19 observations read from the data set EMWS6.PRINCOMP_OUTSTAT.
+NOTE: The data set EMWS6.PRINCOMP_EIGENVECTOR has 13 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10943  data EMWS6.PRINCOMP_EIGEN;
+10944  set EMWS6.PRINCOMP_EIGENVECTOR;
+10945  Keep EigenValue;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGENVECTOR.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 13 observations and 1 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+ 
+ 
+10946  proc transpose data=EMWS6.PRINCOMP_EIGEN out=EMWS6.PRINCOMP_EIGEN prefix=PC_;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 1 observations and 14 variables.
+NOTE: PROCEDURE TRANSPOSE used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10947  proc transpose data=EMWS6.PRINCOMP_EIGEN out=EMWS6.PRINCOMP_EIGEN;
+10948  /*----------Eigenvector data set ------------*/
+ 
+NOTE: There were 1 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 13 observations and 2 variables.
+NOTE: PROCEDURE TRANSPOSE used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+ 
+ 
+10949  data EMWS6.PRINCOMP_EIGENVECTOR;
+10950  merge EMWS6.PRINCOMP_EIGEN EMWS6.PRINCOMP_EIGENVECTOR;
+10951  DROP EigenValue;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGENVECTOR.
+NOTE: The data set EMWS6.PRINCOMP_EIGENVECTOR has 13 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10952  proc sort data=EMWS6.PRINCOMP_EIGEN;
+10953  by EigenValue;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 13 observations and 2 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10954  data EMWS6.PRINCOMP_EIGEN;
+10955  set EMWS6.PRINCOMP_EIGEN;
+10956  Difference=Eigenvalue-lag(Eigenvalue);
+10957  ProportionalEigenvalue=EigenValue/12.9999999999999;
+10958  LagProportionalEigenvalue=lag(ProportionalEigenvalue);
+10959  label EigenValue = "EigenValue";
+10960  label Difference = "Difference";
+ 
+NOTE: Missing values were generated as a result of performing an operation on missing values.
+      Each place is given by: (Number of times) at (Line):(Column).
+      1 at 10956:22
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 13 observations and 5 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.00 seconds
+ 
+ 
+10961  proc sort data=EMWS6.PRINCOMP_EIGEN;
+10962  by DESCENDING EigenValue;
+10963  run;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 13 observations and 5 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10964  data EMWS6.PRINCOMP_EIGEN;
+10965  set EMWS6.PRINCOMP_EIGEN;
+10966  CumProportionalEigenvalue+ProportionalEigenvalue;
+10967  /* to avoid  CumProportionalEigenvalue > 1 because of the precision */
+10968  if CumProportionalEigenvalue > 1.0 then CumProportionalEigenvalue=1.0;
+10969  LogEigenvalue=Log(Eigenvalue);
+10970  length Exported $8;
+10971  Exported = 'NO';
+10972  label LogEigenvalue = "Log Eigenvalue";
+10973  label Exported = "Exported";
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 13 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+ 
+ 
+10974  data WORK._DSEIGENCHART;
+10975  set EMWS6.PRINCOMP_EIGEN;
+10976  PC_=_N_;
+10977  DROP _NAME_;
+10978  run;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set WORK._DSEIGENCHART has 13 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+ 
+ 
+10979  data WORK._EMPRINDSSUBEIGEN;
+10980  set EMWS6.PRINCOMP_EIGEN;
+10981  if ( CumProportionalEigenvalue GE 0.99 ) or (LagProportionalEigenvalue LT 0.001 and CumProportionalEigenvalue GE 0.9 )
+10982  or ( _N_ > 13-1)
+10983  then delete;
+10984  run;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set WORK._EMPRINDSSUBEIGEN has 7 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.00 seconds
+ 
+ 
+10985  data EMWS6.PRINCOMP_EIGEN;
+10986  length PC 8.;
+10987  set EMWS6.PRINCOMP_EIGEN;
+10988  if _N_ < 8+1 then Exported = 'YES';
+10989  Drop LagProportionalEigenvalue;
+10990  PC = _N_;
+10991  format PC 8.;
+10992  rename _NAME_ = Component;
+10993  label _NAME_ = "Principal components";
+10994  rename ProportionalEigenvalue = Proportion;
+10995  label ProportionalEigenvalue = "Proportional Eigenvalue";
+10996  rename CumProportionalEigenvalue = Cumulative;
+10997  label CumProportionalEigenvalue ="Cumulative Proportional Eigenvalue";
+10998  label PC = "PC ID";
+10999  run;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set EMWS6.PRINCOMP_EIGEN has 13 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+ 
+ 
+11000  data EMWS6.PRINCOMP_SUBEIGENVECTOR;
+11001  set EMWS6.PRINCOMP_EIGENVECTOR;
+11002  if _N_ > 8 then delete;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGENVECTOR.
+NOTE: The data set EMWS6.PRINCOMP_SUBEIGENVECTOR has 8 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+ 
+ 
+11003  data WORK._EMPRINDSSUBEIGEN;
+11004  set EMWS6.PRINCOMP_EIGEN;
+11005  if _N_ > 8 then delete;
+11006  run;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGEN.
+NOTE: The data set WORK._EMPRINDSSUBEIGEN has 8 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+ 
+ 
+11007  proc transpose data=EMWS6.PRINCOMP_EIGENVECTOR name=Variable label=Label out=EMWS6.PRINCOMP_EIGENVECTOR;
+11008  run;
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGENVECTOR.
+NOTE: The data set EMWS6.PRINCOMP_EIGENVECTOR has 13 observations and 14 variables.
+NOTE: PROCEDURE TRANSPOSE used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+ 
+ 
+11009  data EMWS6.PRINCOMP_EIGENVECTOR;
+11010  set EMWS6.PRINCOMP_EIGENVECTOR;
+11011  label Label = "Label";
+11012  label Variable = "Variable";
+11013  run;
+ 
+NOTE: Variable Label is uninitialized.
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_EIGENVECTOR.
+NOTE: The data set EMWS6.PRINCOMP_EIGENVECTOR has 13 observations and 14 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+ 
+ 
+11014  data _null_;
+11015  file print;
+11016  put "*------------------------------------------------------------*";
+11017  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_title , NOQUOTE))";
+11018  put "*------------------------------------------------------------*";
+11019  put " ";
+11020  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_remark , NOQUOTE))";
+11021  put ' ';
+11022  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_ninput , NOQUOTE, 13))";
+11023  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_maxpc , NOQUOTE, 13))";
+11024  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_cumcut , NOQUOTE, 0.99))";
+11025  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_increcut , NOQUOTE, 0.001))";
+11026  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_nselpc , NOQUOTE, 8))";
+11027  put "%sysfunc(sasmsg(sashelp.dmine, rpt_princomp_sum_totvar , NOQUOTE, 0.9931808949))";
+11028  run;
+ 
+NOTE: 10 lines were written to file PRINT.
+NOTE: The DATA step printed page 4.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+ 
+ 
+11029  data EMWS6.PRINCOMP_EMSCOREVAR;
+11030  length Name $32 formula $70 file $200;
+11031  keep NAME Formula file;
+11032  name='';
+11033  file="OPTCODE\"!!"_ALL_.sas";
+11034  output;
+11035  name = "PC_1";
+11036  file="OPTCODE\PC_1.sas";
+11037  output;
+11038  name = "PC_2";
+11039  file="OPTCODE\PC_2.sas";
+11040  output;
+11041  name = "PC_3";
+11042  file="OPTCODE\PC_3.sas";
+11043  output;
+11044  name = "PC_4";
+11045  file="OPTCODE\PC_4.sas";
+11046  output;
+11047  name = "PC_5";
+11048  file="OPTCODE\PC_5.sas";
+11049  output;
+11050  name = "PC_6";
+11051  file="OPTCODE\PC_6.sas";
+11052  output;
+11053  name = "PC_7";
+11054  file="OPTCODE\PC_7.sas";
+11055  output;
+11056  name = "PC_8";
+11057  file="OPTCODE\PC_8.sas";
+11058  output;
+11059  run;
+ 
+NOTE: Variable formula is uninitialized.
+NOTE: The data set EMWS6.PRINCOMP_EMSCOREVAR has 9 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+ 
+ 
+*------------------------------------------------------------*
+* Score Log
+Date:                May 24, 2019
+Time:                11:02:26
+*------------------------------------------------------------*
+11161  %em_getActionStatus(emlib=EMWS6, nodeid=PRINCOMP);
+ 
+11162  %let em_Train = Y;
+11163  %let em_Report = Y;
+11164  %let em_Score = Y;
+11165  %let em_Run = Y;
+NOTE: PROCEDURE DISPLAY used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+ 
+ 
+ 
+11166  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS6\PRINCOMP\EMFLOWSCORE.sas";
+11167  *------------------------------------------------------------*;
+11168  * PRINCOMP: Scoring DATA data;
+11169  *------------------------------------------------------------*;
+11170  data EMWS6.PRINCOMP_TRAIN
+11171  / view=EMWS6.PRINCOMP_TRAIN
+11172  ;
+11173  set EMWS6.FIMPORT_train
+11174  ;
+11175  %inc emflow;
+11380  run;
+ 
+NOTE: DATA STEP view saved on file EMWS6.PRINCOMP_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: View EMWS6.FIMPORT_TRAIN.VIEW used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.03 seconds
+ 
+NOTE: DATA statement used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.06 seconds
+ 
+ 
+11381  quit;
+11382  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+ 
+11383  *------------------------------------------------------------*;
+11384  * PRINCOMP: Computing metadata for TRAIN data;
+11385  *------------------------------------------------------------*;
+ 
+NOTE: View EMWS6.PRINCOMP_TRAIN.VIEW used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.04 seconds
+ 
+NOTE: View EMWS6.PRINCOMP_TRAIN.VIEW used (Total process time):
+      real time           0.05 seconds
+      cpu time            0.06 seconds
+ 
+11775  options nosource;
+ 
+NOTE: There were 23 observations read from the data set EMWS6.PRINCOMP_CMETA_TRAIN.
+NOTE: The data set EMWS6.PRINCOMP_FULLCMETA has 23 observations and 21 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+ 
+ 
+ 
+NOTE: There were 23 observations read from the data set EMWS6.PRINCOMP_CMETA_TRAIN.
+NOTE: The data set EMWS6.PRINCOMP_CMETA_TRAIN has 10 observations and 21 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+ 
+ 
+NOTE: Fileref X has been deassigned.
+NOTE: EXPLOREOBS EMWS6.PRINCOMP_TRAIN : vars= 23 : recl= 264 : max=20000 : def= 2000
+PERFORMANCE  DETAILS
+NOTE: Variable _FORMAT is uninitialized.
+NOTE: Variable _NORMFMT is uninitialized.
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_DATA.
+NOTE: View EMWS6.PRINCOMP_TRAIN.VIEW used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.06 seconds
+ 
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_TRAIN.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.14 seconds
+      cpu time            0.07 seconds
+ 
+ 
+ 
+NOTE: Variable _FORMAT is uninitialized.
+NOTE: Variable _NORMFMT is uninitialized.
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_DATA.
+NOTE: View EMWS6.PRINCOMP_TRAIN.VIEW used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.06 seconds
+ 
+NOTE: There were 999 observations read from the data set EMWS6.FIMPORT_TRAIN.
+NOTE: There were 999 observations read from the data set EMWS6.PRINCOMP_TRAIN.
+NOTE: The data set EMWS6.PRINCOMP_SAMPLE_DATA has 999 observations and 23 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.08 seconds
+      cpu time            0.07 seconds
+ 
+ 
+ 
+ 
+NOTE: There were 999 observations read from the data set EMWS6.PRINCOMP_SAMPLE_DATA.
+NOTE: The data set EMWS6.PRINCOMP_PRINPLOT has 999 observations and 8 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+ 
+ 
+ 
+NOTE: There were 8 observations read from the data set EMWS6.PRINCOMP_SUBEIGENVECTOR.
+NOTE: The data set EMWS6.PRINCOMP_PRINCOEFFPLOT has 13 observations and 9 variables.
+NOTE: PROCEDURE TRANSPOSE used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+ 
+ 
+ 
+NOTE: Variable Label is uninitialized.
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_PRINCOEFFPLOT.
+NOTE: The data set EMWS6.PRINCOMP_PRINCOEFFPLOT has 13 observations and 10 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+ 
+ 
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_PRINCOEFFPLOT.
+NOTE: The data set EMWS6.PRINCOMP_PRINCOEFFPLOT has 13 observations and 10 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+ 
+ 
+ 
+NOTE: There were 13 observations read from the data set EMWS6.PRINCOMP_PRINCOEFFPLOT.
+NOTE: The data set EMWS6.PRINCOMP_PRINCOEFFPLOT has 13 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+ 
+ 
+ 
+*------------------------------------------------------------*
+* Report Log
+Date:                May 24, 2019
+Time:                11:02:28
+*------------------------------------------------------------*
+12029  %em_getActionStatus(emlib=EMWS6, nodeid=PRINCOMP);
+ 
+12030  %let em_Train = Y;
+12031  %let em_Report = Y;
+12032  %let em_Score = Y;
+12033  %let em_Run = Y;
+NOTE: PROCEDURE DISPLAY used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+ 
+ 
+ 

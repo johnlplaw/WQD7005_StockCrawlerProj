@@ -1,0 +1,1283 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 11, 2019
+Time:                23:23:42
+*------------------------------------------------------------*
+16643  %let EMEXCEPTIONSTRING=;
+16644  *------------------------------------------------------------*;
+16645  * SCORE: Tree2;
+16646  *------------------------------------------------------------*;
+16647  %let EM_ACTION = SCORE;
+16648  %let syscc = 0;
+16649  %macro main;
+16650  
+16651    %if %upcase(&EM_ACTION) = CREATE %then %do;
+16652      filename temp catalog 'sashelp.emmodl.tree_create.source';
+16653      %include temp;
+16654      filename temp;
+16655  
+16656      %em_tree_create;
+16657    %end;
+16658  
+16659     %else
+16660     %if %upcase(&EM_ACTION) = TRAIN %then %do;
+16661  
+16662         filename temp catalog 'sashelp.emmodl.tree_train.source';
+16663         %include temp;
+16664         filename temp;
+16665         %em_tree_train;
+16666     %end;
+16667  
+16668    %else
+16669    %if %upcase(&EM_ACTION) = SCORE %then %do;
+16670      filename temp catalog 'sashelp.emmodl.tree_score.source';
+16671      %include temp;
+16672      filename temp;
+16673  
+16674      %em_tree_score;
+16675  
+16676    %end;
+16677  
+16678    %else
+16679    %if %upcase(&EM_ACTION) = REPORT %then %do;
+16680  
+16681         filename temp catalog 'sashelp.emmodl.tree_report.source';
+16682         %include temp;
+16683         filename temp;
+16684  
+16685         %em_tree_report;
+16686     %end;
+16687  
+16688    %else
+16689    %if %upcase(&EM_ACTION) = OPENINT %then %do;
+16690  
+16691         filename temp catalog 'sashelp.emmodl.tree_actions.source';
+16692         %include temp;
+16693         filename temp;
+16694         %EM_TREE_OPENTREEVIEWER;
+16695  
+16696     %end;
+16697  
+16698    %else
+16699    %if %upcase(&EM_ACTION) = CLOSEINT %then %do;
+16700  
+16701         filename temp catalog 'sashelp.emmodl.tree_actions.source';
+16702         %include temp;
+16703         filename temp;
+16704         %EM_TREE_CLOSETREEVIEWER;
+16705  
+16706     %end;
+16707  
+16708  
+16709     %doendm:
+16710  %mend main;
+16711  
+16712  %main;
+NOTE: %INCLUDE (level 1) file TEMP is file SASHELP.EMMODL.TREE_SCORE.SOURCE.
+16714 +%macro em_tree_score;
+16716 +   /* determine if multiple targets will be processed */
+16717 +   %let em_tree_multipleTargets=N;
+16718 +   %let em_tree_numTarget=1;
+16719 +   %if "&EM_PROPERTY_USEMULTIPLETARGET" eq "Y" %then %do;
+16720 +      /* determine if there are any ordinal target variables - if so, multiple targets are not supported */
+16721 +      %if &EM_NUM_ORDINAL_TARGET gt 0 %then %do;
+16722 +         %let em_tree_multipleTargets=N;
+16723 +      %end;
+16724 +      %else %do;
+16725 +         /* create macro array of targets  */
+16726 +         data _null_;
+16727 +           set &EM_DATA_VARIABLESET(where=(ROLE='TARGET' AND LEVEL^='ORDINAL')) end=eof;
+16728 +           call symput('em_tree_targetVars'!!strip(put(_N_, BEST.)), strip(Name));
+16729 +           if eof then
+16730 +             call symput('em_tree_numTarget', strip(put(_N_, BEST.)));
+16731 +        run;
+16733 +        %if &em_tree_numTarget gt 1 %then %do;
+16734 +           %let em_tree_multipleTargets=Y;
+16735 +        %end;
+16736 +      %end;
+16737 +   %end;
+16739 +   /* build flow and publish scoring code */
+16740 +   %EM_GETNAME(key=TREEFLOW, type=FILE, extension=sas);
+16741 +   %EM_GETNAME(key=TREEPUBLISH, type=FILE, extension=sas);
+16743 +   filename treeflow "&EM_USER_TREEFLOW";
+16744 +   filename treepub "&EM_USER_TREEPUBLISH";
+16746 +   filename flowref  "&EM_FILE_EMFLOWSCORECODE";
+16747 +   filename pubref   "&EM_FILE_EMPUBLISHSCORECODE";
+16749 +   %em_copyfile(infref=treeflow, outfref=flowref);
+16750 +   %em_copyfile(infref=treepub, outfref=pubref);
+16752 +   filename treeflow;
+16753 +   filename treepub;
+16755 +   /* if priors are used, add code to generate unadjusted residuals in export */
+16756 +   %let useAdjPriors = N;
+16757 +   data _null_;
+16758 +     set &EM_DEC_DECMETA(where=(_TYPE_="DECPRIOR"));
+16759 +     if USE="Y" then call symput('useAdjPriors', 'Y');
+16760 +   run;
+16761 +   %if (("&em_tree_multipleTargets" eq "N") AND ("&useAdjPriors" eq "Y")) %then %do;
+16762 +      filename temp catalog 'sashelp.emutil.em_makeunadjustedresidualvars.source';
+16763 +      %include temp;
+16764 +      filename temp;
+16766 +      %EM_GETNAME(key=adjResidualCode, type=FILE, extension=sas);
+16767 +      filename adjref "&EM_USER_adjResidualCode";
+16768 +      %makeUnadjustedResidualVars(target=%EM_TARGET, decmeta=&EM_DEC_DECMETA, fref=adjref);
+16770 +      %em_copyfile(infref=adjref, outfref=flowref, append=Y);
+16772 +      filename adjref;
+16773 +   %end;
+16775 +   /* LEAF */
+16776 +   %if "&EM_PROPERTY_LEAFID" eq "Y" %then %do;
+16777 +      data _null_;
+16778 +        file flowref mod;
+16779 +        put 'drop _LEAF_;';
+16780 +      run;
+16782 +      data _null_;
+16783 +        file pubref mod;
+16784 +        put 'drop _LEAF_;';
+16785 +      run;
+16787 +   %end;
+16789 +   filename flowref;
+16790 +   filename pubref;
+16792 +   /* em_metachange code */
+16793 +   %if "&EM_PROPERTY_LEAFID" eq "Y" %then %do;
+16794 +     %EM_METACHANGE(name=_NODE_, role=&EM_PROPERTY_NODEROLE, LEVEL=NOMINAL);
+16795 +   %end;
+16797 +   /* variable selection based on importance stat    */
+16798 +   %if "&EM_PROPERTY_VARSELECTION" eq "Y" %then %do;
+16799 +     %EM_GETNAME(key=OUTIMPORT, type=DATA);
+16800 +     %let dsid = %sysfunc(open(&EM_USER_OUTIMPORT(where=(IMPORTANCE<0.05))));
+16801 +     %let varnum = %sysfunc(varnum(&dsid, NAME));
+16802 +     %let obs = %sysfunc(fetch(&dsid));
+16803 +     %do %while(&obs=0);
+16804 +       %let temp = %nrbquote(%sysfunc(getvarc(&dsid, &varnum)));
+16805 +       %let varname = %nrbquote(%sysfunc(tranwrd(&temp,  %str(%"),"")));
+16806 +       %EM_METACHANGE(name=&varname, role=REJECTED);
+16807 +       %let obs = %sysfunc(fetch(&dsid));
+16808 +     %end;
+16809 +     %if &dsid %then %let dsid=%sysfunc(close(&dsid));
+16810 +   %end;
+16812 +   /* set Q_ varaibles to role of ASSESS when in the presense of prior probabilities */
+16813 +   %if %sysfunc(exist(&EM_DEC_DECMETA)) %then %do;
+16814 +    %let tree_pred_vars = ;
+16815 +    %let tree_pred_lvl =;
+16816 +    %let numpred= 0;
+16818 +    data _null_;
+16819 +     set &EM_DEC_DECMETA(where=(_TYPE_="PREDICTED")) end=eof;
+16820 +     call symput('tree_pred_vars'!!strip(put(_N_, BEST.)), strip(VARIABLE));
+16821 +     call symput('tree_pred_lvl'!!strip(put(_N_, BEST.)), strip(LEVEL));
+16822 +     if eof then
+16823 +       call symput('numpred', strip(put(_N_, BEST.)));
+16824 +    run;
+16825 +   %end;
+16827 +   %if &numpred ne 0 %then %do;
+16828 +    %do i=1 %to &numpred;
+16829 +      %let qpred = Q%substr(&&tree_pred_vars&i,2);
+16830 +      %EM_METACHANGE(name=&qpred, role=ASSESS);
+16831 +    %end;
+16832 +   %end;
+16834 +   /* determine if multiple targets will be processed */
+16835 +   %let em_tree_multipleTargets=N;
+16836 +   %let em_tree_numTarget=1;
+16837 +   %if "&EM_PROPERTY_USEMULTIPLETARGET" eq "Y" %then %do;
+16838 +      /* determine if there are any ordinal target variables - if so, multiple targets are not supported */
+16839 +      %if &EM_NUM_ORDINAL_TARGET gt 0 %then %do;
+16840 +         %let em_tree_multipleTargets=N;
+16841 +      %end;
+16842 +      %else %do;
+16843 +        data _null_;
+16844 +          set &EM_DATA_VARIABLESET(where=(ROLE='TARGET' AND LEVEL^='ORDINAL')) end=eof;
+16845 +          if eof then
+16846 +            call symput('em_tree_numTarget', strip(put(_N_, BEST.)));
+16847 +        run;
+16849 +        %if &em_tree_numTarget gt 1 %then %do;
+16850 +           %let em_tree_multipleTargets=Y;
+16851 +        %end;
+16852 +     %end;
+16853 +   %end;
+16855 +   /* need to include this code to do the %em_report for OUTIMPORT here instead of in Report code so _loop data set is created when group processing */
+16856 +   %if "&em_tree_multipleTargets" eq "N" %then %do;
+16858 +      /* variable importance */
+16859 +      %EM_GETNAME(key=OUTIMPORT, type=DATA);
+16860 +      %if %sysfunc(exist(&EM_USER_OUTIMPORT)) eq 1 %then %do;
+16862 +         %let validexist=0;
+16863 +         %if (("&EM_IMPORT_VALIDATE" ne "") AND (%sysfunc(exist(&EM_IMPORT_VALIDATE)) or %sysfunc(exist(&EM_IMPORT_VALIDATE,VIEW)))) %then %do;
+16864 +           %let validexist=1;
+16865 +         %end;
+16867 +         /* determine if vars exists - properties could indicate they are they but freeze=Y would mean the node wasn't retrained */
+16868 +         /* and the columns may not be generated                                                                                 */
+16869 +         %let em_tree_cvexists=;
+16870 +         %let em_tree_surrexists=.;
+16871 +         data _null_;
+16872 +            set &EM_USER_OUTIMPORT (obs=2) end=eof;
+16873 +            if eof then do ;
+16874 +               call symput("em_tree_cvexists" , strip(put(cvimportance,best.))) ;
+16875 +               call symput("em_tree_surrexists", strip(put(nsurrogates, best.)));
+16876 +            end;
+16877 +         run;
+16879 +         data &EM_USER_OUTIMPORT;
+16880 +            set &EM_USER_OUTIMPORT;
+16882 +            /* format columns based on Precison value specified */
+16883 +            format importance 15.&EM_PROPERTY_PRECISION
+16884 +                 %if &validexist %then %do;
+16885 +                   vimportance ratio 15.&EM_PROPERTY_PRECISION
+16886 +                 %end;
+16887 +                 %if "&EM_TREE_CVEXISTS" ne "." %then %do;
+16888 +                   cvimportance vimportance ratio 15.&EM_PROPERTY_PRECISION
+16889 +                 %end;
+16890 +            ;
+16891 +            label  NAME       = "%sysfunc(sasmsg(sashelp.dmine, meta_name_vlabel, noquote))"
+16892 +                 LABEL        = "%sysfunc(sasmsg(sashelp.dmine, meta_label_vlabel, noquote))"
+16893 +                 NRULES       = "%sysfunc(sasmsg(sashelp.dmine, rpt_nrules_vlabel, noquote))"
+16894 +                 IMPORTANCE   = "%sysfunc(sasmsg(sashelp.dmine, rpt_importance_vlabel, noquote))"
+16895 +                 %if "&em_tree_surrexists" ne "" %then %do;
+16896 +                   NSURROGATES  = "%sysfunc(sasmsg(sashelp.dmine, rpt_nsurrogates_vlabel, noquote))"
+16897 +                 %end;
+16898 +                 %if &validexist %then %do;
+16899 +                   VIMPORTANCE = "%sysfunc(sasmsg(sashelp.dmine, rpt_vimportance_vlabel, noquote))"
+16900 +                   RATIO       = "%sysfunc(sasmsg(sashelp.dmine, rpt_ratio_vlabel, noquote))"
+16901 +                 %end;
+16902 +                 %if "&EM_TREE_CVEXISTS" ne "" %then %do;
+16903 +                   VIMPORTANCE = "%sysfunc(sasmsg(sashelp.dmine, rpt_vimportance_vlabel, noquote))"
+16904 +                   CVIMPORTANCE =  "%sysfunc(sasmsg(sashelp.dmine, rpt_cvimport_vlabel, noquote))"
+16905 +                   CVRULES= "%sysfunc(sasmsg(sashelp.dmine, rpt_cvrules_vlabel, noquote))"
+16906 +                   RATIO = "%sysfunc(sasmsg(sashelp.dmine, rpt_ratio_vlabel, noquote))"
+16907 +                 %end;
+16908 +            ;
+16909 +         run;
+16911 +         %EM_REPORT(key=OUTIMPORT, viewtype=DATA, block=MODEL, description=IMPORTANCE, autodisplay=N);
+16912 +      %end;
+16913 +   %end;
+16915 +   %doendm:
+16916 +%mend em_tree_score;
+NOTE: %INCLUDE (level 1) ending.
+NOTE: Fileref TEMP has been deassigned.
+
+NOTE: The file FLOWREF is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=20000,File Size (bytes)=0,
+      Last Modified=11May2019:23:23:42,
+      Create Time=11May2019:23:20:46
+
+NOTE: 312 records were written to the file FLOWREF.
+      The minimum record length was 1.
+      The maximum record length was 73.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.03 seconds
+      
+
+
+NOTE: The file PUBREF is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=20000,File Size (bytes)=0,
+      Last Modified=11May2019:23:23:42,
+      Create Time=11May2019:23:20:46
+
+NOTE: 284 records were written to the file PUBREF.
+      The minimum record length was 1.
+      The maximum record length was 72.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.03 seconds
+      
+
+NOTE: Fileref TREEFLOW has been deassigned.
+NOTE: Fileref TREEPUB has been deassigned.
+
+NOTE: There were 1 observations read from the data set EMWS3.TREE2_REP_UPDOWNIND_DM.
+      WHERE _TYPE_='DECPRIOR';
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: The file FLOWREF is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMFLOWSCORE.sas,
+      RECFM=V,LRECL=32767,File Size (bytes)=13563,
+      Last Modified=11May2019:23:23:42,
+      Create Time=11May2019:23:20:46
+
+NOTE: 1 record was written to the file FLOWREF.
+      The minimum record length was 12.
+      The maximum record length was 12.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: The file PUBREF is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMPUBLISHSCORE.sas,
+      RECFM=V,LRECL=32767,File Size (bytes)=12468,
+      Last Modified=11May2019:23:23:42,
+      Create Time=11May2019:23:20:46
+
+NOTE: 1 record was written to the file PUBREF.
+      The minimum record length was 12.
+      The maximum record length was 12.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Fileref FLOWREF has been deassigned.
+NOTE: Fileref PUBREF has been deassigned.
+
+NOTE: The data set WORK.EM_METACHANGE has 1 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 1 observations read from the data set WORK.EM_METACHANGE.
+NOTE: The data set WORK.EM_METACHANGE has 2 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 2 observations read from the data set WORK.EM_METACHANGE.
+NOTE: The data set WORK.EM_METACHANGE has 3 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 3 observations read from the data set WORK.EM_METACHANGE.
+NOTE: The data set WORK.EM_METACHANGE has 4 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: There were 3 observations read from the data set EMWS3.TREE2_REP_UPDOWNIND_DM.
+      WHERE _TYPE_='PREDICTED';
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 4 observations read from the data set WORK.EM_METACHANGE.
+NOTE: The data set WORK.EM_METACHANGE has 5 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: There were 5 observations read from the data set WORK.EM_METACHANGE.
+NOTE: The data set WORK.EM_METACHANGE has 6 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: There were 6 observations read from the data set WORK.EM_METACHANGE.
+NOTE: The data set WORK.EM_METACHANGE has 7 observations and 9 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: Variable cvimportance is uninitialized.
+NOTE: Variable nsurrogates is uninitialized.
+NOTE: There were 2 observations read from the data set EMWS3.TREE2_OUTIMPORT.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: Variable NSURROGATES is uninitialized.
+NOTE: Variable CVIMPORTANCE is uninitialized.
+NOTE: Variable CVRULES is uninitialized.
+NOTE: There were 7 observations read from the data set EMWS3.TREE2_OUTIMPORT.
+NOTE: The data set EMWS3.TREE2_OUTIMPORT has 7 observations and 6 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+
+NOTE: The data set WORK.EM_USER_REPORT has 132 observations and 4 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+
+16917  
+16918  *------------------------------------------------------------*;
+16919  * End SCORE: Tree2;
+16920  *------------------------------------------------------------*;
+
+16921  proc sort data=WORK.EM_METACHANGE;
+16922  by key uname;
+16923  run;
+
+NOTE: There were 7 observations read from the data set WORK.EM_METACHANGE.
+NOTE: The data set WORK.EM_METACHANGE has 7 observations and 9 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+16924  filename x "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\CDELTA_TRAIN.sas";
+16925  data _null_;
+16926  file x;
+16927  put 'if upcase(NAME) = "BUY" then do;';
+16928  put 'ROLE = "REJECTED";';
+16929  put 'end;';
+16930  put 'else ';
+16931  put 'if upcase(NAME) = "LOW" then do;';
+16932  put 'ROLE = "REJECTED";';
+16933  put 'end;';
+16934  put 'else ';
+16935  put 'if upcase(NAME) = "Q_REP_UPDOWNINDDOWN" then do;';
+16936  put 'ROLE = "ASSESS";';
+16937  put 'end;';
+16938  put 'else ';
+16939  put 'if upcase(NAME) = "Q_REP_UPDOWNINDUNCHANGE" then do;';
+16940  put 'ROLE = "ASSESS";';
+16941  put 'end;';
+16942  put 'else ';
+16943  put 'if upcase(NAME) = "Q_REP_UPDOWNINDUP" then do;';
+16944  put 'ROLE = "ASSESS";';
+16945  put 'end;';
+16946  put 'else ';
+16947  put 'if upcase(NAME) = "SELL" then do;';
+16948  put 'ROLE = "REJECTED";';
+16949  put 'end;';
+16950  put 'else ';
+16951  put 'if upcase(NAME) = "_NODE_" then do;';
+16952  put 'ROLE = "SEGMENT";';
+16953  put 'LEVEL = "NOMINAL";';
+16954  put 'end;';
+16955  run;
+
+NOTE: The file X is:
+      Filename=C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\CDELTA_TRAIN.sas,
+      RECFM=V,LRECL=32767,File Size (bytes)=0,
+      Last Modified=11May2019:23:23:43,
+      Create Time=11May2019:23:20:46
+
+NOTE: 28 records were written to the file X.
+      The minimum record length was 4.
+      The maximum record length was 52.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+16956  filename x;
+NOTE: Fileref X has been deassigned.
+
+16957  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMFLOWSCORE.sas";
+16958  *------------------------------------------------------------*;
+16959  * Tree2: Scoring DATA data;
+16960  *------------------------------------------------------------*;
+16961  data EMWS3.Tree2_TRAIN
+16962  / view=EMWS3.Tree2_TRAIN
+16963  ;
+16964  set EMWS3.Part_TRAIN
+16965  ;
+16966  %inc emflow;
+NOTE: %INCLUDE (level 1) file EMFLOW is file C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMFLOWSCORE.sas.
+16967 +****************************************************************;
+16968 +******             DECISION TREE SCORING CODE             ******;
+16969 +****************************************************************;
+16970 +
+16971 +******         LENGTHS OF NEW CHARACTER VARIABLES         ******;
+16972 +LENGTH F_REP_updownInd  $    8;
+16973 +LENGTH I_REP_updownInd  $    8;
+16974 +LENGTH U_REP_updownInd  $    8;
+16975 +LENGTH _WARN_  $    4;
+16976 +
+16977 +******              LABELS FOR NEW VARIABLES              ******;
+16978 +label _NODE_ = 'Node' ;
+16979 +label _LEAF_ = 'Leaf' ;
+16980 +label P_REP_updownIndup = 'Predicted: REP_updownInd=up' ;
+16981 +label P_REP_updownInddown = 'Predicted: REP_updownInd=down' ;
+16982 +label P_REP_updownIndunchange = 'Predicted: REP_updownInd=unchange' ;
+16983 +label Q_REP_updownIndup = 'Unadjusted P: REP_updownInd=up' ;
+16984 +label Q_REP_updownInddown = 'Unadjusted P: REP_updownInd=down' ;
+16985 +label Q_REP_updownIndunchange = 'Unadjusted P: REP_updownInd=unchange' ;
+16986 +label V_REP_updownIndup = 'Validated: REP_updownInd=up' ;
+16987 +label V_REP_updownInddown = 'Validated: REP_updownInd=down' ;
+16988 +label V_REP_updownIndunchange = 'Validated: REP_updownInd=unchange' ;
+16989 +label R_REP_updownIndup = 'Residual: REP_updownInd=up' ;
+16990 +label R_REP_updownInddown = 'Residual: REP_updownInd=down' ;
+16991 +label R_REP_updownIndunchange = 'Residual: REP_updownInd=unchange' ;
+16992 +label F_REP_updownInd = 'From: REP_updownInd' ;
+16993 +label I_REP_updownInd = 'Into: REP_updownInd' ;
+16994 +label U_REP_updownInd = 'Unnormalized Into: REP_updownInd' ;
+16995 +label _WARN_ = 'Warnings' ;
+16996 +
+16997 +
+16998 +******      TEMPORARY VARIABLES FOR FORMATTED VALUES      ******;
+16999 +LENGTH _ARBFMT_8 $      8; DROP _ARBFMT_8;
+17000 +_ARBFMT_8 = ' '; /* Initialize to avoid warning. */
+17001 +
+17002 +
+17003 +_ARBFMT_8 = PUT( REP_updownInd , $8.);
+17004 + %DMNORMCP( _ARBFMT_8, F_REP_updownInd );
+17005 +
+17006 +******             ASSIGN OBSERVATION TO NODE             ******;
+17007 +IF  NOT MISSING(high ) AND
+17008 +  high  <               0.0925 THEN DO;
+17009 +  IF  NOT MISSING(open ) AND
+17010 +                  0.0125 <= open  THEN DO;
+17011 +    IF  NOT MISSING(lastDone ) AND
+17012 +      lastDone  <               0.0125 THEN DO;
+17013 +      _NODE_  =                   10;
+17014 +      _LEAF_  =                    6;
+17015 +      P_REP_updownIndup  =                    0;
+17016 +      P_REP_updownInddown  =                    1;
+17017 +      P_REP_updownIndunchange  =                    0;
+17018 +      Q_REP_updownIndup  =                    0;
+17019 +      Q_REP_updownInddown  =                    1;
+17020 +      Q_REP_updownIndunchange  =                    0;
+17021 +      V_REP_updownIndup  =                    0;
+17022 +      V_REP_updownInddown  =                    1;
+17023 +      V_REP_updownIndunchange  =                    0;
+17024 +      I_REP_updownInd  = 'DOWN' ;
+17025 +      U_REP_updownInd  = 'down' ;
+17026 +      END;
+17027 +    ELSE DO;
+17028 +      _NODE_  =                   11;
+17029 +      _LEAF_  =                    7;
+17030 +      P_REP_updownIndup  =     0.25324675324675;
+17031 +      P_REP_updownInddown  =     0.15584415584415;
+17032 +      P_REP_updownIndunchange  =     0.59090909090909;
+17033 +      Q_REP_updownIndup  =     0.25324675324675;
+17034 +      Q_REP_updownInddown  =     0.15584415584415;
+17035 +      Q_REP_updownIndunchange  =     0.59090909090909;
+17036 +      V_REP_updownIndup  =     0.25503355704697;
+17037 +      V_REP_updownInddown  =      0.1744966442953;
+17038 +      V_REP_updownIndunchange  =     0.57046979865771;
+17039 +      I_REP_updownInd  = 'UNCHANGE' ;
+17040 +      U_REP_updownInd  = 'unchange' ;
+17041 +      END;
+17042 +    END;
+17043 +  ELSE DO;
+17044 +    IF  NOT MISSING(high ) AND
+17045 +                    0.0075 <= high  THEN DO;
+17046 +      IF  NOT MISSING(lastDone ) AND
+17047 +        lastDone  <               0.0075 THEN DO;
+17048 +        IF  NOT MISSING(open ) AND
+17049 +                        0.0075 <= open  THEN DO;
+17050 +          _NODE_  =                   21;
+17051 +          _LEAF_  =                    3;
+17052 +          P_REP_updownIndup  =                    0;
+17053 +          P_REP_updownInddown  =                    1;
+17054 +          P_REP_updownIndunchange  =                    0;
+17055 +          Q_REP_updownIndup  =                    0;
+17056 +          Q_REP_updownInddown  =                    1;
+17057 +          Q_REP_updownIndunchange  =                    0;
+17058 +          V_REP_updownIndup  =                    0;
+17059 +          V_REP_updownInddown  =                    1;
+17060 +          V_REP_updownIndunchange  =                    0;
+17061 +          I_REP_updownInd  = 'DOWN' ;
+17062 +          U_REP_updownInd  = 'down' ;
+17063 +          END;
+17064 +        ELSE DO;
+17065 +          _NODE_  =                   20;
+17066 +          _LEAF_  =                    2;
+17067 +          P_REP_updownIndup  =                    0;
+17068 +          P_REP_updownInddown  =                    0;
+17069 +          P_REP_updownIndunchange  =                    1;
+17070 +          Q_REP_updownIndup  =                    0;
+17071 +          Q_REP_updownInddown  =                    0;
+17072 +          Q_REP_updownIndunchange  =                    1;
+17073 +          V_REP_updownIndup  =                    0;
+17074 +          V_REP_updownInddown  =                    0;
+17075 +          V_REP_updownIndunchange  =                    1;
+17076 +          I_REP_updownInd  = 'UNCHANGE' ;
+17077 +          U_REP_updownInd  = 'unchange' ;
+17078 +          END;
+17079 +        END;
+17080 +      ELSE DO;
+17081 +        IF  NOT MISSING(open ) AND
+17082 +          open  <               0.0075 THEN DO;
+17083 +          _NODE_  =                   22;
+17084 +          _LEAF_  =                    4;
+17085 +          P_REP_updownIndup  =                    1;
+17086 +          P_REP_updownInddown  =                    0;
+17087 +          P_REP_updownIndunchange  =                    0;
+17088 +          Q_REP_updownIndup  =                    1;
+17089 +          Q_REP_updownInddown  =                    0;
+17090 +          Q_REP_updownIndunchange  =                    0;
+17091 +          V_REP_updownIndup  =                    1;
+17092 +          V_REP_updownInddown  =                    0;
+17093 +          V_REP_updownIndunchange  =                    0;
+17094 +          I_REP_updownInd  = 'UP' ;
+17095 +          U_REP_updownInd  = 'up' ;
+17096 +          END;
+17097 +        ELSE DO;
+17098 +          _NODE_  =                   23;
+17099 +          _LEAF_  =                    5;
+17100 +          P_REP_updownIndup  =     0.02439024390243;
+17101 +          P_REP_updownInddown  =                    0;
+17102 +          P_REP_updownIndunchange  =     0.97560975609756;
+17103 +          Q_REP_updownIndup  =     0.02439024390243;
+17104 +          Q_REP_updownInddown  =                    0;
+17105 +          Q_REP_updownIndunchange  =     0.97560975609756;
+17106 +          V_REP_updownIndup  =      0.1060606060606;
+17107 +          V_REP_updownInddown  =                    0;
+17108 +          V_REP_updownIndunchange  =     0.89393939393939;
+17109 +          I_REP_updownInd  = 'UNCHANGE' ;
+17110 +          U_REP_updownInd  = 'unchange' ;
+17111 +          END;
+17112 +        END;
+17113 +      END;
+17114 +    ELSE DO;
+17115 +      _NODE_  =                    8;
+17116 +      _LEAF_  =                    1;
+17117 +      P_REP_updownIndup  =                    0;
+17118 +      P_REP_updownInddown  =                    0;
+17119 +      P_REP_updownIndunchange  =                    1;
+17120 +      Q_REP_updownIndup  =                    0;
+17121 +      Q_REP_updownInddown  =                    0;
+17122 +      Q_REP_updownIndunchange  =                    1;
+17123 +      V_REP_updownIndup  =                    0;
+17124 +      V_REP_updownInddown  =                    0;
+17125 +      V_REP_updownIndunchange  =                    1;
+17126 +      I_REP_updownInd  = 'UNCHANGE' ;
+17127 +      U_REP_updownInd  = 'unchange' ;
+17128 +      END;
+17129 +    END;
+17130 +  END;
+17131 +ELSE DO;
+17132 +  IF  NOT MISSING(vol ) AND
+17133 +    vol  <                 90.5 THEN DO;
+17134 +    _NODE_  =                    6;
+17135 +    _LEAF_  =                    8;
+17136 +    P_REP_updownIndup  =                    0;
+17137 +    P_REP_updownInddown  =                    0;
+17138 +    P_REP_updownIndunchange  =                    1;
+17139 +    Q_REP_updownIndup  =                    0;
+17140 +    Q_REP_updownInddown  =                    0;
+17141 +    Q_REP_updownIndunchange  =                    1;
+17142 +    V_REP_updownIndup  =                    0;
+17143 +    V_REP_updownInddown  =                    0;
+17144 +    V_REP_updownIndunchange  =                    1;
+17145 +    I_REP_updownInd  = 'UNCHANGE' ;
+17146 +    U_REP_updownInd  = 'unchange' ;
+17147 +    END;
+17148 +  ELSE DO;
+17149 +    IF  NOT MISSING(high ) AND
+17150 +      high  <               0.1125 THEN DO;
+17151 +      IF  NOT MISSING(open ) AND
+17152 +        open  <               0.0925 THEN DO;
+17153 +        _NODE_  =                   16;
+17154 +        _LEAF_  =                    9;
+17155 +        P_REP_updownIndup  =     0.78571428571428;
+17156 +        P_REP_updownInddown  =     0.07142857142857;
+17157 +        P_REP_updownIndunchange  =     0.14285714285714;
+17158 +        Q_REP_updownIndup  =     0.78571428571428;
+17159 +        Q_REP_updownInddown  =     0.07142857142857;
+17160 +        Q_REP_updownIndunchange  =     0.14285714285714;
+17161 +        V_REP_updownIndup  =     0.85714285714285;
+17162 +        V_REP_updownInddown  =                    0;
+17163 +        V_REP_updownIndunchange  =     0.14285714285714;
+17164 +        I_REP_updownInd  = 'UP' ;
+17165 +        U_REP_updownInd  = 'up' ;
+17166 +        END;
+17167 +      ELSE DO;
+17168 +        IF  NOT MISSING(lastDone ) AND
+17169 +                        0.1025 <= lastDone  THEN DO;
+17170 +          IF  NOT MISSING(open ) AND
+17171 +            open  <               0.1025 THEN DO;
+17172 +            _NODE_  =                   30;
+17173 +            _LEAF_  =                   11;
+17174 +            P_REP_updownIndup  =                    1;
+17175 +            P_REP_updownInddown  =                    0;
+17176 +            P_REP_updownIndunchange  =                    0;
+17177 +            Q_REP_updownIndup  =                    1;
+17178 +            Q_REP_updownInddown  =                    0;
+17179 +            Q_REP_updownIndunchange  =                    0;
+17180 +            V_REP_updownIndup  =                    1;
+17181 +            V_REP_updownInddown  =                    0;
+17182 +            V_REP_updownIndunchange  =                    0;
+17183 +            I_REP_updownInd  = 'UP' ;
+17184 +            U_REP_updownInd  = 'up' ;
+17185 +            END;
+17186 +          ELSE DO;
+17187 +            _NODE_  =                   31;
+17188 +            _LEAF_  =                   12;
+17189 +            P_REP_updownIndup  =     0.08333333333333;
+17190 +            P_REP_updownInddown  =                0.125;
+17191 +            P_REP_updownIndunchange  =     0.79166666666666;
+17192 +            Q_REP_updownIndup  =     0.08333333333333;
+17193 +            Q_REP_updownInddown  =                0.125;
+17194 +            Q_REP_updownIndunchange  =     0.79166666666666;
+17195 +            V_REP_updownIndup  =     0.07407407407407;
+17196 +            V_REP_updownInddown  =     0.18518518518518;
+17197 +            V_REP_updownIndunchange  =     0.74074074074074;
+17198 +            I_REP_updownInd  = 'UNCHANGE' ;
+17199 +            U_REP_updownInd  = 'unchange' ;
+17200 +            END;
+17201 +          END;
+17202 +        ELSE DO;
+17203 +          _NODE_  =                   24;
+17204 +          _LEAF_  =                   10;
+17205 +          P_REP_updownIndup  =      0.1063829787234;
+17206 +          P_REP_updownInddown  =     0.48936170212765;
+17207 +          P_REP_updownIndunchange  =     0.40425531914893;
+17208 +          Q_REP_updownIndup  =      0.1063829787234;
+17209 +          Q_REP_updownInddown  =     0.48936170212765;
+17210 +          Q_REP_updownIndunchange  =     0.40425531914893;
+17211 +          V_REP_updownIndup  =                0.075;
+17212 +          V_REP_updownInddown  =                0.675;
+17213 +          V_REP_updownIndunchange  =                 0.25;
+17214 +          I_REP_updownInd  = 'DOWN' ;
+17215 +          U_REP_updownInd  = 'down' ;
+17216 +          END;
+17217 +        END;
+17218 +      END;
+17219 +    ELSE DO;
+17220 +      IF  NOT MISSING(open ) AND
+17221 +        open  <               0.1125 THEN DO;
+17222 +        _NODE_  =                   18;
+17223 +        _LEAF_  =                   13;
+17224 +        P_REP_updownIndup  =     0.88888888888888;
+17225 +        P_REP_updownInddown  =     0.05555555555555;
+17226 +        P_REP_updownIndunchange  =     0.05555555555555;
+17227 +        Q_REP_updownIndup  =     0.88888888888888;
+17228 +        Q_REP_updownInddown  =     0.05555555555555;
+17229 +        Q_REP_updownIndunchange  =     0.05555555555555;
+17230 +        V_REP_updownIndup  =     0.72727272727272;
+17231 +        V_REP_updownInddown  =     0.09090909090909;
+17232 +        V_REP_updownIndunchange  =     0.18181818181818;
+17233 +        I_REP_updownInd  = 'UP' ;
+17234 +        U_REP_updownInd  = 'up' ;
+17235 +        END;
+17236 +      ELSE DO;
+17237 +        _NODE_  =                   19;
+17238 +        _LEAF_  =                   14;
+17239 +        P_REP_updownIndup  =     0.33374689826302;
+17240 +        P_REP_updownInddown  =     0.50496277915632;
+17241 +        P_REP_updownIndunchange  =     0.16129032258064;
+17242 +        Q_REP_updownIndup  =     0.33374689826302;
+17243 +        Q_REP_updownInddown  =     0.50496277915632;
+17244 +        Q_REP_updownIndunchange  =     0.16129032258064;
+17245 +        V_REP_updownIndup  =     0.33793969849246;
+17246 +        V_REP_updownInddown  =                  0.5;
+17247 +        V_REP_updownIndunchange  =     0.16206030150753;
+17248 +        I_REP_updownInd  = 'DOWN' ;
+17249 +        U_REP_updownInd  = 'down' ;
+17250 +        END;
+17251 +      END;
+17252 +    END;
+17253 +  END;
+17254 +
+17255 +*****  RESIDUALS R_ *************;
+17256 +IF  F_REP_updownInd  NE 'UP'
+17257 +AND F_REP_updownInd  NE 'DOWN'
+17258 +AND F_REP_updownInd  NE 'UNCHANGE'  THEN DO;
+17259 +        R_REP_updownIndup  = .;
+17260 +        R_REP_updownInddown  = .;
+17261 +        R_REP_updownIndunchange  = .;
+17262 + END;
+17263 + ELSE DO;
+17264 +       R_REP_updownIndup  =  -P_REP_updownIndup ;
+17265 +       R_REP_updownInddown  =  -P_REP_updownInddown ;
+17266 +       R_REP_updownIndunchange  =  -P_REP_updownIndunchange ;
+17267 +       SELECT( F_REP_updownInd  );
+17268 +          WHEN( 'UP'  ) R_REP_updownIndup  = R_REP_updownIndup  +1;
+17269 +          WHEN( 'DOWN'  ) R_REP_updownInddown  = R_REP_updownInddown  +1;
+17270 +          WHEN( 'UNCHANGE'  ) R_REP_updownIndunchange  =
+17271 +        R_REP_updownIndunchange  +1;
+17272 +       END;
+17273 + END;
+17274 +
+17275 +****************************************************************;
+17276 +******          END OF DECISION TREE SCORING CODE         ******;
+17277 +****************************************************************;
+17278 +
+17279 +drop _LEAF_;
+NOTE: %INCLUDE (level 1) ending.
+17280  run;
+
+NOTE: DATA STEP view saved on file EMWS3.TREE2_TRAIN.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.03 seconds
+      
+
+17281  quit;
+17282  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+
+17283  filename emflow "C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMFLOWSCORE.sas";
+17284  *------------------------------------------------------------*;
+17285  * Tree2: Scoring VALIDATE data;
+17286  *------------------------------------------------------------*;
+17287  data EMWS3.Tree2_VALIDATE
+17288  / view=EMWS3.Tree2_VALIDATE
+17289  ;
+17290  set EMWS3.Part_VALIDATE
+17291  ;
+17292  %inc emflow;
+NOTE: %INCLUDE (level 1) file EMFLOW is file C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS3\Tree2\EMFLOWSCORE.sas.
+17293 +****************************************************************;
+17294 +******             DECISION TREE SCORING CODE             ******;
+17295 +****************************************************************;
+17296 +
+17297 +******         LENGTHS OF NEW CHARACTER VARIABLES         ******;
+17298 +LENGTH F_REP_updownInd  $    8;
+17299 +LENGTH I_REP_updownInd  $    8;
+17300 +LENGTH U_REP_updownInd  $    8;
+17301 +LENGTH _WARN_  $    4;
+17302 +
+17303 +******              LABELS FOR NEW VARIABLES              ******;
+17304 +label _NODE_ = 'Node' ;
+17305 +label _LEAF_ = 'Leaf' ;
+17306 +label P_REP_updownIndup = 'Predicted: REP_updownInd=up' ;
+17307 +label P_REP_updownInddown = 'Predicted: REP_updownInd=down' ;
+17308 +label P_REP_updownIndunchange = 'Predicted: REP_updownInd=unchange' ;
+17309 +label Q_REP_updownIndup = 'Unadjusted P: REP_updownInd=up' ;
+17310 +label Q_REP_updownInddown = 'Unadjusted P: REP_updownInd=down' ;
+17311 +label Q_REP_updownIndunchange = 'Unadjusted P: REP_updownInd=unchange' ;
+17312 +label V_REP_updownIndup = 'Validated: REP_updownInd=up' ;
+17313 +label V_REP_updownInddown = 'Validated: REP_updownInd=down' ;
+17314 +label V_REP_updownIndunchange = 'Validated: REP_updownInd=unchange' ;
+17315 +label R_REP_updownIndup = 'Residual: REP_updownInd=up' ;
+17316 +label R_REP_updownInddown = 'Residual: REP_updownInd=down' ;
+17317 +label R_REP_updownIndunchange = 'Residual: REP_updownInd=unchange' ;
+17318 +label F_REP_updownInd = 'From: REP_updownInd' ;
+17319 +label I_REP_updownInd = 'Into: REP_updownInd' ;
+17320 +label U_REP_updownInd = 'Unnormalized Into: REP_updownInd' ;
+17321 +label _WARN_ = 'Warnings' ;
+17322 +
+17323 +
+17324 +******      TEMPORARY VARIABLES FOR FORMATTED VALUES      ******;
+17325 +LENGTH _ARBFMT_8 $      8; DROP _ARBFMT_8;
+17326 +_ARBFMT_8 = ' '; /* Initialize to avoid warning. */
+17327 +
+17328 +
+17329 +_ARBFMT_8 = PUT( REP_updownInd , $8.);
+17330 + %DMNORMCP( _ARBFMT_8, F_REP_updownInd );
+17331 +
+17332 +******             ASSIGN OBSERVATION TO NODE             ******;
+17333 +IF  NOT MISSING(high ) AND
+17334 +  high  <               0.0925 THEN DO;
+17335 +  IF  NOT MISSING(open ) AND
+17336 +                  0.0125 <= open  THEN DO;
+17337 +    IF  NOT MISSING(lastDone ) AND
+17338 +      lastDone  <               0.0125 THEN DO;
+17339 +      _NODE_  =                   10;
+17340 +      _LEAF_  =                    6;
+17341 +      P_REP_updownIndup  =                    0;
+17342 +      P_REP_updownInddown  =                    1;
+17343 +      P_REP_updownIndunchange  =                    0;
+17344 +      Q_REP_updownIndup  =                    0;
+17345 +      Q_REP_updownInddown  =                    1;
+17346 +      Q_REP_updownIndunchange  =                    0;
+17347 +      V_REP_updownIndup  =                    0;
+17348 +      V_REP_updownInddown  =                    1;
+17349 +      V_REP_updownIndunchange  =                    0;
+17350 +      I_REP_updownInd  = 'DOWN' ;
+17351 +      U_REP_updownInd  = 'down' ;
+17352 +      END;
+17353 +    ELSE DO;
+17354 +      _NODE_  =                   11;
+17355 +      _LEAF_  =                    7;
+17356 +      P_REP_updownIndup  =     0.25324675324675;
+17357 +      P_REP_updownInddown  =     0.15584415584415;
+17358 +      P_REP_updownIndunchange  =     0.59090909090909;
+17359 +      Q_REP_updownIndup  =     0.25324675324675;
+17360 +      Q_REP_updownInddown  =     0.15584415584415;
+17361 +      Q_REP_updownIndunchange  =     0.59090909090909;
+17362 +      V_REP_updownIndup  =     0.25503355704697;
+17363 +      V_REP_updownInddown  =      0.1744966442953;
+17364 +      V_REP_updownIndunchange  =     0.57046979865771;
+17365 +      I_REP_updownInd  = 'UNCHANGE' ;
+17366 +      U_REP_updownInd  = 'unchange' ;
+17367 +      END;
+17368 +    END;
+17369 +  ELSE DO;
+17370 +    IF  NOT MISSING(high ) AND
+17371 +                    0.0075 <= high  THEN DO;
+17372 +      IF  NOT MISSING(lastDone ) AND
+17373 +        lastDone  <               0.0075 THEN DO;
+17374 +        IF  NOT MISSING(open ) AND
+17375 +                        0.0075 <= open  THEN DO;
+17376 +          _NODE_  =                   21;
+17377 +          _LEAF_  =                    3;
+17378 +          P_REP_updownIndup  =                    0;
+17379 +          P_REP_updownInddown  =                    1;
+17380 +          P_REP_updownIndunchange  =                    0;
+17381 +          Q_REP_updownIndup  =                    0;
+17382 +          Q_REP_updownInddown  =                    1;
+17383 +          Q_REP_updownIndunchange  =                    0;
+17384 +          V_REP_updownIndup  =                    0;
+17385 +          V_REP_updownInddown  =                    1;
+17386 +          V_REP_updownIndunchange  =                    0;
+17387 +          I_REP_updownInd  = 'DOWN' ;
+17388 +          U_REP_updownInd  = 'down' ;
+17389 +          END;
+17390 +        ELSE DO;
+17391 +          _NODE_  =                   20;
+17392 +          _LEAF_  =                    2;
+17393 +          P_REP_updownIndup  =                    0;
+17394 +          P_REP_updownInddown  =                    0;
+17395 +          P_REP_updownIndunchange  =                    1;
+17396 +          Q_REP_updownIndup  =                    0;
+17397 +          Q_REP_updownInddown  =                    0;
+17398 +          Q_REP_updownIndunchange  =                    1;
+17399 +          V_REP_updownIndup  =                    0;
+17400 +          V_REP_updownInddown  =                    0;
+17401 +          V_REP_updownIndunchange  =                    1;
+17402 +          I_REP_updownInd  = 'UNCHANGE' ;
+17403 +          U_REP_updownInd  = 'unchange' ;
+17404 +          END;
+17405 +        END;
+17406 +      ELSE DO;
+17407 +        IF  NOT MISSING(open ) AND
+17408 +          open  <               0.0075 THEN DO;
+17409 +          _NODE_  =                   22;
+17410 +          _LEAF_  =                    4;
+17411 +          P_REP_updownIndup  =                    1;
+17412 +          P_REP_updownInddown  =                    0;
+17413 +          P_REP_updownIndunchange  =                    0;
+17414 +          Q_REP_updownIndup  =                    1;
+17415 +          Q_REP_updownInddown  =                    0;
+17416 +          Q_REP_updownIndunchange  =                    0;
+17417 +          V_REP_updownIndup  =                    1;
+17418 +          V_REP_updownInddown  =                    0;
+17419 +          V_REP_updownIndunchange  =                    0;
+17420 +          I_REP_updownInd  = 'UP' ;
+17421 +          U_REP_updownInd  = 'up' ;
+17422 +          END;
+17423 +        ELSE DO;
+17424 +          _NODE_  =                   23;
+17425 +          _LEAF_  =                    5;
+17426 +          P_REP_updownIndup  =     0.02439024390243;
+17427 +          P_REP_updownInddown  =                    0;
+17428 +          P_REP_updownIndunchange  =     0.97560975609756;
+17429 +          Q_REP_updownIndup  =     0.02439024390243;
+17430 +          Q_REP_updownInddown  =                    0;
+17431 +          Q_REP_updownIndunchange  =     0.97560975609756;
+17432 +          V_REP_updownIndup  =      0.1060606060606;
+17433 +          V_REP_updownInddown  =                    0;
+17434 +          V_REP_updownIndunchange  =     0.89393939393939;
+17435 +          I_REP_updownInd  = 'UNCHANGE' ;
+17436 +          U_REP_updownInd  = 'unchange' ;
+17437 +          END;
+17438 +        END;
+17439 +      END;
+17440 +    ELSE DO;
+17441 +      _NODE_  =                    8;
+17442 +      _LEAF_  =                    1;
+17443 +      P_REP_updownIndup  =                    0;
+17444 +      P_REP_updownInddown  =                    0;
+17445 +      P_REP_updownIndunchange  =                    1;
+17446 +      Q_REP_updownIndup  =                    0;
+17447 +      Q_REP_updownInddown  =                    0;
+17448 +      Q_REP_updownIndunchange  =                    1;
+17449 +      V_REP_updownIndup  =                    0;
+17450 +      V_REP_updownInddown  =                    0;
+17451 +      V_REP_updownIndunchange  =                    1;
+17452 +      I_REP_updownInd  = 'UNCHANGE' ;
+17453 +      U_REP_updownInd  = 'unchange' ;
+17454 +      END;
+17455 +    END;
+17456 +  END;
+17457 +ELSE DO;
+17458 +  IF  NOT MISSING(vol ) AND
+17459 +    vol  <                 90.5 THEN DO;
+17460 +    _NODE_  =                    6;
+17461 +    _LEAF_  =                    8;
+17462 +    P_REP_updownIndup  =                    0;
+17463 +    P_REP_updownInddown  =                    0;
+17464 +    P_REP_updownIndunchange  =                    1;
+17465 +    Q_REP_updownIndup  =                    0;
+17466 +    Q_REP_updownInddown  =                    0;
+17467 +    Q_REP_updownIndunchange  =                    1;
+17468 +    V_REP_updownIndup  =                    0;
+17469 +    V_REP_updownInddown  =                    0;
+17470 +    V_REP_updownIndunchange  =                    1;
+17471 +    I_REP_updownInd  = 'UNCHANGE' ;
+17472 +    U_REP_updownInd  = 'unchange' ;
+17473 +    END;
+17474 +  ELSE DO;
+17475 +    IF  NOT MISSING(high ) AND
+17476 +      high  <               0.1125 THEN DO;
+17477 +      IF  NOT MISSING(open ) AND
+17478 +        open  <               0.0925 THEN DO;
+17479 +        _NODE_  =                   16;
+17480 +        _LEAF_  =                    9;
+17481 +        P_REP_updownIndup  =     0.78571428571428;
+17482 +        P_REP_updownInddown  =     0.07142857142857;
+17483 +        P_REP_updownIndunchange  =     0.14285714285714;
+17484 +        Q_REP_updownIndup  =     0.78571428571428;
+17485 +        Q_REP_updownInddown  =     0.07142857142857;
+17486 +        Q_REP_updownIndunchange  =     0.14285714285714;
+17487 +        V_REP_updownIndup  =     0.85714285714285;
+17488 +        V_REP_updownInddown  =                    0;
+17489 +        V_REP_updownIndunchange  =     0.14285714285714;
+17490 +        I_REP_updownInd  = 'UP' ;
+17491 +        U_REP_updownInd  = 'up' ;
+17492 +        END;
+17493 +      ELSE DO;
+17494 +        IF  NOT MISSING(lastDone ) AND
+17495 +                        0.1025 <= lastDone  THEN DO;
+17496 +          IF  NOT MISSING(open ) AND
+17497 +            open  <               0.1025 THEN DO;
+17498 +            _NODE_  =                   30;
+17499 +            _LEAF_  =                   11;
+17500 +            P_REP_updownIndup  =                    1;
+17501 +            P_REP_updownInddown  =                    0;
+17502 +            P_REP_updownIndunchange  =                    0;
+17503 +            Q_REP_updownIndup  =                    1;
+17504 +            Q_REP_updownInddown  =                    0;
+17505 +            Q_REP_updownIndunchange  =                    0;
+17506 +            V_REP_updownIndup  =                    1;
+17507 +            V_REP_updownInddown  =                    0;
+17508 +            V_REP_updownIndunchange  =                    0;
+17509 +            I_REP_updownInd  = 'UP' ;
+17510 +            U_REP_updownInd  = 'up' ;
+17511 +            END;
+17512 +          ELSE DO;
+17513 +            _NODE_  =                   31;
+17514 +            _LEAF_  =                   12;
+17515 +            P_REP_updownIndup  =     0.08333333333333;
+17516 +            P_REP_updownInddown  =                0.125;
+17517 +            P_REP_updownIndunchange  =     0.79166666666666;
+17518 +            Q_REP_updownIndup  =     0.08333333333333;
+17519 +            Q_REP_updownInddown  =                0.125;
+17520 +            Q_REP_updownIndunchange  =     0.79166666666666;
+17521 +            V_REP_updownIndup  =     0.07407407407407;
+17522 +            V_REP_updownInddown  =     0.18518518518518;
+17523 +            V_REP_updownIndunchange  =     0.74074074074074;
+17524 +            I_REP_updownInd  = 'UNCHANGE' ;
+17525 +            U_REP_updownInd  = 'unchange' ;
+17526 +            END;
+17527 +          END;
+17528 +        ELSE DO;
+17529 +          _NODE_  =                   24;
+17530 +          _LEAF_  =                   10;
+17531 +          P_REP_updownIndup  =      0.1063829787234;
+17532 +          P_REP_updownInddown  =     0.48936170212765;
+17533 +          P_REP_updownIndunchange  =     0.40425531914893;
+17534 +          Q_REP_updownIndup  =      0.1063829787234;
+17535 +          Q_REP_updownInddown  =     0.48936170212765;
+17536 +          Q_REP_updownIndunchange  =     0.40425531914893;
+17537 +          V_REP_updownIndup  =                0.075;
+17538 +          V_REP_updownInddown  =                0.675;
+17539 +          V_REP_updownIndunchange  =                 0.25;
+17540 +          I_REP_updownInd  = 'DOWN' ;
+17541 +          U_REP_updownInd  = 'down' ;
+17542 +          END;
+17543 +        END;
+17544 +      END;
+17545 +    ELSE DO;
+17546 +      IF  NOT MISSING(open ) AND
+17547 +        open  <               0.1125 THEN DO;
+17548 +        _NODE_  =                   18;
+17549 +        _LEAF_  =                   13;
+17550 +        P_REP_updownIndup  =     0.88888888888888;
+17551 +        P_REP_updownInddown  =     0.05555555555555;
+17552 +        P_REP_updownIndunchange  =     0.05555555555555;
+17553 +        Q_REP_updownIndup  =     0.88888888888888;
+17554 +        Q_REP_updownInddown  =     0.05555555555555;
+17555 +        Q_REP_updownIndunchange  =     0.05555555555555;
+17556 +        V_REP_updownIndup  =     0.72727272727272;
+17557 +        V_REP_updownInddown  =     0.09090909090909;
+17558 +        V_REP_updownIndunchange  =     0.18181818181818;
+17559 +        I_REP_updownInd  = 'UP' ;
+17560 +        U_REP_updownInd  = 'up' ;
+17561 +        END;
+17562 +      ELSE DO;
+17563 +        _NODE_  =                   19;
+17564 +        _LEAF_  =                   14;
+17565 +        P_REP_updownIndup  =     0.33374689826302;
+17566 +        P_REP_updownInddown  =     0.50496277915632;
+17567 +        P_REP_updownIndunchange  =     0.16129032258064;
+17568 +        Q_REP_updownIndup  =     0.33374689826302;
+17569 +        Q_REP_updownInddown  =     0.50496277915632;
+17570 +        Q_REP_updownIndunchange  =     0.16129032258064;
+17571 +        V_REP_updownIndup  =     0.33793969849246;
+17572 +        V_REP_updownInddown  =                  0.5;
+17573 +        V_REP_updownIndunchange  =     0.16206030150753;
+17574 +        I_REP_updownInd  = 'DOWN' ;
+17575 +        U_REP_updownInd  = 'down' ;
+17576 +        END;
+17577 +      END;
+17578 +    END;
+17579 +  END;
+17580 +
+17581 +*****  RESIDUALS R_ *************;
+17582 +IF  F_REP_updownInd  NE 'UP'
+17583 +AND F_REP_updownInd  NE 'DOWN'
+17584 +AND F_REP_updownInd  NE 'UNCHANGE'  THEN DO;
+17585 +        R_REP_updownIndup  = .;
+17586 +        R_REP_updownInddown  = .;
+17587 +        R_REP_updownIndunchange  = .;
+17588 + END;
+17589 + ELSE DO;
+17590 +       R_REP_updownIndup  =  -P_REP_updownIndup ;
+17591 +       R_REP_updownInddown  =  -P_REP_updownInddown ;
+17592 +       R_REP_updownIndunchange  =  -P_REP_updownIndunchange ;
+17593 +       SELECT( F_REP_updownInd  );
+17594 +          WHEN( 'UP'  ) R_REP_updownIndup  = R_REP_updownIndup  +1;
+17595 +          WHEN( 'DOWN'  ) R_REP_updownInddown  = R_REP_updownInddown  +1;
+17596 +          WHEN( 'UNCHANGE'  ) R_REP_updownIndunchange  =
+17597 +        R_REP_updownIndunchange  +1;
+17598 +       END;
+17599 + END;
+17600 +
+17601 +****************************************************************;
+17602 +******          END OF DECISION TREE SCORING CODE         ******;
+17603 +****************************************************************;
+17604 +
+17605 +drop _LEAF_;
+NOTE: %INCLUDE (level 1) ending.
+17606  run;
+
+NOTE: DATA STEP view saved on file EMWS3.TREE2_VALIDATE.
+NOTE: A stored DATA STEP view cannot run under a different operating system.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+17607  quit;
+17608  filename emflow;
+NOTE: Fileref EMFLOW has been deassigned.
+
+NOTE: View EMWS3.TREE2_TRAIN.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+17610  proc sort data=WORK.EM_USER_REPORT;
+17611  by ID VIEW;
+17612  run;
+
+NOTE: There were 132 observations read from the data set WORK.EM_USER_REPORT.
+NOTE: The data set WORK.EM_USER_REPORT has 132 observations and 4 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+17613  *------------------------------------------------------------*;
+17614  * Tree2: Computing metadata for TRAIN data;
+17615  *------------------------------------------------------------*;
+
+NOTE: View EMWS3.TREE2_TRAIN.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+17992  data WORK.MODELTEMP_INFO;
+17993  set EMWS3.Tree2_EMINFO;
+17994  where DATA='Tree2' and KEY ^in('DECDATA', 'DECMETA', 'IMPORTANCE', 'MODEL');
+17995  run;
+
+NOTE: There were 0 observations read from the data set EMWS3.TREE2_EMINFO.
+      WHERE (DATA='Tree2') and KEY not in ('DECDATA', 'DECMETA', 'IMPORTANCE', 'MODEL');
+NOTE: The data set WORK.MODELTEMP_INFO has 0 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+17996  data EMWS3.Tree2_EMINFO;
+17997  length TARGET KEY $32 DATA $43;
+17998  input TARGET KEY DATA $;
+17999  cards;
+
+NOTE: The data set EMWS3.TREE2_EMINFO has 3 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+18003  run;
+18004  data EMWS3.Tree2_EMINFO;
+18005  set EMWS3.Tree2_EMINFO WORK.MODELTEMP_INFO;
+18006  run;
+
+NOTE: There were 3 observations read from the data set EMWS3.TREE2_EMINFO.
+NOTE: There were 0 observations read from the data set WORK.MODELTEMP_INFO.
+NOTE: The data set EMWS3.TREE2_EMINFO has 3 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+18007  proc sort data = EMWS3.Tree2_EMINFO NOTHREADS;
+18008  by TARGET KEY;
+18009  run;
+
+NOTE: There were 3 observations read from the data set EMWS3.TREE2_EMINFO.
+NOTE: The data set EMWS3.TREE2_EMINFO has 3 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+18010  proc sort data = EMWS3.Ids_EMINFO OUT=WORK.SORTEDEMINFO NOTHREADS;
+18011  by TARGET KEY;
+18012  run;
+
+NOTE: There were 3 observations read from the data set EMWS3.IDS_EMINFO.
+NOTE: The data set WORK.SORTEDEMINFO has 3 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+18013  proc sort data = EMWS3.Tree2_EMINFO OUT=WORK.TEMP_INFO NOTHREADS;
+18014  by TARGET KEY;
+18015  run;
+
+NOTE: Input data set is already sorted; it has been copied to the output data set.
+NOTE: There were 3 observations read from the data set EMWS3.TREE2_EMINFO.
+NOTE: The data set WORK.TEMP_INFO has 3 observations and 3 variables.
+NOTE: PROCEDURE SORT used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+18016  data EMWS3.Tree2_EMINFO;
+18017  merge WORK.SORTEDEMINFO WORK.TEMP_INFO;
+18018  by TARGET KEY;
+18019  run;
+
+NOTE: There were 3 observations read from the data set WORK.SORTEDEMINFO.
+NOTE: There were 3 observations read from the data set WORK.TEMP_INFO.
+NOTE: The data set EMWS3.TREE2_EMINFO has 6 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+      
+
+18020  proc datasets lib=work nolist;
+18021  delete TEMP_INFO SORTEDEMINFO;
+18022  run;
+
+NOTE: Deleting WORK.TEMP_INFO (memtype=DATA).
+NOTE: Deleting WORK.SORTEDEMINFO (memtype=DATA).
+18023  quit;
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: View EMWS3.TREE2_TRAIN.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+NOTE: View EMWS3.TREE2_VALIDATE.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      

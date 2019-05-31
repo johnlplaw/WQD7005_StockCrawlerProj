@@ -1,0 +1,333 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 11, 2019
+Time:                23:54:07
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+            Measurement    Frequency
+Role           Level         Count
+ 
+INPUT        INTERVAL          12
+INPUT        NOMINAL            4
+REJECTED     NOMINAL            1
+TARGET       NOMINAL            1
+ 
+ 
+ 
+ 
+Model Events
+ 
+                                         Number
+                          Measurement      of
+   Target        Event       Level       Levels      Order               Label
+ 
+REP_updownInd     UP        NOMINAL         3      Descending    Replacement: updownInd
+ 
+ 
+ 
+ 
+Predicted and decision variables
+ 
+Type         Variable                   Label
+ 
+TARGET       REP_updownInd              Replacement: updownInd
+PREDICTED    P_REP_updownIndup          Predicted: REP_updownInd=up
+RESIDUAL     R_REP_updownIndup          Residual: REP_updownInd=up
+PREDICTED    P_REP_updownIndunchange    Predicted: REP_updownInd=unchange
+RESIDUAL     R_REP_updownIndunchange    Residual: REP_updownInd=unchange
+PREDICTED    P_REP_updownInddown        Predicted: REP_updownInd=down
+RESIDUAL     R_REP_updownInddown        Residual: REP_updownInd=down
+FROM         F_REP_updownInd            From: REP_updownInd
+INTO         I_REP_updownInd            Into: REP_updownInd
+ 
+ 
+ 
+ 
+ 
+The DMREG Procedure
+ 
+                          Model Information
+ 
+Training Data Set              WORK.EM_DMREG.VIEW
+DMDB Catalog                   WORK.REG3_DMDB
+Target Variable                REP_updownInd (Replacement: updownInd)
+Target Measurement Level       Nominal
+Number of Target Categories    3
+Error                          MBernoulli
+Link Function                  Logit
+Number of Model Parameters     16
+Number of Observations         1250
+ 
+ 
+           Target Profile
+ 
+             REP_
+ Ordered     updown           Total
+   Value     Ind          Frequency
+ 
+       1     up                 359
+       2     unchange           422
+       3     down               469
+ 
+ 
+ 
+ 
+Stepwise Selection Procedure
+ 
+ 
+Step 0: Intercepts entered.
+ 
+ 
+ 
+ 
+ 
+The DMREG Procedure
+ 
+Newton-Raphson Ridge Optimization
+ 
+Without Parameter Scaling
+ 
+Parameter Estimates               2
+ 
+                                             Optimization Start
+ 
+Active Constraints                                  0  Objective Function                       1365.8858595
+Max Abs Gradient Element                 9.048318E-14
+ 
+                                            Optimization Results
+ 
+Iterations                                          0  Function Calls                                      3
+Hessian Calls                                       1  Active Constraints                                  0
+Objective Function                       1365.8858595  Max Abs Gradient Element                 9.048318E-14
+Ridge                                               0  Actual Over Pred Change                             0
+ 
+Convergence criterion (ABSGCONV=0.00001) satisfied.
+ 
+ 
+     Likelihood Ratio Test for Global Null Hypothesis: BETA=0
+ 
+     -2 Log Likelihood          Likelihood
+  Intercept     Intercept &          Ratio
+       Only      Covariates     Chi-Square       DF     Pr > ChiSq
+ 
+   2731.772        2731.772         0.0000        0          .
+ 
+ 
+ 
+ 
+                                      Analysis of Maximum Likelihood Estimates
+ 
+                      REP_
+                      updown                        Standard          Wald                  Standardized
+Parameter             Ind         DF    Estimate       Error    Chi-Square    Pr > ChiSq        Estimate    Exp(Est)
+ 
+Intercept             up           1     -0.2673      0.0701         14.53        0.0001                       0.765
+Intercept             unchange     1     -0.1056      0.0671          2.48        0.1155                       0.900
+ 
+ 
+ 
+NOTE: The stepwise model building process has reached the MAXSTEP= 0 limit.
+ 
+ 
+ 
+ 
+The selected model is the model trained in the last step (Step 0). It consists of the following effects:
+ 
+Intercept
+ 
+ 
+     Likelihood Ratio Test for Global Null Hypothesis: BETA=0
+ 
+     -2 Log Likelihood          Likelihood
+  Intercept     Intercept &          Ratio
+       Only      Covariates     Chi-Square       DF     Pr > ChiSq
+ 
+   2731.772        2731.772         0.0000        0          .
+ 
+ 
+ 
+ 
+                                      Analysis of Maximum Likelihood Estimates
+ 
+                      REP_
+                      updown                        Standard          Wald                  Standardized
+Parameter             Ind         DF    Estimate       Error    Chi-Square    Pr > ChiSq        Estimate    Exp(Est)
+ 
+Intercept             up           1     -0.2673      0.0701         14.53        0.0001                       0.765
+Intercept             unchange     1     -0.1056      0.0671          2.48        0.1155                       0.900
+ 
+ 
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Fit Statistics
+ 
+Target=REP_updownInd Target Label=Replacement: updownInd
+ 
+   Fit
+Statistics    Statistics Label                    Train    Validation
+ 
+ _AIC_        Akaike's Information Criterion    2735.77          .
+ _ASE_        Average Squared Error                0.22         0.22
+ _AVERR_      Average Error Function               0.73         0.73
+ _DFE_        Degrees of Freedom for Error      2498.00          .
+ _DFM_        Model Degrees of Freedom             2.00          .
+ _DFT_        Total Degrees of Freedom          2500.00          .
+ _DIV_        Divisor for ASE                   3750.00      3753.00
+ _ERR_        Error Function                    2731.77      2734.27
+ _FPE_        Final Prediction Error               0.22          .
+ _MAX_        Maximum Absolute Error               0.71         0.71
+ _MSE_        Mean Square Error                    0.22         0.22
+ _NOBS_       Sum of Frequencies                1250.00      1251.00
+ _NW_         Number of Estimate Weights           2.00          .
+ _RASE_       Root Average Sum of Squares          0.47         0.47
+ _RFPE_       Root Final Prediction Error          0.47          .
+ _RMSE_       Root Mean Squared Error              0.47         0.47
+ _SBC_        Schwarz's Bayesian Criterion      2747.42          .
+ _SSE_        Sum of Squared Errors              828.46       829.22
+ _SUMW_       Sum of Case Weights Times Freq    3750.00      3753.00
+ _MISC_       Misclassification Rate               0.62         0.63
+ 
+ 
+ 
+ 
+Classification Table
+ 
+Data Role=TRAIN Target Variable=REP_updownInd Target Label=Replacement: updownInd
+ 
+                         Target        Outcome     Frequency       Total
+Target      Outcome    Percentage    Percentage      Count      Percentage
+ 
+DOWN         DOWN         37.52          100          469          37.52
+UNCHANGE     DOWN         33.76          100          422          33.76
+UP           DOWN         28.72          100          359          28.72
+ 
+ 
+Data Role=VALIDATE Target Variable=REP_updownInd Target Label=Replacement: updownInd
+ 
+                         Target        Outcome     Frequency       Total
+Target      Outcome    Percentage    Percentage      Count      Percentage
+ 
+DOWN         DOWN        37.4900         100          469         37.4900
+UNCHANGE     DOWN        33.7330         100          422         33.7330
+UP           DOWN        28.7770         100          360         28.7770
+ 
+ 
+ 
+ 
+Event Classification Table
+ 
+Data Role=TRAIN Target=REP_updownInd Target Label=Replacement: updownInd
+ 
+  False       True        False       True
+Negative    Negative    Positive    Positive
+ 
+   359         891          0           0
+ 
+ 
+Data Role=VALIDATE Target=REP_updownInd Target Label=Replacement: updownInd
+ 
+  False       True        False       True
+Negative    Negative    Positive    Positive
+ 
+   360         891          0           0
+ 
+ 
+ 
+ 
+Assessment Score Rankings
+ 
+Data Role=TRAIN Target Variable=REP_updownInd Target Label=Replacement: updownInd
+ 
+                                                                                    Mean
+                            Cumulative       %      Cumulative     Number of     Posterior
+Depth      Gain      Lift      Lift      Response   % Response   Observations   Probability
+ 
+   5     3.773E-15     1         1         28.72       28.72          63           0.2872
+  10    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  15    2.3104E-14     1         1         28.72       28.72          63           0.2872
+  20    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  25    2.3104E-14     1         1         28.72       28.72          63           0.2872
+  30    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  35    2.3104E-14     1         1         28.72       28.72          63           0.2872
+  40    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  45    2.3104E-14     1         1         28.72       28.72          63           0.2872
+  50    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  55    2.3104E-14     1         1         28.72       28.72          63           0.2872
+  60    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  65    2.3104E-14     1         1         28.72       28.72          63           0.2872
+  70    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  75    2.3104E-14     1         1         28.72       28.72          63           0.2872
+  80    2.3104E-14     1         1         28.72       28.72          62           0.2872
+  85     3.773E-15     1         1         28.72       28.72          63           0.2872
+  90     3.773E-15     1         1         28.72       28.72          62           0.2872
+  95     3.773E-15     1         1         28.72       28.72          63           0.2872
+ 100     3.773E-15     1         1         28.72       28.72          62           0.2872
+ 
+ 
+Data Role=VALIDATE Target Variable=REP_updownInd Target Label=Replacement: updownInd
+ 
+                                                                                       Mean
+                               Cumulative       %      Cumulative     Number of     Posterior
+Depth      Gain        Lift       Lift      Response   % Response   Observations   Probability
+ 
+   5    8.1597E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  10    8.1597E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  15    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  20    8.1597E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  25    8.1597E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  30    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  35    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  40    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  45    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  50    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  55    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  60    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  65    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  70    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  75    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  80    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  85    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+  90    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+  95    6.2309E-14   1.00000     1.00000     28.7770     28.7770         63           0.2872
+ 100    6.2309E-14   1.00000     1.00000     28.7770     28.7770         62           0.2872
+ 
+ 
+ 
+ 
+Assessment Score Distribution
+ 
+Data Role=TRAIN Target Variable=REP_updownInd Target Label=Replacement: updownInd
+ 
+ Posterior     Number                     Mean
+Probability      of      Number of     Posterior
+   Range       Events    Nonevents    Probability    Percentage
+ 
+ 0.25-0.30       359        891          0.2872          100
+ 
+ 
+Data Role=VALIDATE Target Variable=REP_updownInd Target Label=Replacement: updownInd
+ 
+ Posterior     Number                     Mean
+Probability      of      Number of     Posterior
+   Range       Events    Nonevents    Probability    Percentage
+ 
+ 0.25-0.30       360        891          0.2872          100

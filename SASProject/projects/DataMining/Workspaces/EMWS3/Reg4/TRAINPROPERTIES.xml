@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  MainEffect="Y" TwoFactor="N" Polynomial="N" PolynomialDegree="2" Terms="N" Error="LOGISTIC"
+ LinkFunction="LOGIT" SuppressIntercept="N" InputCoding="DEVIATION" MinResourceUse="N"
+ ModelSelection="NONE" SelectionCriterion="DEFAULT" SelectionDefault="Y" Sequential="N"
+ SlEntry="0.05" SlStay="0.05" Start="0" Stop="0" Force="0" Hierarchy="CLASS" Rule="NONE"
+ MaxStep="." StepOutput="N" OptimizationTechnique="DEFAULT" ModelDefaults="Y" MaxIterations="."
+ MaxFunctionCalls="." MaxCPUTime="1 HOUR" ConvDefaults="Y" AbsConvValue="-1.34078E154"
+ AbsFValue="0" AbsFTime="1" AbsGValue="0.00001" AbsGTime="1" AbsXValue="1E-8" AbsXTime="1"
+ FConvValue="0" FConvTimes="1" GConvValue="1E-6" GConvTimes="1" ClParm="N" Covout="N"
+ CovB="N" CorB="N" Simple="N" SuppressOutput="N" Details="N" PrintDesignMatrix="N"
+ SASSPDS="N" Performance="N" ExcludedVariable="REJECT" ForceRun="N" RunAction="Train"
+ Component="Regression" RawCreateTime="1873238107.9" CreateTime="11MAY2019:23:55:08"
+ Interactions="" RunId="97fbc241-247f-4838-b48e-c66af289ea8f" RawLastTimeRun="1873238516.5"
+ RawRunTime="13.519999981" LastTimeRun="12MAY2019:00:01:57" RunTime="0 Hr. 0 Min. 13.52 Sec."
+>
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES ><![CDATA[
+EMNOTES
+]]>
+</FILEPROPERTIES><EMTARGETATTRIBUTES >
+<REP_UPDOWNIND >
+<DECDATA  Table="EMWS3.Reg_REP_updownInd_DD">
+<DATA >
+<OBS  REP_UPDOWNIND="UP" COUNT="359" DATAPRIOR="0.2872" TRAINPRIOR="0.2872" DECPRIOR="."
+ DECISION1="1" DECISION2="0" DECISION3="0"/>
+<OBS  REP_UPDOWNIND="UNCHANGE" COUNT="422" DATAPRIOR="0.3376" TRAINPRIOR="0.3376" DECPRIOR="."
+ DECISION1="0" DECISION2="1" DECISION3="0"/>
+<OBS  REP_UPDOWNIND="DOWN" COUNT="469" DATAPRIOR="0.3752" TRAINPRIOR="0.3752" DECPRIOR="."
+ DECISION1="0" DECISION2="0" DECISION3="1"/>
+</DATA>
+<METADATA >
+<VARIABLE  NAME="REP_updownInd" LABEL="" LENGTH="32" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="COUNT" LABEL="Level Counts" LENGTH="8" FORMAT="" TYPE="N"/>
+<VARIABLE  NAME="DATAPRIOR" LABEL="Data Proportions" LENGTH="8" FORMAT="" TYPE="N"/>
+<VARIABLE  NAME="TRAINPRIOR" LABEL="Training Proportions" LENGTH="8" FORMAT="" TYPE="N"/>
+<VARIABLE  NAME="DECPRIOR" LABEL="Decision Priors" LENGTH="8" FORMAT="" TYPE="N"/>
+<VARIABLE  NAME="DECISION1" LABEL="UP" LENGTH="8" FORMAT="" TYPE="N"/>
+<VARIABLE  NAME="DECISION2" LABEL="UNCHANGE" LENGTH="8" FORMAT="" TYPE="N"/>
+<VARIABLE  NAME="DECISION3" LABEL="DOWN" LENGTH="8" FORMAT="" TYPE="N"/>
+</METADATA>
+</DECDATA>
+<DECMETA  Table="EMWS3.Reg_REP_updownInd_DM">
+<DATA >
+<OBS  _TYPE_="MATRIX" VARIABLE="" LABEL="" LEVEL="PROFIT" EVENT="" ORDER="" FORMAT="" TYPE=""
+ COST="" USE="N"/>
+<OBS  _TYPE_="TARGET" VARIABLE="REP_updownInd" LABEL="Replacement: updownInd" LEVEL="NOMINAL"
+ EVENT="UP" ORDER="" FORMAT="$8." TYPE="C" COST="" USE=""/>
+<OBS  _TYPE_="DECISION" VARIABLE="DECISION1" LABEL="UP" LEVEL="" EVENT="" ORDER="" FORMAT=""
+ TYPE="N" COST="" USE="Y"/>
+<OBS  _TYPE_="DECISION" VARIABLE="DECISION2" LABEL="UNCHANGE" LEVEL="" EVENT="" ORDER=""
+ FORMAT="" TYPE="N" COST="" USE="Y"/>
+<OBS  _TYPE_="DECISION" VARIABLE="DECISION3" LABEL="DOWN" LEVEL="" EVENT="" ORDER="" FORMAT=""
+ TYPE="N" COST="" USE="Y"/>
+<OBS  _TYPE_="DATAPRIOR" VARIABLE="DATAPRIOR" LABEL="Data Prior" LEVEL="" EVENT="" ORDER=""
+ FORMAT="" TYPE="N" COST="" USE="N"/>
+<OBS  _TYPE_="TRAINPRIOR" VARIABLE="TRAINPRIOR" LABEL="Training Prior" LEVEL="" EVENT=""
+ ORDER="" FORMAT="" TYPE="N" COST="" USE="N"/>
+<OBS  _TYPE_="DECPRIOR" VARIABLE="DECPRIOR" LABEL="Decision Prior" LEVEL="" EVENT="" ORDER=""
+ FORMAT="" TYPE="N" COST="" USE="N"/>
+<OBS  _TYPE_="PREDICTED" VARIABLE="P_REP_updownIndup" LABEL="Predicted: REP_updownInd=up"
+ LEVEL="UP" EVENT="" ORDER="" FORMAT="" TYPE="N" COST="" USE=""/>
+<OBS  _TYPE_="RESIDUAL" VARIABLE="R_REP_updownIndup" LABEL="Residual: REP_updownInd=up"
+ LEVEL="UP" EVENT="" ORDER="" FORMAT="" TYPE="N" COST="" USE=""/>
+<OBS  _TYPE_="PREDICTED" VARIABLE="P_REP_updownIndunchange" LABEL="Predicted: REP_updownInd=unchange"
+ LEVEL="UNCHANGE" EVENT="" ORDER="" FORMAT="" TYPE="N" COST="" USE=""/>
+<OBS  _TYPE_="RESIDUAL" VARIABLE="R_REP_updownIndunchange" LABEL="Residual: REP_updownInd=unchange"
+ LEVEL="UNCHANGE" EVENT="" ORDER="" FORMAT="" TYPE="N" COST="" USE=""/>
+<OBS  _TYPE_="PREDICTED" VARIABLE="P_REP_updownInddown" LABEL="Predicted: REP_updownInd=down"
+ LEVEL="DOWN" EVENT="" ORDER="" FORMAT="" TYPE="N" COST="" USE=""/>
+<OBS  _TYPE_="RESIDUAL" VARIABLE="R_REP_updownInddown" LABEL="Residual: REP_updownInd=down"
+ LEVEL="DOWN" EVENT="" ORDER="" FORMAT="" TYPE="N" COST="" USE=""/>
+<OBS  _TYPE_="FROM" VARIABLE="F_REP_updownInd" LABEL="From: REP_updownInd" LEVEL="" EVENT=""
+ ORDER="" FORMAT="" TYPE="C" COST="" USE=""/>
+<OBS  _TYPE_="INTO" VARIABLE="I_REP_updownInd" LABEL="Into: REP_updownInd" LEVEL="" EVENT=""
+ ORDER="" FORMAT="" TYPE="C" COST="" USE=""/>
+</DATA>
+<METADATA >
+<VARIABLE  NAME="_TYPE_" LABEL="Type" LENGTH="32" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="VARIABLE" LABEL="Variable" LENGTH="32" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="LABEL" LABEL="Label" LENGTH="256" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="LEVEL" LABEL="Measurement Level" LENGTH="32" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="EVENT" LABEL="Target Event" LENGTH="32" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="ORDER" LABEL="Order" LENGTH="10" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="FORMAT" LABEL="Format" LENGTH="32" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="TYPE" LABEL="Type" LENGTH="1" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="COST" LABEL="Cost" LENGTH="32" FORMAT="" TYPE="C"/>
+<VARIABLE  NAME="USE" LABEL="Use" LENGTH="1" FORMAT="" TYPE="C"/>
+</METADATA>
+</DECMETA>
+</REP_UPDOWNIND>
+</EMTARGETATTRIBUTES>
+</_ROOT_>

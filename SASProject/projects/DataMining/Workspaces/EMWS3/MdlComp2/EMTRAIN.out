@@ -1,0 +1,163 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+          Measurement    Frequency
+ Role        Level         Count
+
+TARGET      NOMINAL          1    
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+Fit Statistics
+Model Selection based on Valid: Misclassification Rate (_VMISC_)
+
+ 
+ 
+Selected    Model
+ Model      Node     Model Description
+
+   Y        Reg4     Logistic Regression - log                       
+            Reg      Logistic Regression                             
+            Reg2     Logistic Regression - StepWise                  
+            Reg3     Logistic Regression - StepWise (set significant)
+
+                      Train:                          Valid:
+      Valid:         Average          Train:         Average
+Misclassification    Squared    Misclassification    Squared
+       Rate           Error            Rate           Error
+
+     0.08233         0.04061          0.0872         0.04003
+     0.11910         0.05181          0.1056         0.05262
+     0.12070         0.05151          0.1072         0.05308
+     0.62510         0.22092          0.6248         0.22095
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+Fit Statistics Table
+Target: REP_updownInd
+
+Data Role=Train
+
+Statistics                                                        Reg4     Reg    Reg2    Reg3
+
+Train: Bin-Based Two-Way Kolmogorov-Smirnov Probability Cutoff    0.36    0.34    0.35    0.29
+Train: Kolmogorov-Smirnov Statistic                               0.86    0.85    0.85    0.00
+Train: Akaike's Information Criterion                           541.58  701.00  694.00 2735.77
+Train: Average Squared Error                                      0.04    0.05    0.05    0.22
+Train: Roc Index                                                  0.97    0.96    0.97    0.50
+Train: Average Error Function                                     0.14    0.18    0.18    0.73
+Train: Cumulative Percent Captured Response                      34.26   32.87   32.87   10.00
+Train: Percent Captured Response                                 16.99   15.60   15.60    4.96
+Selection Criterion: Valid: Misclassification Rate                0.08    0.12    0.12    0.63
+Train: Degrees of Freedom for Error                            2484.00 2484.00 2488.00 2498.00
+Train: Model Degrees of Freedom                                  16.00   16.00   12.00    2.00
+Train: Total Degrees of Freedom                                2500.00 2500.00 2500.00 2500.00
+Train: Divisor for ASE                                         3750.00 3750.00 3750.00 3750.00
+Train: Error Function                                           509.58  669.00  670.00 2731.77
+Train: Final Prediction Error                                     0.04    0.05    0.05    0.22
+Train: Gain                                                     242.62  228.69  228.69    0.00
+Train: Gini Coefficient                                           0.94    0.93    0.94    0.00
+Train: Bin-Based Two-Way Kolmogorov-Smirnov Statistic             0.85    0.85    0.85    0.00
+Train: Kolmogorov-Smirnov Probability Cutoff                      0.24    0.30    0.32     .  
+Train: Cumulative Lift                                            3.43    3.29    3.29    1.00
+Train: Lift                                                       3.43    3.14    3.14    1.00
+Train: Maximum Absolute Error                                     1.00    1.00    1.00    0.71
+Train: Misclassification Rate                                     0.09    0.11    0.11    0.62
+Train: Mean Square Error                                          0.04    0.05    0.05    0.22
+Train: Sum of Frequencies                                      1250.00 1250.00 1250.00 1250.00
+Train: Number of Estimate Weights                                16.00   16.00   12.00    2.00
+Train: Root Average Sum of Squares                                0.20    0.23    0.23    0.47
+Train: Cumulative Percent Response                               98.40   94.40   94.40   28.72
+Train: Percent Response                                          98.39   90.32   90.32   28.72
+Train: Root Final Prediction Error                                0.20    0.23    0.23    0.47
+Train: Root Mean Squared Error                                    0.20    0.23    0.23    0.47
+Train: Schwarz's Bayesian Criterion                             634.77  794.19  763.89 2747.42
+Train: Sum of Squared Errors                                    152.29  194.29  193.15  828.46
+Train: Sum of Case Weights Times Freq                          3750.00 3750.00 3750.00 3750.00
+
+
+Data Role=Valid
+
+Statistics                                                        Reg4     Reg    Reg2    Reg3
+
+Valid: Kolmogorov-Smirnov Statistic                               0.88    0.88    0.87    0.00
+Valid: Average Squared Error                                      0.04    0.05    0.05    0.22
+Valid: Roc Index                                                  0.97    0.97    0.97    0.50
+Valid: Average Error Function                                     0.14    0.18    0.19    0.73
+Valid: Bin-Based Two-Way Kolmogorov-Smirnov Probability Cutoff    0.33    0.34    0.35    0.00
+Valid: Cumulative Percent Captured Response                      33.33   32.50   32.50   10.07
+Valid: Percent Captured Response                                 16.11   15.83   15.83    5.04
+Valid: Divisor for VASE                                        3753.00 3753.00 3753.00 3753.00
+Valid: Error Function                                           537.59  689.61  697.18 2734.27
+Valid: Gain                                                     230.95  222.68  222.68    0.00
+Valid: Gini Coefficient                                           0.95    0.93    0.93    0.00
+Valid: Bin-Based Two-Way Kolmogorov-Smirnov Statistic             0.88    0.88    0.86    0.00
+Valid: Kolmogorov-Smirnov Probability Cutoff                      0.25    0.33    0.33     .  
+Valid: Cumulative Lift                                            3.31    3.23    3.23    1.00
+Valid: Lift                                                       3.20    3.14    3.14    1.00
+Valid: Maximum Absolute Error                                     1.00    1.00    1.00    0.71
+Valid: Misclassification Rate                                     0.08    0.12    0.12    0.63
+Valid: Mean Square Error                                          0.04    0.05    0.05    0.22
+Valid: Sum of Frequencies                                      1251.00 1251.00 1251.00 1251.00
+Valid: Root Average Squared Error                                 0.20    0.23    0.23    0.47
+Valid: Cumulative Percent Response                               95.24   92.86   92.86   28.78
+Valid: Percent Response                                          92.06   90.48   90.48   28.78
+Valid: Root Mean Square Error                                     0.20    0.23    0.23    0.47
+Valid: Sum of Square Errors                                     150.22  197.47  199.21  829.22
+Valid: Sum of Case Weights Times Freq                          3753.00 3753.00 3753.00 3753.00
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+Event Classification Table
+Model Selection based on Valid: Misclassification Rate (_VMISC_)
+
+Model                                                        Data
+Node     Model Description                                   Role           Target
+
+Reg      Logistic Regression                                 TRAIN       REP_updownInd
+Reg      Logistic Regression                                 VALIDATE    REP_updownInd
+Reg2     Logistic Regression - StepWise                      TRAIN       REP_updownInd
+Reg2     Logistic Regression - StepWise                      VALIDATE    REP_updownInd
+Reg3     Logistic Regression - StepWise (set significant)    TRAIN       REP_updownInd
+Reg3     Logistic Regression - StepWise (set significant)    VALIDATE    REP_updownInd
+Reg4     Logistic Regression - log                           TRAIN       REP_updownInd
+Reg4     Logistic Regression - log                           VALIDATE    REP_updownInd
+
+                            False       True        False       True
+     Target Label         Negative    Negative    Positive    Positive
+
+Replacement: updownInd       110         869         22          249  
+Replacement: updownInd       114         856         35          246  
+Replacement: updownInd       115         872         19          244  
+Replacement: updownInd       119         859         32          241  
+Replacement: updownInd       359         891          0            0  
+Replacement: updownInd       360         891          0            0  
+Replacement: updownInd        66         848         43          293  
+Replacement: updownInd        62         850         41          298  

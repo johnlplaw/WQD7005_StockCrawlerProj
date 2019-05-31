@@ -1,0 +1,93 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 24, 2019
+Time:                01:17:32
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+         Measurement    Frequency
+Role        Level         Count
+ 
+INPUT     INTERVAL          13
+INPUT     NOMINAL            1
+TEXT      NOMINAL            1
+ 
+ 
+ 
+ 
+ 
+The CONTENTS Procedure
+ 
+Data Set Name        EMWS6.FIMPORT_DATA            Observations          999
+Member Type          DATA                          Variables             15
+Engine               V9                            Indexes               0
+Created              05/24/2019 01:17:30           Observation Length    200
+Last Modified        05/24/2019 01:17:30           Deleted Observations  0
+Protection                                         Compressed            NO
+Data Set Type                                      Sorted                NO
+Label
+Data Representation  WINDOWS_32
+Encoding             wlatin1  Western (Windows)
+ 
+ 
+                                                      Engine/Host Dependent Information
+ 
+Data Set Page Size          65536
+Number of Data Set Pages    4
+First Data Page             1
+Max Obs per Page            327
+Obs in First Data Page      314
+Number of Data Set Repairs  0
+ExtendObsCounter            YES
+Filename                    C:\JohnLaw\OneDrive\WQD Data Science\WQD7005\SASProject\projects\DataMining\Workspaces\EMWS6\fimport_data.sas7bdat
+Release Created             9.0401M3
+Host Created                W32_7PRO
+ 
+ 
+       Alphabetic List of Variables and Attributes
+ 
+ #    Variable        Type    Len    Format     Informat
+ 
+ 8    buyval          Num       8    BEST12.    BEST32.
+10    chg             Num       8    BEST12.    BEST32.
+ 1    comp_code       Char     10    $10.       $10.
+ 2    comp_name       Char     86    $86.       $86.
+14    downcnt         Num       8    BEST12.    BEST32.
+12    downpricesum    Num       8    BEST12.    BEST32.
+ 5    high            Num       8    BEST12.    BEST32.
+ 6    lastDone        Num       8    BEST12.    BEST32.
+ 4    low             Num       8    BEST12.    BEST32.
+ 3    open            Num       8    BEST12.    BEST32.
+ 9    sellVal         Num       8    BEST12.    BEST32.
+15    unchgcnt        Num       8    BEST12.    BEST32.
+13    upcnt           Num       8    BEST12.    BEST32.
+11    uppricesum      Num       8    BEST12.    BEST32.
+ 7    vol             Num       8    BEST12.    BEST32.
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Exported Attributes for TRAIN Port
+ 
+         Measurement    Frequency
+Role        Level         Count
+ 
+INPUT     INTERVAL          13
+INPUT     NOMINAL            1
+TEXT      NOMINAL            1

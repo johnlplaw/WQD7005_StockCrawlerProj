@@ -1,0 +1,12 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Replacement Counts
+
+Obs    Variable        Role     Label    Train
+
+ 1     Category        INPUT                 0
+ 2     Sub_category    INPUT                 0
+ 3     comp_code       INPUT             33251
+ 4     stock_code      INPUT             33251

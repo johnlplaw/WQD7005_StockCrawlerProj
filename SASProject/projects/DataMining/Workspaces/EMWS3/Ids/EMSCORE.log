@@ -1,0 +1,53 @@
+*------------------------------------------------------------*
+* Score Log
+Date:                May 11, 2019
+Time:                23:03:57
+*------------------------------------------------------------*
+11566  *------------------------------------------------------------*;
+11567  * Ids: Computing metadata for DATA data;
+11568  *------------------------------------------------------------*;
+
+NOTE: View EMWS3.IDS_DATA.VIEW used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+      
+11569  data EMWS3.Ids_EMINFO;
+11570  length TARGET KEY $32 DATA $43;
+11571  TARGET="";
+11572  KEY="IDSTABLE";
+11573  DATA="WQD7005.LAB2_TRAIN";
+11574  output;
+11575  TARGET="updownInd";
+11576  KEY="DECDATA";
+11577  DATA="EMWS3.Ids_updownInd_DD";
+11578  output;
+11579  TARGET="updownInd";
+11580  KEY="DECMETA";
+11581  DATA="EMWS3.Ids_updownInd_DM";
+11582  output;
+11583  run;
+
+NOTE: The data set EMWS3.IDS_EMINFO has 3 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: View EMWS3.IDS_DATA.VIEW used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+11584  data EMWS3.Ids_CMeta_DATA;
+11585  set EMWS3.Ids_VariableSet;
+11586  drop DROP;
+11587  where DROP='N';
+11588  run;
+
+NOTE: There were 21 observations read from the data set EMWS3.IDS_VARIABLESET.
+      WHERE DROP='N';
+NOTE: The data set EMWS3.IDS_CMETA_DATA has 21 observations and 20 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+

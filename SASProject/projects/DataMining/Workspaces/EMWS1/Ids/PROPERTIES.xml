@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  DataSource="labtestdata" Scope="LOCAL" Role="RAW" Library="WQD7005" Table="LABTEST1_DATA"
+ NCols="20" NObs="50659" NBytes="13042688" Segment="" DataSourceRole="RAW" OutputType="VIEW"
+ ForceRun="N" ComputeStatistics="N" DataSelection="DATASOURCE" NewTable="" MetaAdvisor="BASIC"
+ ApplyIntervalLevelLowerLimit="Y" IntervalLowerLimit="20" ApplyMaxPercentMissing="Y"
+ MaxPercentMissing="50" ApplyMaxClassLevels="Y" MaxClassLevels="20" IdentifyEmptyColumns="Y"
+ VariableValidation="STRICT" NewVariableRole="REJECT" DropMapVariables="Y" DsId="labtestdata"
+ DsSampleName="" DsSampleSizeType="" DsSampleSize="" DsCreatedBy="QR" DsCreateDate="1873228590.2"
+ DsModifiedBy="QR" DsModifyDate="1873228590.3" DsScope="LOCAL" Sample="D" SampleSizeType="PERCENT"
+ SampleSizePercent="20" SampleSizeObs="10000" DBPassThrough="Y" RunAction="Train"
+ Component="DataSource" RawCreateTime="1873228595.9" CreateTime="11MAY2019:21:16:36"
+ Description="" Data="WQD7005.LABTEST1_DATA" CMeta="WORK.M354_8PY" RunId="7b503af9-4ecd-4530-b053-91a22c5f270b"
+>
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES/>
+</_ROOT_>

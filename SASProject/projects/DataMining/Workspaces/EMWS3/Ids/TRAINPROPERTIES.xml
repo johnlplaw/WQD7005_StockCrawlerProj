@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?><_ROOT_  DataSource="labtrain" Scope="LOCAL" Role="RAW" Library="WQD7005" Table="LAB2_TRAIN"
+ NCols="21" NObs="2501" NBytes="656384" Segment="" DataSourceRole="RAW" OutputType="VIEW"
+ ForceRun="N" ComputeStatistics="N" DataSelection="DATASOURCE" NewTable="" MetaAdvisor="BASIC"
+ ApplyIntervalLevelLowerLimit="Y" IntervalLowerLimit="20" ApplyMaxPercentMissing="Y"
+ MaxPercentMissing="50" ApplyMaxClassLevels="Y" MaxClassLevels="20" IdentifyEmptyColumns="Y"
+ VariableValidation="STRICT" NewVariableRole="REJECT" DropMapVariables="Y" DsId="labtrain"
+ DsSampleName="" DsSampleSizeType="" DsSampleSize="" DsCreatedBy="QR" DsCreateDate="1873234769.4"
+ DsModifiedBy="QR" DsModifyDate="1873234769.4" DsScope="LOCAL" Sample="D" SampleSizeType="PERCENT"
+ SampleSizePercent="20" SampleSizeObs="10000" DBPassThrough="Y" RunAction="Train"
+ Component="DataSource" RawCreateTime="1873234774.9" CreateTime="11MAY2019:22:59:35"
+ Description="" Data="WQD7005.LAB2_TRAIN" CMeta="WORK.M0MPIJYE" RunId="b44b5491-3b19-4f60-879c-59c7ec5fce97"
+ RawLastTimeRun="1873235031.6" RawRunTime="6.2180001736" LastTimeRun="11MAY2019:23:03:52"
+ RunTime="0 Hr. 0 Min. 6.22 Sec.">
+<VARIABLEPROPERTIES/>
+<FILEPROPERTIES/>
+</_ROOT_>

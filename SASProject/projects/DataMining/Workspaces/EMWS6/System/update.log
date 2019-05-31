@@ -1,0 +1,154 @@
+NOTE: PROCEDURE PRINTTO used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+1 
+Traverser: Traverser invoked.  MPCONNECT command is sas. 
+Traverser: Beginning flow traversal 
+*------------------------------------------------------------* 
+* 
+* Ids : Beginning Update 
+* datetime : 29MAY2019:00:25:36 
+* 
+*------------------------------------------------------------* 
+11647      *------------------------------------------------------------*;
+11648      * Ids: Update Variables Set;
+11649      *------------------------------------------------------------*;
+
+11650      data EMWS6.Ids_VariableSet;
+11651      length ROLE $32;
+11652      length LEVEL $10;
+11653      length REPORT $1;
+11654      label REPORT = "Report";
+11655      length ORDER $8;
+11656      length DROP $1;
+11657      length LOWERLIMIT 8;
+11658      length UPPERLIMIT 8;
+11659      set EMWS6.Ids_EMCMETADEFAULT;
+11660      run;
+
+NOTE: There were 24 observations read from the data set EMWS6.IDS_EMCMETADEFAULT.
+NOTE: The data set EMWS6.IDS_VARIABLESET has 24 observations and 21 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11661      * Ids: End of Update Variables Set;
+11662      *------------------------------------------------------------*;
+
+11663      *------------------------------------------------------------*;
+11664      * Ids: Computing metadata for DATA data;
+11665      *------------------------------------------------------------*;
+
+11675      data EMWS6.Ids_EMINFO;
+11676      length TARGET KEY $32 DATA $43;
+11677      TARGET="";
+11678      KEY="IDSTABLE";
+11679      DATA="WQD7005.CLUSTERED_STOCK_TRAIN";
+11680      output;
+11681      run;
+
+NOTE: The data set EMWS6.IDS_EMINFO has 1 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+11682      data EMWS6.Ids_CMeta_DATA;
+11683      set EMWS6.Ids_VariableSet;
+11684      drop DROP;
+11685      where DROP='N';
+11686      run;
+
+NOTE: There were 24 observations read from the data set EMWS6.IDS_VARIABLESET.
+      WHERE DROP='N';
+NOTE: The data set EMWS6.IDS_CMETA_DATA has 24 observations and 20 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11688      %let _HPDMGRIDHOST=;
+11689      %let _HPDMGRIDINSTALLLOC=;
+11690      %let _HPDMGRIDDATASERVER=;
+11691      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Ids : End Update 
+* datetime : 29MAY2019:00:25:36 
+* 
+*------------------------------------------------------------* 
+traverser_readyNode_note 
+*------------------------------------------------------------* 
+* 
+* Plot : Beginning Update 
+* datetime : 29MAY2019:00:25:36 
+* 
+*------------------------------------------------------------* 
+11710      data _null_;
+11711      set EMWS6.Ids_CMeta_DATA (obs=1);
+11712      run;
+
+NOTE: There were 1 observations read from the data set EMWS6.IDS_CMETA_DATA.
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+11713      *------------------------------------------------------------*;
+11714      * Plot: Update Variables Set;
+11715      *------------------------------------------------------------*;
+
+11716      data EMWS6.Plot_VariableSet;
+11717      length USE $1;
+11718      label USE = "Use";
+11719      set EMWS6.Ids_CMeta_DATA;
+11720      where(ROLE in("TARGET" "INPUT" "REJECTED" "FREQ" "PREDICT" "RESIDUAL" "ASSESS" "GROUP"));
+11721      run;
+
+NOTE: Variable USE is uninitialized.
+NOTE: There were 23 observations read from the data set EMWS6.IDS_CMETA_DATA.
+      WHERE ROLE in ('ASSESS', 'FREQ', 'GROUP', 'INPUT', 'PREDICT', 'REJECTED', 'RESIDUAL', 'TARGET');
+NOTE: The data set EMWS6.PLOT_VARIABLESET has 23 observations and 21 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+11722      * Plot: End of Update Variables Set;
+11723      *------------------------------------------------------------*;
+
+11724      *------------------------------------------------------------*;
+11725      * Plot: Computing metadata for TRAIN data;
+11726      *------------------------------------------------------------*;
+
+11737      %let _HPDMGRIDHOST=;
+11738      %let _HPDMGRIDINSTALLLOC=;
+11739      %let _HPDMGRIDDATASERVER=;
+11740      %hpdm_gridSetOPtions;
+
+NOTE: DATA statement used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.01 seconds
+      
+
+
+*------------------------------------------------------------* 
+* 
+* Plot : End Update 
+* datetime : 29MAY2019:00:25:37 
+* 
+*------------------------------------------------------------* 
+Traverser: Run Completed 
+11741      proc printto;
+11742      run;
+

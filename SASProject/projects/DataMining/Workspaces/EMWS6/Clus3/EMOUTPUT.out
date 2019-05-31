@@ -1,0 +1,134 @@
+*------------------------------------------------------------*
+User:                QR
+Date:                May 25, 2019
+Time:                01:43:53
+*------------------------------------------------------------*
+* Training Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Summary
+ 
+         Measurement    Frequency
+Role        Level         Count
+ 
+INPUT     INTERVAL          8
+INPUT     NOMINAL           1
+ 
+ 
+ 
+The CLUSTER Procedure
+Ward's Minimum Variance Cluster Analysis
+ 
+            Eigenvalues of the Covariance Matrix
+ 
+        Eigenvalue    Difference    Proportion    Cumulative
+ 
+   1    5.65066188    3.51854166        0.4647        0.4647
+   2    2.13212022    0.52591561        0.1753        0.6400
+   3    1.60620462    0.50502118        0.1321        0.7721
+   4    1.10118344    0.32073104        0.0906        0.8627
+   5    0.78045239    0.15376152        0.0642        0.9269
+   6    0.62669087    0.48638411        0.0515        0.9784
+   7    0.14030677    0.01786179        0.0115        0.9899
+   8    0.12244498                      0.0101        1.0000
+ 
+Root-Mean-Square Total-Sample Standard Deviation    1.260791
+ 
+Root-Mean-Square Distance Between Observations    5.043165
+ 
+ 
+                                                 Cluster History
+  Number
+      of                                                 Semipartial                 Pseudo F       Pseudo
+Clusters    ------Clusters Joined-------         Freq       R-Square    R-Square    Statistic    t-Squared    Tie
+ 
+      49    OB8             OB22                    5         0.0001        .956          431          1.3
+      48    OB6             OB24                    2         0.0001        .956          439           .
+      47    OB15            OB48                    2         0.0001        .956          448           .
+      46    OB1             OB40                    6         0.0003        .956          456          2.8
+      45    OB4             OB50                    3         0.0003        .955          464          2.7
+      44    OB19            OB42                    5         0.0003        .955          471          3.4
+      43    OB5             OB36                  108         0.0004        .955          479         11.6
+      42    OB3             OB11                   57         0.0004        .954          486          6.4
+      41    CL45            OB37                    4         0.0004        .954          494          2.3
+      40    OB9             OB47                    2         0.0005        .953          502           .
+      39    OB13            OB23                    5         0.0006        .953          509          6.1
+      38    OB26            OB45                    3         0.0007        .952          515          3.8
+      37    CL39            OB29                    6         0.0007        .951          521          3.2
+      36    CL49            OB25                    6         0.0009        .950          527          9.4
+      35    CL36            OB16                    7         0.0012        .949          530          4.6
+      34    OB12            CL44                    6         0.0012        .948          533          7.8
+      33    CL46            CL37                   12         0.0012        .947          537          5.4
+      32    OB17            OB32                    3         0.0013        .945          540         70.1
+      31    CL47            OB41                    8         0.0014        .944          544         11.0
+      30    OB20            OB46                   59         0.0014        .943          549         16.5
+      29    CL35            CL38                   10         0.0016        .941          553          4.0
+      28    OB2             CL34                   17         0.0020        .939          554          9.9
+      27    CL48            OB21                    3         0.0020        .937          556         14.9
+      26    CL30            OB33                   73         0.0022        .935          558         20.0
+      25    OB7             CL31                  124         0.0024        .932          560         55.0
+      24    OB30            OB43                    2         0.0025        .930          562           .
+      23    OB14            OB18                  175         0.0031        .927          562         72.8
+      22    OB28            OB44                  200         0.0031        .924          563         75.9
+      21    CL43            OB49                  138         0.0040        .920          560         83.5
+      20    OB27            CL24                    3         0.0043        .915          558          1.7
+      19    CL42            OB38                  176         0.0043        .911          558         95.1
+      18    CL21            OB39                  193         0.0070        .904          544          108
+      17    OB10            OB31                    2         0.0071        .897          535           .
+      16    CL41            CL18                  197         0.0074        .890          529         71.8
+      15    CL27            CL17                    5         0.0116        .878          506          3.8
+      14    CL23            CL22                  375         0.0126        .866          488          217
+      13    CL19            CL25                  300         0.0150        .850          467          223
+      12    CL29            CL20                   13         0.0152        .835          455         14.2
+      11    CL33            CL15                   17         0.0175        .818          444         10.8
+      10    CL28            CL40                   19         0.0208        .797          432         64.6
+       9    CL14            CL26                  448         0.0211        .776          429          213
+       8    CL12            OB35                   14         0.0344        .742          406         15.3
+       7    CL10            CL9                   467         0.0462        .695          378          235
+       6    CL16            CL32                  200         0.0489        .647          363          337
+       5    CL13            CL6                   500         0.0676        .579          342          299
+       4    CL5             CL8                   514         0.0904        .488          317          192
+       3    CL7             CL4                   981         0.1008        .388          315          210
+       2    CL11            CL3                   998         0.1232        .264          358          200
+       1    CL2             OB34                  999         0.2645        .000           .           358
+ 
+ 
+ 
+Candidates for Optimum Number of Clusters
+ 
+        Number     Clustering
+          of          Cubic
+Obs    Clusters     Criterion
+ 
+ 1        37         118.640
+
+
+*------------------------------------------------------------*
+* Score Output
+*------------------------------------------------------------*
+
+
+*------------------------------------------------------------*
+* Report Output
+*------------------------------------------------------------*
+ 
+ 
+ 
+ 
+Variable Importance
+ 
+                                     Number of    Number of
+Variable                             Splitting    Surrogate
+  Name              Label              Rules        Rules      Importance
+ 
+  PC_7      Principal Component 7        2            1          1.00000
+  PC_1      Principal Component 1        1            2          0.72686
+  PC_6      Principal Component 6        1            2          0.57306
+  PC_4      Principal Component 4        0            3          0.54640
+  PC_2      Principal Component 2        1            1          0.42293
+  PC_5      Principal Component 5        1            0          0.32698
+  PC_3      Principal Component 3        0            1          0.26850
+  PC_8      Principal Component 8        0            1          0.26823

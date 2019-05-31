@@ -1,0 +1,13 @@
+if NAME = "I_REP_updownInd" then ROLE = 'REJECTED';
+if NAME = "P_REP_updownInddown" then ROLE = 'REJECTED';
+if NAME = "P_REP_updownIndunchange" then ROLE = 'REJECTED';
+if NAME = "P_REP_updownIndup" then ROLE = 'REJECTED';
+if NAME = "EM_CLASSIFICATION" then LEVEL = 'NOMINAL';
+else if NAME = "EM_PREDICTION" then LEVEL = 'INTERVAL';
+else if NAME = "EM_PROBABILITY" then LEVEL = 'INTERVAL';
+else if NAME = "EM_EVENTPROBABILITY" then LEVEL = 'INTERVAL';
+else if NAME = "EM_DECISION" then LEVEL = 'NOMINAL';
+else if NAME = "EM_PROFIT" then LEVEL = 'INTERVAL';
+else if NAME = "EM_SEGMENT" then LEVEL = 'NOMINAL';
+else if NAME = "EM_VALUETARGET" then LEVEL = 'INTERVAL';
+else if NAME = "EM_CLASSTARGET" then LEVEL = 'NOMINAL';

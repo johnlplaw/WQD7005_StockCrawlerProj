@@ -1,0 +1,136 @@
+ 
+                                                                                                                                                                                                                                                                
+ 
+ 
+Variable Summary
+
+          Measurement    Frequency
+ Role        Level         Count
+
+TARGET      NOMINAL          1    
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+Fit Statistics
+Model Selection based on Valid: Misclassification Rate (_VMISC_)
+
+                                                           Train:                        Valid:
+                                            Valid:        Average         Train:        Average
+Selected   Model        Model         Misclassification   Squared   Misclassification   Squared
+ Model     Node      Description             Rate          Error           Rate          Error
+
+   Y       Tree2   Maximal Tree            0.39728        0.16611         0.3976        0.16832
+           Tree3   Frozen Tree             0.39728        0.16611         0.3976        0.16832
+           Tree4   Probability Tree        0.40128        0.16262         0.3896        0.16745
+           Tree    Interactive Mode        0.43805        0.18287         0.4288        0.18538
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+Fit Statistics Table
+Target: REP_updownInd
+
+Data Role=Train
+
+Statistics                                                       Tree2   Tree3   Tree4    Tree
+
+Train: Bin-Based Two-Way Kolmogorov-Smirnov Probability Cutoff    0.29    0.29    0.28    0.31
+Train: Kolmogorov-Smirnov Statistic                               0.26    0.26    0.26    0.19
+Train: Average Squared Error                                      0.17    0.17    0.16    0.18
+Train: Roc Index                                                  0.68    0.68    0.69    0.62
+Train: Cumulative Percent Captured Response                      19.14   19.14   19.48   14.40
+Train: Percent Captured Response                                  5.76    5.76    6.04    5.76
+Selection Criterion: Valid: Misclassification Rate                0.40    0.40    0.40    0.44
+Train: Total Degrees of Freedom                                2500.00 2500.00 2500.00 2500.00
+Train: Divisor for ASE                                         3750.00 3750.00 3750.00 3750.00
+Train: Gain                                                      91.36   91.36   94.78   44.04
+Train: Gini Coefficient                                           0.36    0.36    0.38    0.23
+Train: Bin-Based Two-Way Kolmogorov-Smirnov Statistic             0.26    0.26    0.26    0.19
+Train: Kolmogorov-Smirnov Probability Cutoff                      0.26    0.26    0.26    0.15
+Train: Cumulative Lift                                            1.91    1.91    1.95    1.44
+Train: Lift                                                       1.16    1.16    1.22    1.16
+Train: Maximum Absolute Error                                     0.98    0.98    0.98    0.94
+Train: Misclassification Rate                                     0.40    0.40    0.39    0.43
+Train: Sum of Frequencies                                      1250.00 1250.00 1250.00 1250.00
+Train: Root Average Squared Error                                 0.41    0.41    0.40    0.43
+Train: Cumulative Percent Response                               54.96   54.96   55.94   41.37
+Train: Percent Response                                          33.37   33.37   34.97   33.37
+Train: Sum of Squared Errors                                    622.91  622.91  609.84  685.75
+
+
+Data Role=Valid
+
+Statistics                                                       Tree2   Tree3   Tree4    Tree
+
+Valid: Kolmogorov-Smirnov Statistic                               0.26    0.26    0.26    0.19
+Valid: Average Squared Error                                      0.17    0.17    0.17    0.19
+Valid: Roc Index                                                  0.68    0.68    0.69    0.61
+Valid: Bin-Based Two-Way Kolmogorov-Smirnov Probability Cutoff    0.29    0.29    0.31    0.33
+Valid: Cumulative Percent Captured Response                      18.62   18.62   19.10   14.21
+Valid: Percent Captured Response                                  5.91    5.91    6.31    5.91
+Valid: Divisor for VASE                                        3753.00 3753.00 3753.00 3753.00
+Valid: Gain                                                      84.84   84.84   89.68   41.06
+Valid: Gini Coefficient                                           0.35    0.35    0.38    0.23
+Valid: Bin-Based Two-Way Kolmogorov-Smirnov Statistic             0.26    0.26    0.26    0.19
+Valid: Kolmogorov-Smirnov Probability Cutoff                      0.26    0.26    0.26    0.29
+Valid: Cumulative Lift                                            1.85    1.85    1.90    1.41
+Valid: Lift                                                       1.17    1.17    1.25    1.17
+Valid: Maximum Absolute Error                                     0.98    0.98    0.98    0.94
+Valid: Misclassification Rate                                     0.40    0.40    0.40    0.44
+Valid: Sum of Frequencies                                      1251.00 1251.00 1251.00 1251.00
+Valid: Root Average Squared Error                                 0.41    0.41    0.41    0.43
+Valid: Cumulative Percent Response                               53.19   53.19   54.58   40.59
+Valid: Percent Response                                          33.79   33.79   36.07   33.79
+Valid: Sum of Squared Errors                                    631.69  631.69  628.42  695.72
+ 
+                                                                                               
+ 
+ 
+
+
+
+
+
+
+
+Event Classification Table
+Model Selection based on Valid: Misclassification Rate (_VMISC_)
+
+Model         Model          Data
+Node       Description       Role           Target             Target Label
+
+Tree     Interactive Mode    TRAIN       REP_updownInd    Replacement: updownInd
+Tree     Interactive Mode    VALIDATE    REP_updownInd    Replacement: updownInd
+Tree2    Maximal Tree        TRAIN       REP_updownInd    Replacement: updownInd
+Tree2    Maximal Tree        VALIDATE    REP_updownInd    Replacement: updownInd
+Tree3    Frozen Tree         TRAIN       REP_updownInd    Replacement: updownInd
+Tree3    Frozen Tree         VALIDATE    REP_updownInd    Replacement: updownInd
+Tree4    Probability Tree    TRAIN       REP_updownInd    Replacement: updownInd
+Tree4    Probability Tree    VALIDATE    REP_updownInd    Replacement: updownInd
+
+  False       True        False       True
+Negative    Negative    Positive    Positive
+
+   343         889          2          16   
+   344         885          6          16   
+   316         886          5          43   
+   319         883          8          41   
+   316         886          5          43   
+   319         883          8          41   
+   316         886          5          43   
+   319         883          8          41   
