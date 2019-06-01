@@ -1,6 +1,7 @@
 # WQD7005_StockCrawlerProj
 This is a project for WQD7005 Data mining course. The coding is extracting stock market data from thestar.com.my website and save the data into MYSQL database.  
 
+********
 Files description in pythonCode directory:
 
 Util program
@@ -26,6 +27,7 @@ Other Sources
 1. StockFundamental_crawl.py
 2. compcode2.txt
 
+********
 
 Mysql create table script (in folder mysql_script)
 1. Create_Comcat.sql
@@ -34,6 +36,8 @@ Mysql create table script (in folder mysql_script)
 4. Create_newsdata.sql
 5. Create_tweetdata.sql
 
+********
+
 Mysql data
 1. compcat.csv 
 2. upd_fundamental.csv
@@ -41,9 +45,13 @@ Mysql data
 4. upd_newsdata.csv
 5. upd_tweetsdata.csv
 
+********
 
 Chrome Driver for window
 1. chromedriver_win32.zip
+Ref. for chromedriver: http://chromedriver.chromium.org/getting-started
+
+********
 
 Video links for each milestones:
 https://drive.google.com/open?id=1c_zJ2fYMNefcLP2turBSoG2RpPRS4yPn
